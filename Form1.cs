@@ -37,5 +37,13 @@ namespace Top_Seguros_Brasil_Desktop
         {
 
         }
+
+        private void materialFlatButton1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        MaterialFlatButton btn = new MaterialFlatButton();
+        
     }
 }
