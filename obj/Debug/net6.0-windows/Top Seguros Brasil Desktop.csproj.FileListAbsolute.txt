@@ -1,0 +1,36 @@
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\bin\Debug\net6.0-windows\Top Seguros Brasil Desktop.exe
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\bin\Debug\net6.0-windows\Top Seguros Brasil Desktop.deps.json
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\bin\Debug\net6.0-windows\Top Seguros Brasil Desktop.runtimeconfig.json
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\bin\Debug\net6.0-windows\Top Seguros Brasil Desktop.dll
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\bin\Debug\net6.0-windows\Top Seguros Brasil Desktop.pdb
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.csproj.AssemblyReference.cache
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\obj\Debug\net6.0-windows\Top_Seguros_Brasil_Desktop.Form1.resources
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.csproj.GenerateResource.cache
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.AssemblyInfoInputs.cache
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.AssemblyInfo.cs
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.csproj.CoreCompileInputs.cache
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.dll
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\obj\Debug\net6.0-windows\refint\Top Seguros Brasil Desktop.dll
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.pdb
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.genruntimeconfig.cache
+C:\Users\vcost\Source\Repos\top.seguros.brasil.desktop\Top Seguros Brasil Desktop\obj\Debug\net6.0-windows\ref\Top Seguros Brasil Desktop.dll
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\bin\Debug\net6.0-windows\Top Seguros Brasil Desktop.exe
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\bin\Debug\net6.0-windows\Top Seguros Brasil Desktop.deps.json
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\bin\Debug\net6.0-windows\Top Seguros Brasil Desktop.runtimeconfig.json
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\bin\Debug\net6.0-windows\Top Seguros Brasil Desktop.dll
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\bin\Debug\net6.0-windows\Top Seguros Brasil Desktop.pdb
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.csproj.AssemblyReference.cache
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\obj\Debug\net6.0-windows\Top_Seguros_Brasil_Desktop.Form1.resources
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.csproj.GenerateResource.cache
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.AssemblyInfoInputs.cache
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.AssemblyInfo.cs
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.csproj.CoreCompileInputs.cache
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.dll
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\obj\Debug\net6.0-windows\refint\Top Seguros Brasil Desktop.dll
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.pdb
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.genruntimeconfig.cache
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\obj\Debug\net6.0-windows\ref\Top Seguros Brasil Desktop.dll
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\bin\Debug\net6.0-windows\MaterialSkin.dll
+C:\Users\vcost\source\repos\top.seguros.brasil.desktop\obj\Debug\net6.0-windows\Top Seguros Brasil Desktop.csproj.CopyComplete
