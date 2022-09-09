@@ -14,36 +14,35 @@ using MaterialSkin.Controls;
 
 namespace Top_Seguros_Brasil_Desktop
 {
-    public partial class Form1 : MaterialForm
+    public partial class Home : Form
     {
-        public Form1()
+        public Home()
         {
             InitializeComponent();
 
-            // Create a material theme manager and add the form to manage (this)
-            MaterialSkinManager materialSkinManager = MaterialSkinManager.Instance;
-            materialSkinManager.AddFormToManage(this);
-            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+            usersPage.ForeColor = Color.FromArgb(158, 158, 158);
+            policyRequestPage.ForeColor = Color.FromArgb(158, 158, 158);
+            customerPage.ForeColor = Color.FromArgb(158, 158, 158);
+            incidentPage.ForeColor = Color.FromArgb(158, 158, 158);
+            coveryPage.ForeColor = Color.FromArgb(158, 158, 158);
+            vehiclesPage.ForeColor = Color.FromArgb(158, 158, 158);
+            outsourcedPage.ForeColor = Color.FromArgb(158, 158, 158);
 
-            // Configure color schema
-            materialSkinManager.ColorScheme = new ColorScheme(
-            Primary.Blue400, Primary.Blue500,
-            Primary.Blue500, Accent.LightBlue200,
-            TextShade.WHITE
-            );
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            this.BackColor = Color.FromArgb(250, 250, 250);
         }
 
-        private void materialFlatButton1_Click(object sender, EventArgs e)
+        private void navMenu_Paint(object sender, PaintEventArgs e)
         {
-            
+            navMenu.BackColor = Color.FromArgb(255, 255, 255);
         }
 
-        MaterialFlatButton btn = new MaterialFlatButton();
-        
+        private void usersPage_Click(object sender, EventArgs e)
+        {
+            usersPage.ForeColor = Color.FromArgb(244, 84, 70);
+        }
     }
 }
