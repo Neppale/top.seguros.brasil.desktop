@@ -16,136 +16,136 @@ using System.Net.Mime;
 
 namespace Top_Seguros_Brasil_Desktop
 {
-    public partial class LoginForm : Form
+  public partial class LoginForm : Form
+  {
+    public class LoginAccess
     {
-        public class LoginAccess
-        {
-            public string email { get; set; }
-            public string senha { get; set; }
-
-        }
-
-        public LoginForm()
-        {
-            InitializeComponent();
-
-        }
-
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-            emailInput.Location = new System.Drawing.Point(555, 584);
-            passwordInput.Location = new System.Drawing.Point(555, 672);
-            illustrationLogin.Location = new System.Drawing.Point(592, 280);
-            buttonLogin.changeButtonText("Entrar");
-        }
-
-        private async void loginBtn_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void emailInput_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private async void loginBtn_Click_1(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void tsbButton1_Load(object sender, EventArgs e)
-        {
-            
-        }
-        
-
-        private async void tsbButton1_Click(object sender, EventArgs e)
-        {
-
-            LoginAccess loginAccess = new LoginAccess();
-
-            Button clickedButton = (Button)sender;
-
-            MessageBox.Show("Funcionou porra!");
-            
-            try
-            {
-
-                var httpClient = new HttpClient();
-
-                var request = new HttpRequestMessage();
-
-
-                loginAccess.email = emailInput.Text;
-                loginAccess.senha = passwordInput.Text;
-
-
-                var json = JsonConvert.SerializeObject(loginAccess);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-
-
-                var response = await httpClient.PostAsync("https://tsb-api-policy-engine.herokuapp.com/usuario/login", data);
-
-                Home home = new Home();
-                home.Show();
-                this.Hide();
-
-
-                if (response.IsSuccessStatusCode)
-                {
-
-                }
-
-            }
-            catch (Exception x)
-            {
-                //textBox1.Text = x.Message;
-            }
-
-
-        }
-
-        private async void buttonLogin_Click(object sender, EventArgs e)
-        {
-            LoginAccess loginAccess = new LoginAccess();
-
-            try
-            {
-
-                var httpClient = new HttpClient();
-
-                var request = new HttpRequestMessage();
-
-
-                loginAccess.email = emailInput.Text;
-                loginAccess.senha = passwordInput.Text;
-
-
-                var json = JsonConvert.SerializeObject(loginAccess);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-
-
-                var response = await httpClient.PostAsync("https://tsb-api-policy-engine.herokuapp.com/usuario/login", data);
-
-
-                if (response.IsSuccessStatusCode)
-                {
-                    Home home = new Home();
-                    home.Show();
-                    this.Hide();
-                }
-
-            }
-            catch (Exception x)
-            {
-                //textBox1.Text = x.Message;
-            }
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
+      public string email { get; set; }
+      public string senha { get; set; }
+      public LoginAccess(string email, string senha)
+      {
+        this.email = email;
+        this.senha = senha;
+      }
     }
+
+    public LoginForm()
+    {
+      InitializeComponent();
+
+    }
+
+    private void LoginForm_Load(object sender, EventArgs e)
+    {
+      emailInput.Location = new System.Drawing.Point(555, 584);
+      passwordInput.Location = new System.Drawing.Point(555, 672);
+      illustrationLogin.Location = new System.Drawing.Point(592, 280);
+      buttonLogin.changeButtonText("Entrar");
+    }
+
+    private async void loginBtn_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void emailInput_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private async void loginBtn_Click_1(object sender, EventArgs e)
+    {
+
+    }
+
+    private void tsbButton1_Load(object sender, EventArgs e)
+    {
+
+    }
+
+
+    private async void tsbButton1_Click(object sender, EventArgs e)
+    {
+
+      /*
+       *  THIS METHOD IS DEPRECATED.
+       * 
+       * LoginAccess loginAccess = new LoginAccess(email: emailInput.Text, senha: passwordInput.Text);
+
+      Button clickedButton = (Button)sender;
+
+          var httpClient = new HttpClient();
+
+          var request = new HttpRequestMessage();
+
+          var json = JsonConvert.SerializeObject(loginAccess);
+          var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+
+          var rawResponse = await httpClient.PostAsync("https://tsb-api-policy-engine.herokuapp.com/usuario/login", data);
+          var stringResponse = await rawResponse.Content.ReadAsStringAsync();
+
+          var response = JsonConvert.DeserializeObject<UserLoginResponse>(stringResponse); 
+
+          if (!rawResponse.IsSuccessStatusCode)
+          {
+              emailInput.Text = response?.message;
+              return;
+          }
+
+          Home home = new Home();
+          home.Show();
+          this.Hide();*/
+    }
+
+    private async void buttonLogin_Click(object sender, EventArgs e)
+    {
+      LoginAccess loginAccess = new LoginAccess(email: emailInput.Text, senha: passwordInput.Text);
+
+      var httpClient = new HttpClient();
+
+      var request = new HttpRequestMessage();
+
+      var json = JsonConvert.SerializeObject(loginAccess);
+      var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+
+      var rawResponse = await httpClient.PostAsync("https://tsb-api-policy-engine.herokuapp.com/usuario/login", data);
+      var stringResponse = await rawResponse.Content.ReadAsStringAsync();
+
+      var response = JsonConvert.DeserializeObject<UserLoginResponse>(stringResponse);
+
+      if (!rawResponse.IsSuccessStatusCode)
+      {
+        emailInput.Text = response?.message;
+        return;
+      }
+
+      Home home = new Home();
+      home.Show();
+      this.Hide();
+    }
+
+    private void pictureBox2_Click(object sender, EventArgs e)
+    {
+
+    }
+  }
+}
+
+public class Usuario
+{
+  public int id_usuario { get; set; }
+  public string nome_completo { get; set; }
+  public string email { get; set; }
+  public string tipo { get; set; }
+  public bool status { get; set; }
+
+}
+
+public class UserLoginResponse
+{
+  public Usuario? user { get; set; }
+  public string? message { get; set; }
+  public string? token { get; set; }
 }
