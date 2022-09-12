@@ -43,9 +43,12 @@ namespace Top_Seguros_Brasil_Desktop
             this.policyRequestPage = new System.Windows.Forms.Button();
             this.usersPage = new System.Windows.Forms.Button();
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.login1 = new Top_Seguros_Brasil_Desktop.Login();
             this.navMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.navItens.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // materialContextMenuStrip1
@@ -102,6 +105,7 @@ namespace Top_Seguros_Brasil_Desktop
             // 
             // outsourcedPage
             // 
+            this.outsourcedPage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.outsourcedPage.Dock = System.Windows.Forms.DockStyle.Top;
             this.outsourcedPage.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.outsourcedPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -119,9 +123,11 @@ namespace Top_Seguros_Brasil_Desktop
             this.outsourcedPage.Text = "         Terceirizados";
             this.outsourcedPage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.outsourcedPage.UseVisualStyleBackColor = true;
+            this.outsourcedPage.Click += new System.EventHandler(this.outsourcedPage_Click);
             // 
             // vehiclesPage
             // 
+            this.vehiclesPage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.vehiclesPage.Dock = System.Windows.Forms.DockStyle.Top;
             this.vehiclesPage.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.vehiclesPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -139,9 +145,11 @@ namespace Top_Seguros_Brasil_Desktop
             this.vehiclesPage.Text = "         Veículos";
             this.vehiclesPage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.vehiclesPage.UseVisualStyleBackColor = true;
+            this.vehiclesPage.Click += new System.EventHandler(this.vehiclesPage_Click);
             // 
             // coveryPage
             // 
+            this.coveryPage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.coveryPage.Dock = System.Windows.Forms.DockStyle.Top;
             this.coveryPage.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.coveryPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -159,9 +167,11 @@ namespace Top_Seguros_Brasil_Desktop
             this.coveryPage.Text = "         Coberturas";
             this.coveryPage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.coveryPage.UseVisualStyleBackColor = true;
+            this.coveryPage.Click += new System.EventHandler(this.coveryPage_Click);
             // 
             // incidentPage
             // 
+            this.incidentPage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.incidentPage.Dock = System.Windows.Forms.DockStyle.Top;
             this.incidentPage.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.incidentPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -179,15 +189,17 @@ namespace Top_Seguros_Brasil_Desktop
             this.incidentPage.Text = "         Ocorrências";
             this.incidentPage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.incidentPage.UseVisualStyleBackColor = true;
+            this.incidentPage.Click += new System.EventHandler(this.incidentPage_Click);
             // 
             // customerPage
             // 
+            this.customerPage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.customerPage.Dock = System.Windows.Forms.DockStyle.Top;
             this.customerPage.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.customerPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.customerPage.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.customerPage.ForeColor = System.Drawing.Color.DimGray;
-            this.customerPage.Image = ((System.Drawing.Image)(resources.GetObject("customerPage.Image")));
+            this.customerPage.Image = global::Top_Seguros_Brasil_Desktop.Properties.Resources.support_agent_FILL0_wght400_GRAD0_opsz48_1;
             this.customerPage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.customerPage.Location = new System.Drawing.Point(0, 88);
             this.customerPage.Margin = new System.Windows.Forms.Padding(0);
@@ -199,15 +211,17 @@ namespace Top_Seguros_Brasil_Desktop
             this.customerPage.Text = "         Clientes";
             this.customerPage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.customerPage.UseVisualStyleBackColor = true;
+            this.customerPage.Click += new System.EventHandler(this.customerPage_Click);
             // 
             // policyRequestPage
             // 
+            this.policyRequestPage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.policyRequestPage.Dock = System.Windows.Forms.DockStyle.Top;
             this.policyRequestPage.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.policyRequestPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.policyRequestPage.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.policyRequestPage.ForeColor = System.Drawing.Color.DimGray;
-            this.policyRequestPage.Image = ((System.Drawing.Image)(resources.GetObject("policyRequestPage.Image")));
+            this.policyRequestPage.Image = global::Top_Seguros_Brasil_Desktop.Properties.Resources.task_FILL0_wght400_GRAD0_opsz48_1;
             this.policyRequestPage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.policyRequestPage.Location = new System.Drawing.Point(0, 44);
             this.policyRequestPage.Margin = new System.Windows.Forms.Padding(0);
@@ -219,16 +233,18 @@ namespace Top_Seguros_Brasil_Desktop
             this.policyRequestPage.Text = "         Solicitações de Apólice";
             this.policyRequestPage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.policyRequestPage.UseVisualStyleBackColor = true;
+            this.policyRequestPage.Click += new System.EventHandler(this.policyRequestPage_Click);
             // 
             // usersPage
             // 
             this.usersPage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.usersPage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.usersPage.Dock = System.Windows.Forms.DockStyle.Top;
             this.usersPage.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.usersPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.usersPage.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.usersPage.ForeColor = System.Drawing.Color.DimGray;
-            this.usersPage.Image = ((System.Drawing.Image)(resources.GetObject("usersPage.Image")));
+            this.usersPage.Image = global::Top_Seguros_Brasil_Desktop.Properties.Resources.group_add_FILL0_wght400_GRAD0_opsz48_1;
             this.usersPage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.usersPage.Location = new System.Drawing.Point(0, 0);
             this.usersPage.Margin = new System.Windows.Forms.Padding(0);
@@ -246,12 +262,29 @@ namespace Top_Seguros_Brasil_Desktop
             // 
             this.materialDivider1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.materialDivider1.Depth = 0;
-            this.materialDivider1.Location = new System.Drawing.Point(268, 0);
+            this.materialDivider1.Location = new System.Drawing.Point(267, 0);
             this.materialDivider1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialDivider1.Name = "materialDivider1";
             this.materialDivider1.Size = new System.Drawing.Size(1, 1024);
             this.materialDivider1.TabIndex = 2;
             this.materialDivider1.Text = "materialDivider1";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.login1);
+            this.panel1.Location = new System.Drawing.Point(267, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1156, 981);
+            this.panel1.TabIndex = 3;
+            // 
+            // login1
+            // 
+            this.login1.Location = new System.Drawing.Point(-276, -32);
+            this.login1.MaximumSize = new System.Drawing.Size(1440, 1024);
+            this.login1.Name = "login1";
+            this.login1.Size = new System.Drawing.Size(1440, 1024);
+            this.login1.TabIndex = 0;
+            this.login1.Load += new System.EventHandler(this.login1_Load);
             // 
             // Home
             // 
@@ -259,10 +292,10 @@ namespace Top_Seguros_Brasil_Desktop
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1420, 981);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.materialDivider1);
             this.Controls.Add(this.navMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1440, 1024);
             this.MinimizeBox = false;
@@ -273,6 +306,7 @@ namespace Top_Seguros_Brasil_Desktop
             this.navMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.navItens.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -290,5 +324,8 @@ namespace Top_Seguros_Brasil_Desktop
         private Button incidentPage;
         private Button customerPage;
         private Button policyRequestPage;
+        private Panel panel1;
+        private Welcome welcome1;
+        private Top_Seguros_Brasil_Desktop.Login login1;
     }
 }
