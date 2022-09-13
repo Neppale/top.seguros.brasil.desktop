@@ -32,10 +32,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.passwordInput = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.emailInput = new MaterialSkin.Controls.MaterialSingleLineTextField();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
             this.buttonLogin = new Top_Seguros_Brasil_Desktop.ButtonTsb(this.components);
             this.illustrationLogin = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.illustrationLogin)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,7 +43,7 @@
             // 
             this.passwordInput.Depth = 0;
             this.passwordInput.Hint = "";
-            this.passwordInput.Location = new System.Drawing.Point(541, 496);
+            this.passwordInput.Location = new System.Drawing.Point(555, 672);
             this.passwordInput.MaxLength = 32767;
             this.passwordInput.MouseState = MaterialSkin.MouseState.HOVER;
             this.passwordInput.Name = "passwordInput";
@@ -61,7 +61,7 @@
             // 
             this.emailInput.Depth = 0;
             this.emailInput.Hint = "";
-            this.emailInput.Location = new System.Drawing.Point(541, 417);
+            this.emailInput.Location = new System.Drawing.Point(555, 584);
             this.emailInput.MaxLength = 32767;
             this.emailInput.MouseState = MaterialSkin.MouseState.HOVER;
             this.emailInput.Name = "emailInput";
@@ -76,17 +76,18 @@
             this.emailInput.UseSystemPasswordChar = false;
             this.emailInput.Click += new System.EventHandler(this.emailInput_Click);
             // 
-            // pictureBox1
+            // pictureBoxLogo
             // 
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(6, 11);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(267, 44);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 6;
-            this.pictureBox1.TabStop = false;
+            this.pictureBoxLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pictureBoxLogo.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxLogo.Image")));
+            this.pictureBoxLogo.Location = new System.Drawing.Point(6, 11);
+            this.pictureBoxLogo.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBoxLogo.Name = "pictureBoxLogo";
+            this.pictureBoxLogo.Size = new System.Drawing.Size(267, 44);
+            this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxLogo.TabIndex = 6;
+            this.pictureBoxLogo.TabStop = false;
+            this.pictureBoxLogo.Click += new System.EventHandler(this.pictureBoxLogo_Click);
             // 
             // buttonLogin
             // 
@@ -105,7 +106,7 @@
             // 
             this.illustrationLogin.Image = global::Top_Seguros_Brasil_Desktop.Properties.Resources._34__newsletter_2;
             this.illustrationLogin.InitialImage = global::Top_Seguros_Brasil_Desktop.Properties.Resources._34__newsletter_2;
-            this.illustrationLogin.Location = new System.Drawing.Point(531, 112);
+            this.illustrationLogin.Location = new System.Drawing.Point(592, 280);
             this.illustrationLogin.Name = "illustrationLogin";
             this.illustrationLogin.Size = new System.Drawing.Size(256, 256);
             this.illustrationLogin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -121,7 +122,7 @@
             this.ClientSize = new System.Drawing.Size(1420, 981);
             this.Controls.Add(this.illustrationLogin);
             this.Controls.Add(this.buttonLogin);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pictureBoxLogo);
             this.Controls.Add(this.passwordInput);
             this.Controls.Add(this.emailInput);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -129,9 +130,9 @@
             this.MaximumSize = new System.Drawing.Size(1440, 1024);
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "LoginForm";
+            this.Text = "Login - Management Stage";
             this.Load += new System.EventHandler(this.LoginForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.illustrationLogin)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -141,9 +142,12 @@
         #endregion
         private MaterialSkin.Controls.MaterialSingleLineTextField passwordInput;
         private MaterialSkin.Controls.MaterialSingleLineTextField emailInput;
-        private PictureBox pictureBox1;
+        private PictureBox pictureBoxLogo;
         private antigoTsbButton tsbButton1;
         private ButtonTsb buttonLogin;
         private PictureBox illustrationLogin;
+        private src.Screens.Components.SideNav sideNav1;
+        private src.Screens.Components.SideNav sideNav2;
+        private src.Screens.Components.SideNav sideNav3;
     }
 }

@@ -11,8 +11,8 @@ using System.Windows.Forms;
 using Top_Seguros_Brasil_Desktop.Properties;
 using System.Net.Http;
 using System.Text.Json.Serialization;
-using Newtonsoft.Json;
 using System.Net.Mime;
+using Top_Seguros_Brasil_Desktop.src.Screens.Components;
 
 namespace Top_Seguros_Brasil_Desktop
 {
@@ -33,14 +33,24 @@ namespace Top_Seguros_Brasil_Desktop
     {
       InitializeComponent();
 
+
     }
+
+        public static string TestData = "Teste de string de outro form.";
+
+
 
     private void LoginForm_Load(object sender, EventArgs e)
     {
-      emailInput.Location = new System.Drawing.Point(555, 584);
+      
+            emailInput.Location = new System.Drawing.Point(555, 584);
       passwordInput.Location = new System.Drawing.Point(555, 672);
       illustrationLogin.Location = new System.Drawing.Point(592, 280);
       buttonLogin.changeButtonText("Entrar");
+            pictureBoxLogo.Hide();
+            SideNav sideNav = new SideNav();
+            this.Controls.Add(sideNav);
+            
     }
 
     private async void loginBtn_Click(object sender, EventArgs e)
@@ -130,7 +140,12 @@ namespace Top_Seguros_Brasil_Desktop
     {
 
     }
-  }
+
+        private void pictureBoxLogo_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
 }
 
 public class Usuario
@@ -149,3 +164,4 @@ public class UserLoginResponse
   public string? message { get; set; }
   public string? token { get; set; }
 }
+

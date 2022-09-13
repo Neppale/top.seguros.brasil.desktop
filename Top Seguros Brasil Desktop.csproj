@@ -29,4 +29,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="src\img\illustration\" />
+  </ItemGroup>
+
 </Project>

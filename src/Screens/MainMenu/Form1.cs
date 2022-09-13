@@ -34,13 +34,12 @@ namespace Top_Seguros_Brasil_Desktop
             vehiclesPage.ForeColor = Color.FromArgb(158, 158, 158);
             outsourcedPage.ForeColor = Color.FromArgb(158, 158, 158);
 
-            //Se hide() for igual a true, cor do item muda para laranja.
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             this.BackColor = Color.FromArgb(250, 250, 250);
+            usersPage.Text = LoginForm.TestData;
         }
 
         private void navMenu_Paint(object sender, PaintEventArgs e)

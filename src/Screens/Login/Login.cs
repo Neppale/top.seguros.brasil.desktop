@@ -75,7 +75,7 @@ namespace Top_Seguros_Brasil_Desktop
                 
             }catch(Exception x)
             {
-                //textBox1.Text = x.Message;
+                MessageBox.Show(x.Message);
             }
 
         }

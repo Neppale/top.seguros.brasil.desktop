@@ -44,7 +44,7 @@ namespace Top_Seguros_Brasil_Desktop
             this.usersPage = new System.Windows.Forms.Button();
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.login1 = new Top_Seguros_Brasil_Desktop.Login();
+            this.ManagementStage = new Top_Seguros_Brasil_Desktop.Login();
             this.navMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.navItens.SuspendLayout();
@@ -271,20 +271,20 @@ namespace Top_Seguros_Brasil_Desktop
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.login1);
+            this.panel1.Controls.Add(this.ManagementStage);
             this.panel1.Location = new System.Drawing.Point(267, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1156, 981);
             this.panel1.TabIndex = 3;
             // 
-            // login1
+            // ManagementStage
             // 
-            this.login1.Location = new System.Drawing.Point(-276, -32);
-            this.login1.MaximumSize = new System.Drawing.Size(1440, 1024);
-            this.login1.Name = "login1";
-            this.login1.Size = new System.Drawing.Size(1440, 1024);
-            this.login1.TabIndex = 0;
-            this.login1.Load += new System.EventHandler(this.login1_Load);
+            this.ManagementStage.Location = new System.Drawing.Point(-276, -32);
+            this.ManagementStage.MaximumSize = new System.Drawing.Size(1440, 1024);
+            this.ManagementStage.Name = "ManagementStage";
+            this.ManagementStage.Size = new System.Drawing.Size(1440, 1024);
+            this.ManagementStage.TabIndex = 0;
+            this.ManagementStage.Load += new System.EventHandler(this.login1_Load);
             // 
             // Home
             // 
@@ -296,6 +296,7 @@ namespace Top_Seguros_Brasil_Desktop
             this.Controls.Add(this.materialDivider1);
             this.Controls.Add(this.navMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1440, 1024);
             this.MinimizeBox = false;
@@ -326,6 +327,6 @@ namespace Top_Seguros_Brasil_Desktop
         private Button policyRequestPage;
         private Panel panel1;
         private Welcome welcome1;
-        private Top_Seguros_Brasil_Desktop.Login login1;
+        private Top_Seguros_Brasil_Desktop.Login ManagementStage;
     }
 }
