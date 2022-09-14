@@ -16,6 +16,7 @@ using Top_Seguros_Brasil_Desktop.src.Screens.Components;
 using Top_Seguros_Brasil_Desktop.src.Screens.Management_Stage;
 using System.Net.Mail;
 using System.Configuration;
+using Microsoft.Win32.SafeHandles;
 
 namespace Top_Seguros_Brasil_Desktop
 {
@@ -25,12 +26,17 @@ namespace Top_Seguros_Brasil_Desktop
         {
             public string email { get; set; }
             public string senha { get; set; }
+            public string token { get; set; }
+
+            
             public LoginAccess(string email, string senha)
             {
                 this.email = email;
                 this.senha = senha;
             }
         }
+
+        public static string accessToken;
 
         public LoginForm()
         {
@@ -94,6 +100,7 @@ namespace Top_Seguros_Brasil_Desktop
             var stringResponse = await rawResponse.Content.ReadAsStringAsync();
 
             var response = JsonConvert.DeserializeObject<UserLoginResponse>(stringResponse);
+            
 
             if (!rawResponse.IsSuccessStatusCode)
             {
