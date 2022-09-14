@@ -12,9 +12,6 @@ using Top_Seguros_Brasil_Desktop.src.Components;
 
 namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 {
-
-    
-
     public partial class SideNav : Panel
     {
 
@@ -26,9 +23,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
             this.Width = 267;
             this.Height = 1024;
-            this.BackColor = TsbColor.surface();
-
-
+            this.BackColor = TsbColor.surface;
 
             string imgPath = Directory.GetCurrentDirectory() + "\\src\\img\\logo\\tsb-logo.png";
             PictureBox logoBox = new PictureBox();
@@ -43,6 +38,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             panel.Parent = this;
             panel.Location = new Point(0, 380);
             panel.Height = 500;
+            
 
 
             MenuItem user = new MenuItem("Solicitações de apólice", Directory.GetCurrentDirectory() + "\\src\\img\\icon\\nav\\users.png");
@@ -89,7 +85,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
         public MenuItem(string name, string img)
         {
             this.Height = 50;
-            this.ForeColor = TsbColor.neutralGray();
+            this.ForeColor = TsbColor.neutralGray;
             this.Text = "    " + name;
             this.FlatStyle = FlatStyle.Flat;
             this.FlatAppearance.BorderSize = 0;

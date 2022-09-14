@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Top_Seguros_Brasil_Desktop.src.Components;
 
 namespace Top_Seguros_Brasil_Desktop
 {
@@ -16,7 +17,7 @@ namespace Top_Seguros_Brasil_Desktop
         {
             InitializeComponent();
             button = new Button();
-            this.Controls.Add(button);
+            this.Controls.Add(button);  
             
         }
 
@@ -33,6 +34,15 @@ namespace Top_Seguros_Brasil_Desktop
             this.Size = new System.Drawing.Size(331, 56);
             this.Location = new Point(555, 760);
             base.OnVisibleChanged(e);
+        }
+
+        protected override void OnEnabledChanged(EventArgs e)
+        {
+            if(Enabled == false)
+            {
+                this.ForeColor = TsbColor.primaryDarkest;
+            }
+            base.OnEnabledChanged(e);
         }
 
         public ButtonTsb(IContainer container)

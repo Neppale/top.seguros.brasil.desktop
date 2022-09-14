@@ -1,3 +1,5 @@
+using Top_Seguros_Brasil_Desktop.src.Screens.BaseForm;
+
 namespace Top_Seguros_Brasil_Desktop
 {
     internal static class Program

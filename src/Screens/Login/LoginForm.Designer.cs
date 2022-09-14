@@ -42,7 +42,7 @@
             // passwordInput
             // 
             this.passwordInput.Depth = 0;
-            this.passwordInput.Hint = "";
+            this.passwordInput.Hint = "Senha";
             this.passwordInput.Location = new System.Drawing.Point(555, 672);
             this.passwordInput.MaxLength = 32767;
             this.passwordInput.MouseState = MaterialSkin.MouseState.HOVER;
@@ -54,13 +54,13 @@
             this.passwordInput.Size = new System.Drawing.Size(343, 23);
             this.passwordInput.TabIndex = 4;
             this.passwordInput.TabStop = false;
-            this.passwordInput.Text = "Senha123-";
-            this.passwordInput.UseSystemPasswordChar = false;
+            this.passwordInput.UseSystemPasswordChar = true;
+            this.passwordInput.Enter += new System.EventHandler(this.passwordInput_Enter);
             // 
             // emailInput
             // 
             this.emailInput.Depth = 0;
-            this.emailInput.Hint = "";
+            this.emailInput.Hint = "Email";
             this.emailInput.Location = new System.Drawing.Point(555, 584);
             this.emailInput.MaxLength = 32767;
             this.emailInput.MouseState = MaterialSkin.MouseState.HOVER;
@@ -72,7 +72,6 @@
             this.emailInput.Size = new System.Drawing.Size(343, 23);
             this.emailInput.TabIndex = 3;
             this.emailInput.TabStop = false;
-            this.emailInput.Text = "jonathan.santos@topseguros.br";
             this.emailInput.UseSystemPasswordChar = false;
             this.emailInput.Click += new System.EventHandler(this.emailInput_Click);
             // 
@@ -127,6 +126,7 @@
             this.Controls.Add(this.emailInput);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1440, 1024);
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -143,11 +143,7 @@
         private MaterialSkin.Controls.MaterialSingleLineTextField passwordInput;
         private MaterialSkin.Controls.MaterialSingleLineTextField emailInput;
         private PictureBox pictureBoxLogo;
-        private antigoTsbButton tsbButton1;
         private ButtonTsb buttonLogin;
         private PictureBox illustrationLogin;
-        private src.Screens.Components.SideNav sideNav1;
-        private src.Screens.Components.SideNav sideNav2;
-        private src.Screens.Components.SideNav sideNav3;
     }
 }
