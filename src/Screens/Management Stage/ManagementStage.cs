@@ -7,8 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Top_Seguros_Brasil_Desktop.src.Screens;
 using Top_Seguros_Brasil_Desktop.src.Screens.BaseForm;
+using Top_Seguros_Brasil_Desktop.src.Models;
+using System.Text.Json;
+using System.Runtime.CompilerServices;
+using System.Reflection;
 
 namespace Top_Seguros_Brasil_Desktop.src.Screens.Management_Stage
 {
@@ -17,21 +25,40 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Management_Stage
         public ManagementStage()
         {
             InitializeComponent();
+        } 
+
+        public ManagementStage(string token)
+        {
+            this.token = token;
+            InitializeComponent();
         }
 
         private static readonly HttpClient client = new HttpClient();
 
         private async void ManagementStage_Load(object sender, EventArgs e)
         {
-            var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0b3BzZWd1cm9zLmJyIiwiYXVkIjoidG9wc2VndXJvcy5iciJ9.BlgdXdY_wv06AbGtlBPRpeXs-EyGryp-20iK3lN0HG8";
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var responseString = await client.GetStringAsync("https://tsb-api-policy-engine.herokuapp.com/usuario/");
 
-            MessageBox.Show(responseString);
+            string token = this.token;
+
+            HttpClient client = new HttpClient();
+            Usuario usuario = new Usuario();
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var rawResponse = await client.GetAsync("https://tsb-api-policy-engine.herokuapp.com/usuario/");
+            var stringRespose = await rawResponse.Content.ReadAsStringAsync();
+
+            IEnumerable<Usuario> response = JsonConvert.DeserializeObject<IEnumerable<Usuario>>(stringRespose);
+
+            DataTable dataTable = new DataTable();
+
+            dataGridView1.DataSource = response;
 
         }
+       
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
-        
-
+        }
     }
 }

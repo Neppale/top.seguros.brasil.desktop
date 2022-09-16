@@ -14,6 +14,7 @@ using System.Text.Json.Serialization;
 using System.Net.Mime;
 using Top_Seguros_Brasil_Desktop.src.Screens.Components;
 using Top_Seguros_Brasil_Desktop.src.Screens.Management_Stage;
+using Top_Seguros_Brasil_Desktop.src.Models;
 using System.Net.Mail;
 using System.Configuration;
 using Microsoft.Win32.SafeHandles;
@@ -53,7 +54,6 @@ namespace Top_Seguros_Brasil_Desktop
             illustrationLogin.Location = new System.Drawing.Point(592, 280);
             buttonLogin.changeButtonText("Entrar");
             buttonLogin.Enabled = false;
-            Console.WriteLine("funfa?");
         }
 
         private async void passwordInput_TextUp(object sender, EventArgs e)
@@ -108,7 +108,7 @@ namespace Top_Seguros_Brasil_Desktop
                 return;
             }
 
-            ManagementStage managementStage = new ManagementStage();
+            ManagementStage managementStage = new ManagementStage(response?.token);
             managementStage.Show();
             this.Hide();
 
@@ -131,20 +131,13 @@ namespace Top_Seguros_Brasil_Desktop
     }
 }
 
-public class Usuario
-{
-    public int id_usuario { get; set; }
-    public string nome_completo { get; set; }
-    public string email { get; set; }
-    public string tipo { get; set; }
-    public bool status { get; set; }
-
-}
 
 public class UserLoginResponse
 {
+
     public Usuario? user { get; set; }
     public string? message { get; set; }
     public string? token { get; set; }
+
 }
 

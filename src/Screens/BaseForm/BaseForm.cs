@@ -14,18 +14,18 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.BaseForm
 {
     public partial class BaseForm : Form
     {
+        protected string token { get; set; }
         public BaseForm()
         {
             InitializeComponent();
-            this.Width = 1440;
-            this.Height = 1024;
+            this.Size = new Size(1440, 1024);
             this.BackColor = TsbColor.background;
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
             this.StartPosition = FormStartPosition.CenterScreen;
             SideNav sideNav;
             this.Controls.Add(new SideNav());
+            this.MaximizeBox = false;
         }
-
         private void BaseForm_Load(object sender, EventArgs e)
         {
 
