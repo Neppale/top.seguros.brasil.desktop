@@ -15,16 +15,21 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.BaseForm
     public partial class BaseForm : Form
     {
         protected string token { get; set; }
+        public string userName { get; set; }
+        public string userType { get; set; } 
+
         public BaseForm()
         {
-            InitializeComponent();
             this.Size = new Size(1440, 1024);
             this.BackColor = TsbColor.background;
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
             this.StartPosition = FormStartPosition.CenterScreen;
             SideNav sideNav;
             this.Controls.Add(new SideNav());
+            //this.Controls.Add(new appBar(userName, userType)) ;
             this.MaximizeBox = false;
+
+            InitializeComponent();
         }
         private void BaseForm_Load(object sender, EventArgs e)
         {

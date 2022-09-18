@@ -18,6 +18,7 @@ using Top_Seguros_Brasil_Desktop.src.Models;
 using System.Net.Mail;
 using System.Configuration;
 using Microsoft.Win32.SafeHandles;
+using Top_Seguros_Brasil_Desktop.src.Components;
 
 namespace Top_Seguros_Brasil_Desktop
 {
@@ -36,8 +37,6 @@ namespace Top_Seguros_Brasil_Desktop
                 this.senha = senha;
             }
         }
-
-        public static string accessToken;
 
         public LoginForm()
         {
@@ -108,7 +107,9 @@ namespace Top_Seguros_Brasil_Desktop
                 return;
             }
 
-            ManagementStage managementStage = new ManagementStage(response?.token);
+            ManagementStage managementStage = new ManagementStage(response?.user.nome_completo, response?.user.tipo, response?.token);
+            
+
             managementStage.Show();
             this.Hide();
 

@@ -41,7 +41,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             
 
 
-            MenuItem user = new MenuItem("Solicitações de apólice", Directory.GetCurrentDirectory() + "\\src\\img\\icon\\nav\\users.png");
+            MenuItem user = new MenuItem("Usuários", Directory.GetCurrentDirectory() + "\\src\\img\\icon\\nav\\users.png");
             user.Dock = DockStyle.Top;
             panel.Controls.Add(user);
 

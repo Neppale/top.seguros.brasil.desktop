@@ -31,7 +31,7 @@ namespace Top_Seguros_Brasil_Desktop
             this.BackColor = Color.FromArgb(244, 84, 70);
             this.FlatStyle = FlatStyle.Flat;
             this.ForeColor = Color.FromArgb(255, 255, 255);
-            this.Size = new System.Drawing.Size(331, 56);
+            this.Size = new Size(331, 56);
             this.Location = new Point(555, 760);
             base.OnVisibleChanged(e);
         }
