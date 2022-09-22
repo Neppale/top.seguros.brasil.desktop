@@ -91,6 +91,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             //Criar array de string
             //Usar o 'nameof' para adicionar no array
             //mandar o array pro construtor
+            //ye ayeha
             IEnumerable<Usuario> response = JsonConvert.DeserializeObject<IEnumerable<Usuario>>(stringRespose);
             
 
