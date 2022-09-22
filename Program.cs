@@ -6,7 +6,7 @@ namespace Top_Seguros_Brasil_Desktop
     internal static class Program
     {
         /// <summary>
-        ///  The main entry point for the application.
+        ///  The main entry point for the application.   aaa
         /// </summary>
         [STAThread]
         static void Main()
