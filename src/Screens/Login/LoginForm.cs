@@ -20,6 +20,7 @@ using System.Configuration;
 using Microsoft.Win32.SafeHandles;
 using Top_Seguros_Brasil_Desktop.src.Components;
 using Top_Seguros_Brasil_Desktop.src.Panels;
+using Top_Seguros_Brasil_Desktop.Utils;
 
 namespace Top_Seguros_Brasil_Desktop
 {
@@ -86,32 +87,23 @@ namespace Top_Seguros_Brasil_Desktop
             passwordInput.Text = "Senha123-";
 
             LoginAccess loginAccess = new LoginAccess(email: emailInput.Text, senha: passwordInput.Text);
-
-            var httpClient = new HttpClient();
-
-            var request = new HttpRequestMessage();
-
             var json = JsonConvert.SerializeObject(loginAccess);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-
-            var rawResponse = await httpClient.PostAsync("https://tsb-api-policy-engine.herokuapp.com/usuario/login", data);
-            var stringResponse = await rawResponse.Content.ReadAsStringAsync();
-
-            var response = JsonConvert.DeserializeObject<UserLoginResponse>(stringResponse);
-            
-
-            if (!rawResponse.IsSuccessStatusCode)
-            {
-                emailInput.Text = response?.message;
-                return;
-            }
-
-            ManagementStage managementStage = new ManagementStage(response?.user.nome_completo, response?.user.tipo, response?.token);
+            var engineInterpreter = new EngineInterpreter();
+            var response = await engineInterpreter.Request<UserLoginResponse>("https://tsb-api-policy-engine.herokuapp.com/usuario/login", "POST", data);
+            UserLoginResponse responseBody = response.Body;
 
 
-            BasePanel basePanel = new BasePanel(response?.user.nome_completo, response?.user.tipo);
-            BasePanel.token = response?.token;            
+            if (response.StatusCode != 200) return;
+
+            ManagementStage managementStage = new ManagementStage(responseBody.user.nome_completo, responseBody.user.tipo, responseBody.token);
+
+
+            BasePanel basePanel = new BasePanel(responseBody.user.nome_completo, responseBody.user.tipo);
+            BasePanel.token = responseBody.token;
+
+
 
             managementStage.Show();
             this.Hide();
