@@ -23,7 +23,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             InitializeComponent();
         }
 
-        public TsbDataTable(IEnumerable<Usuario> datasource)
+        public TsbDataTable(IEnumerable<UsuarioDTO> datasource)
         {
             SetupDataTable(datasource);
         }
@@ -35,7 +35,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             InitializeComponent();
         }
 
-        private void SetupDataTable(IEnumerable<Usuario> datasource)
+        private void SetupDataTable(IEnumerable<UsuarioDTO> datasource)
         {
             this.Controls.Add(dataGridView);
 

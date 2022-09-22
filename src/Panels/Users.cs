@@ -75,10 +75,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         {
             Post();
         }
-        
+
 
         protected async void Get()
-        {   
+        {
             int page = 3;
             Usuario usuario = new Usuario();
 
@@ -87,17 +87,28 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             var rawResponse = await client.GetAsync("https://tsb-api-policy-engine.herokuapp.com/usuario/?pageNumber=" + page);
             var stringRespose = await rawResponse.Content.ReadAsStringAsync();
 
+            var json = JsonConvert.DeserializeObject<JArray>(stringRespose).ToList();
 
-            //Criar array de string
-            //Usar o 'nameof' para adicionar no array
-            //mandar o array pro construtor
-            //ye ayeha
-            IEnumerable<Usuario> response = JsonConvert.DeserializeObject<IEnumerable<Usuario>>(stringRespose);
-            
+            List<UsuarioDTO> users = new List<UsuarioDTO>();
 
+            json.ForEach(ele =>
+            {
+                JObject usuarioJson = ele as JObject;
+                UsuarioDTO usuario = new UsuarioDTO();
+
+                usuario.id_usuario = int.Parse(usuarioJson["id_usuario"].ToString());
+                usuario.nome_completo = usuarioJson["nome_completo"].ToString();
+                usuario.email = usuarioJson["email"].ToString();
+                usuario.tipo = usuarioJson["tipo"].ToString();
+
+                users.Add(usuario);
+            });
+
+
+                
             submit.changeButtonText("Cadastrar");
 
-            this.Controls.Add(new TsbDataTable(response));
+            this.Controls.Add(new TsbDataTable(users));
         }
 
         protected async void Post()
@@ -111,8 +122,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PostAsync("https://tsb-api-policy-engine.herokuapp.com/usuario/", data);
-
-            
 
             var responseString = await response.Content.ReadAsStringAsync();
 
@@ -132,8 +141,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             var response = await client.DeleteAsync($"https://tsb-api-policy-engine.herokuapp.com/usuario/{idBox.Text}");
             var responseString = await response.Content.ReadAsStringAsync();
             MessageBox.Show(responseString);
+
+            
         }
-        
 
         public Users(IContainer container)
         {
