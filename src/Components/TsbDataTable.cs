@@ -12,14 +12,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
     public partial class TsbDataTable : DataGridView
     {
 
-
-
         DataGridView dataGridView = new DataGridView();
         DataGridViewButtonColumn buttonColumn = new DataGridViewButtonColumn();
 
         public TsbDataTable()
         {
-            
             InitializeComponent();
         }
 

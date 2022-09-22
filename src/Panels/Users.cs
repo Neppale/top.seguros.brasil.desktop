@@ -79,7 +79,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         protected async void Get()
         {   
-            int page = 3;
+            int page = 2;
             Usuario usuario = new Usuario();
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -87,16 +87,24 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             var rawResponse = await client.GetAsync("https://tsb-api-policy-engine.herokuapp.com/usuario/?pageNumber=" + page);
             var stringRespose = await rawResponse.Content.ReadAsStringAsync();
 
+            var json = JsonConvert.DeserializeObject<JArray>(stringRespose).ToList();
 
-            //Criar array de string
-            //Usar o 'nameof' para adicionar no array
-            //mandar o array pro construtor
-            IEnumerable<Usuario> response = JsonConvert.DeserializeObject<IEnumerable<Usuario>>(stringRespose);
-            
+            List<Usuario> users = new List<Usuario>();
+
+            json.ForEach(ele =>
+            {
+                JObject usu = ele as JObject;
+
+                Usuario usuario = new Usuario(usu["nome_completo"].ToString(), usu["email"].ToString(), usu["tipo"].ToString(), "");
+                usuario.id_usuario = int.Parse(usu["id_usuario"].ToString());
+
+                users.Add(usuario);
+
+            });
 
             submit.changeButtonText("Cadastrar");
 
-            this.Controls.Add(new TsbDataTable(response));
+            this.Controls.Add(new TsbDataTable(users));
         }
 
         protected async void Post()
