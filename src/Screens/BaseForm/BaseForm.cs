@@ -24,9 +24,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.BaseForm
             this.BackColor = TsbColor.background;
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
             this.StartPosition = FormStartPosition.CenterScreen;
-            SideNav sideNav;
-            this.Controls.Add(new SideNav());
-            //this.Controls.Add(new appBar(userName, userType)) ;
             this.MaximizeBox = false;
 
             InitializeComponent();

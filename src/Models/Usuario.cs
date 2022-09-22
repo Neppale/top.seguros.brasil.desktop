@@ -20,6 +20,15 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
         {
 
         }
+
+        public Usuario(string nomeCompleto, string email, string tipo, string senha)
+        {
+            this.nome_completo = nomeCompleto;
+            this.email = email;
+            this.tipo = tipo;
+            this.senha = senha; 
+        }
+
         public Usuario(string nomeCompleto, string email, string senha, string tipo, bool status)
         {
 

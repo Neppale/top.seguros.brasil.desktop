@@ -17,12 +17,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         PictureBox userIcon = new PictureBox();
         PictureBox notificationIcon = new PictureBox();
 
-
-
         public appBar(string currentUserName, string currentUserType)
         {
-            
-
             this.Dock = DockStyle.Top;
             this.Height = 115;
             this.Padding = new Padding(32);
@@ -87,8 +83,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             InitializeComponent();
 
         }
-
-        
 
         public appBar(IContainer container)
         {

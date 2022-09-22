@@ -17,8 +17,11 @@ namespace Top_Seguros_Brasil_Desktop
         {
             InitializeComponent();
             button = new Button();
-            this.Controls.Add(button);  
-            
+            this.BackColor = Color.FromArgb(244, 84, 70);
+            this.FlatStyle = FlatStyle.Flat;
+            this.ForeColor = Color.FromArgb(255, 255, 255);
+            this.Size = new Size(331, 56);
+            this.Location = new Point(555, 760);
         }
 
         public void changeButtonText(string text)
@@ -28,12 +31,7 @@ namespace Top_Seguros_Brasil_Desktop
 
         protected override void OnVisibleChanged(EventArgs e)
         {
-            this.BackColor = Color.FromArgb(244, 84, 70);
-            this.FlatStyle = FlatStyle.Flat;
-            this.ForeColor = Color.FromArgb(255, 255, 255);
-            this.Size = new Size(331, 56);
-            this.Location = new Point(555, 760);
-            base.OnVisibleChanged(e);
+            
         }
 
         protected override void OnEnabledChanged(EventArgs e)

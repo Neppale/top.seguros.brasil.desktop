@@ -19,6 +19,7 @@ using System.Net.Mail;
 using System.Configuration;
 using Microsoft.Win32.SafeHandles;
 using Top_Seguros_Brasil_Desktop.src.Components;
+using Top_Seguros_Brasil_Desktop.src.Panels;
 
 namespace Top_Seguros_Brasil_Desktop
 {
@@ -47,7 +48,6 @@ namespace Top_Seguros_Brasil_Desktop
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-
             emailInput.Location = new System.Drawing.Point(555, 584);
             passwordInput.Location = new System.Drawing.Point(555, 672);
             illustrationLogin.Location = new System.Drawing.Point(592, 280);
@@ -108,7 +108,10 @@ namespace Top_Seguros_Brasil_Desktop
             }
 
             ManagementStage managementStage = new ManagementStage(response?.user.nome_completo, response?.user.tipo, response?.token);
-            
+
+
+            BasePanel basePanel = new BasePanel(response?.user.nome_completo, response?.user.tipo);
+            BasePanel.token = response?.token;            
 
             managementStage.Show();
             this.Hide();

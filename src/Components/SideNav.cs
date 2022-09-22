@@ -8,7 +8,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Linq;
 using Top_Seguros_Brasil_Desktop.src.Components;
+using Top_Seguros_Brasil_Desktop.src.Panels;
 
 namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 {
@@ -20,6 +23,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
         public SideNav()
         {
             InitializeComponent();
+
+           
 
             this.Width = 267;
             this.Height = 1024;
@@ -43,47 +48,53 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
             MenuItem user = new MenuItem("Usuários", Directory.GetCurrentDirectory() + "\\src\\img\\icon\\nav\\users.png");
             user.Dock = DockStyle.Top;
-            panel.Controls.Add(user);
 
             MenuItem policySolicitation = new MenuItem("Solicitações de apólice", Directory.GetCurrentDirectory() + "\\src\\img\\icon\\nav\\policys.png");
             policySolicitation.Dock = DockStyle.Top;
-            panel.Controls.Add(policySolicitation);
 
             MenuItem customer = new MenuItem("Clientes", Directory.GetCurrentDirectory() + "\\src\\img\\icon\\nav\\customer.png");
             customer.Dock = DockStyle.Top;
-            panel.Controls.Add(customer);
 
             MenuItem incident = new MenuItem("Ocorrências", Directory.GetCurrentDirectory() + "\\src\\img\\icon\\nav\\incident.png");
             incident.Dock = DockStyle.Top;
-            panel.Controls.Add(incident);
 
             MenuItem covery = new MenuItem("Coberturas", Directory.GetCurrentDirectory() + "\\src\\img\\icon\\nav\\covery.png");
             covery.Dock = DockStyle.Top;
-            panel.Controls.Add(covery);
 
             MenuItem vehicle = new MenuItem("Veículos", Directory.GetCurrentDirectory() + "\\src\\img\\icon\\nav\\vehicles.png");
             vehicle.Dock = DockStyle.Top;
-            panel.Controls.Add(vehicle);
 
             MenuItem outSourced = new MenuItem("Terceirizados", Directory.GetCurrentDirectory() + "\\src\\img\\icon\\nav\\outsourced.png");
             outSourced.Dock = DockStyle.Top;
-            panel.Controls.Add(outSourced);
 
+            panel.Controls.Add(outSourced);
+            panel.Controls.Add(vehicle);
+            panel.Controls.Add(covery);
+            panel.Controls.Add(incident);
+            panel.Controls.Add(customer);
+            panel.Controls.Add(policySolicitation);
+            panel.Controls.Add(user);
         }
 
         public SideNav(IContainer container)
         {
             container.Add(this);
-
             InitializeComponent();
         }
+
+        
+
     }
 
     public partial class MenuItem : Button
     {
 
+        private string name { get; set; }
+
         public MenuItem(string name, string img)
         {
+
+            this.name = name;
             this.Height = 50;
             this.ForeColor = TsbColor.neutralGray;
             this.Text = "    " + name;
@@ -96,12 +107,29 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             this.Image = bitmap;
             this.TextImageRelation = TextImageRelation.ImageBeforeText;
             this.ImageAlign = ContentAlignment.MiddleLeft;
+
         }
+
 
         protected override void OnMouseHover(EventArgs e)
         {
             this.Cursor = Cursors.Hand;
             base.OnMouseHover(e);
+        }
+
+        protected override void OnClick(EventArgs e)
+        {
+            //this.Parent.Controls.Add(new BasePanel());
+
+            base.OnClick(e);
+
+            switch (this.name)
+            {
+                case "Usuários":
+
+                    this.FindForm().Controls.Add(new Users());
+                    break;
+            }
         }
     }
 }
