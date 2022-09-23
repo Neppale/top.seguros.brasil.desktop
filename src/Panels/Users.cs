@@ -11,20 +11,22 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Top_Seguros_Brasil_Desktop.src.Components;
 using Top_Seguros_Brasil_Desktop.src.Models;
-using System.Net.Http.Headers;
-using Newtonsoft.Json;
 using Top_Seguros_Brasil_Desktop.src.Screens.Management_Stage;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
+using Top_Seguros_Brasil_Desktop.Utils;
+using Microsoft.VisualBasic.ApplicationServices;
+
 
 namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Users : BasePanel
     {
-        string token = BasePanel.token;
 
         private static readonly HttpClient client = new HttpClient();
+
+        EngineInterpreter engineInterpreter = new EngineInterpreter(token);
 
         ButtonTsb submit = new ButtonTsb();
         TextBox nameBox = new TextBox();
@@ -63,6 +65,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             Deletar.Location = new Point(600, 0);
             Deletar.changeButtonText("Deletar usuário");
 
+
+
+            submit.changeButtonText("Cadastrar");
+
         }
 
 
@@ -78,33 +84,44 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         
 
         protected async void Get()
-        {   
+        {
+           
             int page = 2;
-            Usuario usuario = new Usuario();
+            var response = await engineInterpreter.Request<IEnumerable<Usuario>>($"https://tsb-api-policy-engine.herokuapp.com/usuario/?pageNumber={page}", "GET", null);
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            DataTable dataTable = new DataTable();
 
-            var rawResponse = await client.GetAsync("https://tsb-api-policy-engine.herokuapp.com/usuario/?pageNumber=" + page);
-            var stringRespose = await rawResponse.Content.ReadAsStringAsync();
+            IEnumerable<Usuario> responseBody = response.Body;
 
-            var json = JsonConvert.DeserializeObject<JArray>(stringRespose).ToList();
+            string[] properties = responseBody.First().GetType().GetProperties().Select(x => x.Name).ToArray();
 
-            List<Usuario> users = new List<Usuario>();
-
-            json.ForEach(ele =>
+            
+            
+            //add dataTable columns according to the properties of the object, except the id, senha and tipo
+            foreach (var property in properties)
             {
-                JObject usu = ele as JObject;
+                if (property != "id_usuario" && property != "senha" && property != "status" )
+                {
+                    dataTable.Columns.Add(property);
+                }
+            }
 
-                Usuario usuario = new Usuario(usu["nome_completo"].ToString(), usu["email"].ToString(), usu["tipo"].ToString(), "");
-                usuario.id_usuario = int.Parse(usu["id_usuario"].ToString());
+            //fill the dataTable with the values of the object
+            foreach (var item in responseBody)
+            {
+                DataRow row = dataTable.NewRow();
+                foreach (var property in properties)
+                {
+                    if (property != "id_usuario" && property != "senha" && property != "status")
+                    {
+                        row[property] = item.GetType().GetProperty(property).GetValue(item, null);
+                    }
+                }
+                dataTable.Rows.Add(row);
+            }
+                
+            this.Controls.Add(new TsbDataTable(dataTable));
 
-                users.Add(usuario);
-
-            });
-
-            submit.changeButtonText("Cadastrar");
-
-            this.Controls.Add(new TsbDataTable(users));
         }
 
         protected async void Post()

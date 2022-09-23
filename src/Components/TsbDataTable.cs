@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             InitializeComponent();
         }
 
-        public TsbDataTable(IEnumerable<Usuario> datasource)
+        public TsbDataTable(DataTable datasource)
         {
             SetupDataTable(datasource);
         }
@@ -32,7 +33,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             InitializeComponent();
         }
 
-        private void SetupDataTable(IEnumerable<Usuario> datasource)
+        private void SetupDataTable(DataTable datasource)
         {
             this.Controls.Add(dataGridView);
 
@@ -56,27 +57,23 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             dataGridView.Size = this.Size;
             this.Location = new Point(32, 239);
 
+            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             buttonColumn.Name = "Acoes";
             buttonColumn.Text = "Deletar";
-
-
-           // dataGridView.CellClick += 
+            
 
             if (dataGridView.Columns["Acoes"] == null)
             {
                 dataGridView.Columns.Insert(dataGridView.Columns.Count, buttonColumn);
             }
 
-            //dataGridView.Columns[0].Name = "Coluna 1";
-            //dataGridView.Columns[1].Name = "Coluna 2";
-            //dataGridView.Columns[2].Name = "Coluna 3";
-            //dataGridView.Columns[3].Name = "Coluna 4";
-            //dataGridView.Columns[4].Name = "Coluna 5";
-            //dataGridView.Columns[4].DefaultCellStyle.Font = new Font(dataGridView.DefaultCellStyle.Font, FontStyle.Italic);
+            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dataGridView.AllowUserToResizeRows = false;
 
-            dataGridView.SelectionMode =
-            DataGridViewSelectionMode.FullRowSelect;
+
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView.MultiSelect = false;
             dataGridView.Dock = DockStyle.Fill;
         }
