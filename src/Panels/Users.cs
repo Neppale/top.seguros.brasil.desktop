@@ -88,7 +88,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         private void Adicionar_usuario_click(object sender, EventArgs e)
         {
-            //MessageBox.Show(Controls.GetChildIndex(formCadastro).ToString());
 
             formCadastro.Show();
             
