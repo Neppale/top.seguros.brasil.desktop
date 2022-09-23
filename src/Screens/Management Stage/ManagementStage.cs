@@ -46,10 +46,5 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Management_Stage
             this.Controls.Add(new SideNav());
             this.Controls.Add(new appBar(userName, userType));
         }
-        
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
     }
 }

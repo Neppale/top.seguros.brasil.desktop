@@ -1,25 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Top_Seguros_Brasil_Desktop.Properties;
-using System.Net.Http;
-using System.Text.Json.Serialization;
-using System.Net.Mime;
-using Top_Seguros_Brasil_Desktop.src.Screens.Components;
-using Top_Seguros_Brasil_Desktop.src.Screens.Management_Stage;
 using Top_Seguros_Brasil_Desktop.src.Models;
-using System.Net.Mail;
-using System.Configuration;
-using Microsoft.Win32.SafeHandles;
-using Top_Seguros_Brasil_Desktop.src.Components;
 using Top_Seguros_Brasil_Desktop.src.Panels;
+using Top_Seguros_Brasil_Desktop.src.Screens.Management_Stage;
 using Top_Seguros_Brasil_Desktop.Utils;
 
 namespace Top_Seguros_Brasil_Desktop
@@ -32,7 +15,7 @@ namespace Top_Seguros_Brasil_Desktop
             public string senha { get; set; }
             public string token { get; set; }
 
-            
+
             public LoginAccess(string email, string senha)
             {
                 this.email = email;
@@ -44,7 +27,7 @@ namespace Top_Seguros_Brasil_Desktop
         {
             InitializeComponent();
             this.ActiveControl = pictureBoxLogo;
-            
+
         }
 
         private void LoginForm_Load(object sender, EventArgs e)
@@ -55,32 +38,7 @@ namespace Top_Seguros_Brasil_Desktop
             buttonLogin.changeButtonText("Entrar");
             buttonLogin.Enabled = false;
         }
-
-        private async void passwordInput_TextUp(object sender, EventArgs e)
-        {
-            
-        }
-
-        private async void loginBtn_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void emailInput_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private async void loginBtn_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tsbButton1_Load(object sender, EventArgs e)
-        {
-
-        }
-
+        
         private async void buttonLogin_Click(object sender, EventArgs e)
         {
             emailInput.Text = "jonathan.santos@topseguros.br";
@@ -107,16 +65,6 @@ namespace Top_Seguros_Brasil_Desktop
 
             managementStage.Show();
             this.Hide();
-
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBoxLogo_Click(object sender, EventArgs e)
-        {
 
         }
 
