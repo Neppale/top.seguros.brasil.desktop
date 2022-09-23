@@ -63,6 +63,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             Deletar.Location = new Point(600, 0);
             Deletar.changeButtonText("Deletar usuário");
 
+            this.Controls.Add(new formCadastro());
+
         }
 
 

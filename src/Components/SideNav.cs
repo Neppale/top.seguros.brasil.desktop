@@ -88,7 +88,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
     public partial class MenuItem : Button
     {
-
         private string name { get; set; }
 
         public MenuItem(string name, string img)
