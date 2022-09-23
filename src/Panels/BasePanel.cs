@@ -24,8 +24,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             this.Size = new Size(1173, 909);
             this.Location = new Point(267, 115);
 
-           
-            
             InitializeComponent();
         }
 

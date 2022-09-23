@@ -33,6 +33,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         TextBox idBox = new TextBox();
         ButtonTsb Deletar = new ButtonTsb();
+        ButtonTsb Adicionar = new ButtonTsb();
+        formCadastro formCadastro = new formCadastro();
 
 
         public Users()
@@ -63,8 +65,14 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             Deletar.Location = new Point(600, 0);
             Deletar.changeButtonText("Deletar usuário");
 
-            this.Controls.Add(new formCadastro());
+            this.Controls.Add(Adicionar);
+            Adicionar.Location = new Point(921, 715);
+            Adicionar.changeButtonText("Adicionar usuário");
+            Adicionar.Click += new EventHandler(Adicionar_usuario_click);
 
+            formCadastro.Hide();
+
+            this.Controls.Add(formCadastro);
         }
 
 
@@ -77,7 +85,15 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         {
             Post();
         }
-        
+
+        private void Adicionar_usuario_click(object sender, EventArgs e)
+        {
+            //MessageBox.Show(Controls.GetChildIndex(formCadastro).ToString());
+
+            formCadastro.Show();
+            
+            Controls.SetChildIndex(formCadastro, 0);
+        }
 
         protected async void Get()
         {   

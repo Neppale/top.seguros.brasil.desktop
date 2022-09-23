@@ -11,32 +11,32 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
     public partial class formCadastro : Panel
     {
 
-        Button btn = new Button();
-
         public formCadastro()
         {
             SetupForm();
             InitializeComponent();
-
             
         }
 
-         
+        
 
         public void SetupForm()
         {
-            this.Width = 1173;
+            this.Width = 395;
             this.Height = 1024;
-            this.BackColor = Color.Purple;
+            this.BackColor = TsbColor.background;
+
+
 
             this.Click += new EventHandler(formCadastro_OnClick);
         }
 
-
         protected void formCadastro_OnClick(object sender, EventArgs e)
         {
-            MessageBox.Show("Funcionou?");
+            this.Hide();
         }
+
+        
 
 
         public formCadastro(IContainer container)
