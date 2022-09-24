@@ -17,7 +17,8 @@ using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
 using Top_Seguros_Brasil_Desktop.Utils;
 using Microsoft.VisualBasic.ApplicationServices;
-
+using System.Data.Common;
+//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
@@ -25,6 +26,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
     {
 
         private static readonly HttpClient client = new HttpClient();
+        private static bool IsLoaded = false;
 
         EngineInterpreter engineInterpreter = new EngineInterpreter(token);
 
@@ -36,6 +38,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         TextBox idBox = new TextBox();
         ButtonTsb Deletar = new ButtonTsb();
 
+        static DataTable dataTable = new DataTable();
+        TsbDataTable userDataTable = new TsbDataTable(dataTable);
 
         public Users()
         {
@@ -64,17 +68,17 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             this.Controls.Add(Deletar);
             Deletar.Location = new Point(600, 0);
             Deletar.changeButtonText("Deletar usuário");
-
-
-
+            
             submit.changeButtonText("Cadastrar");
+
+
 
         }
 
 
         private void Delete_OnClick(object sender, EventArgs e)
         {
-            Delete();
+            Delete(userDataTable.getSelectedId());
         }
 
         private void Submit_OnClick(object sender, EventArgs e)
@@ -85,48 +89,63 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         protected async void Get()
         {
-           
+
             int page = 2;
             var response = await engineInterpreter.Request<IEnumerable<Usuario>>($"https://tsb-api-policy-engine.herokuapp.com/usuario/?pageNumber={page}", "GET", null);
 
-            DataTable dataTable = new DataTable();
-
+            
             IEnumerable<Usuario> responseBody = response.Body;
 
             string[] properties = responseBody.First().GetType().GetProperties().Select(x => x.Name).ToArray();
-
             
-            
-            //add dataTable columns according to the properties of the object, except the id, senha and tipo
-            foreach (var property in properties)
-            {
-                if (property != "id_usuario" && property != "senha" && property != "status" )
-                {
-                    dataTable.Columns.Add(property);
-                }
-            }
 
-            //fill the dataTable with the values of the object
-            foreach (var item in responseBody)
+
+            if(IsLoaded == false)
             {
-                DataRow row = dataTable.NewRow();
                 foreach (var property in properties)
                 {
-                    if (property != "id_usuario" && property != "senha" && property != "status")
-                    {
-                        row[property] = item.GetType().GetProperty(property).GetValue(item, null);
-                    }
-                }
-                dataTable.Rows.Add(row);
-            }
-                
-            this.Controls.Add(new TsbDataTable(dataTable));
 
+                    if (property != "senha" && property != "status")
+                    {
+                        dataTable.Columns.Add(property);
+                    }
+
+                }
+
+                foreach (var item in responseBody)
+                {
+                    DataRow row = dataTable.NewRow();
+                    foreach (var property in properties)
+                    {
+                        if (property != "senha" && property != "status")
+                        {
+                            row[property] = item.GetType().GetProperty(property).GetValue(item, null);
+                        }
+                    }
+                    dataTable.Rows.Add(row);
+                }
+                    
+                
+
+                dataTable.Columns["id_usuario"].ColumnName = "Identificação";
+                dataTable.Columns["nome_completo"].ColumnName = "Nome";
+                dataTable.Columns["email"].ColumnName = "Email";
+                dataTable.Columns["tipo"].ColumnName = "Tipo";
+
+                IsLoaded = true;
+                
+            }
+
+            this.Controls.Add(userDataTable);
         }
 
         protected async void Post()
         {
             Usuario usuario = new Usuario(nomeCompleto: nameBox.Text, email: emailBox.Text, tipo: typeBox.Text, senha: "Senha123-");
+
+            //string[] newUserRow = new string[] { nameBox.Text, emailBox.Text, typeBox.Text };
+            
+            //userDataTable.Rows.Add(newUserRow);
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -135,27 +154,26 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PostAsync("https://tsb-api-policy-engine.herokuapp.com/usuario/", data);
-
             
-
             var responseString = await response.Content.ReadAsStringAsync();
 
-            Get();
 
             MessageBox.Show(responseString);
+
+            this.Controls.Remove(userDataTable);
+            Get();
         }
 
 
         protected async void Put()
         {
-
         }
-
-        protected async void Delete()
+        protected async void Delete(string id)
         {
-            var response = await client.DeleteAsync($"https://tsb-api-policy-engine.herokuapp.com/usuario/{idBox.Text}");
-            var responseString = await response.Content.ReadAsStringAsync();
-            MessageBox.Show(responseString);
+            var response = await engineInterpreter.Request <IEnumerable<Usuario>>($"https://tsb-api-policy-engine.herokuapp.com/usuario/{id}", "DELETE", null);
+
+            userDataTable.removeRow(int.Parse(id));
+            Get();
         }
         
 

@@ -16,6 +16,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         DataGridView dataGridView = new DataGridView();
         DataGridViewButtonColumn buttonColumn = new DataGridViewButtonColumn();
 
+        private string? selectedId { get; set; }
+        
         public TsbDataTable()
         {
             InitializeComponent();
@@ -32,8 +34,28 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             InitializeComponent();
         }
+        
+        public string getSelectedId() 
+        {
+            MessageBox.Show(selectedId);
+            return selectedId;
+        }
 
-        private void SetupDataTable(DataTable datasource)
+        public void removeRow(int id)
+        {
+            
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                if (row.Cells[0].Value.ToString() == id.ToString())
+                {
+                    dataGridView.Rows.Remove(row);
+                    MessageBox.Show("Removido com sucesso");
+                }
+            }
+
+        }
+
+        private async void SetupDataTable(DataTable datasource)
         {
             this.Controls.Add(dataGridView);
 
@@ -42,11 +64,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = TsbColor.neutralGray;
             dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView.Font, FontStyle.Bold);
 
-            //Receber o nome da tabela por metodo
             dataGridView.Name = "Tabela padrão";
-
-            dataGridView.Location = new Point(0, 0);
             this.Size = new Size(1109, 316);
+            dataGridView.Location = new Point(0, 0);
+            
 
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             dataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
@@ -62,20 +83,57 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             buttonColumn.Name = "Acoes";
             buttonColumn.Text = "Deletar";
             
-
-            if (dataGridView.Columns["Acoes"] == null)
-            {
-                dataGridView.Columns.Insert(dataGridView.Columns.Count, buttonColumn);
-            }
-
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             dataGridView.AllowUserToResizeRows = false;
 
+            dataGridView.ColumnHeadersHeight = 52;
+
+            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+            
+            dataGridView.ReadOnly = true;
+
+
+            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+            //make every line height of the table 58 pixels
+            dataGridView.RowTemplate.Height = 52;
 
             dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView.MultiSelect = false;
             dataGridView.Dock = DockStyle.Fill;
+
+            //get the first column cell value on select
+            dataGridView.CellClick += (sender, e) =>
+            {
+                if (e.RowIndex >= 0)
+                {
+                    DataGridViewRow row = this.dataGridView.Rows[e.RowIndex];
+                    string cellValue = row.Cells[0].Value.ToString();
+                    this.selectedId = cellValue;
+                }
+            };
+
+            dataGridView.Height = (dataGridView.RowCount * 52) - 52;
+            dataGridView.BorderStyle = BorderStyle.Fixed3D;
+
+            
+            dataGridView.ForeColor = TsbColor.neutralGray;
+            
+            dataGridView.Margin = new Padding(16);
+
+            dataGridView.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridView.AllowUserToAddRows = false;
+
+            //dataGridView.DataBindingComplete += (sender, e) =>
+            //{
+
+
+            //};
+
+            dataGridView.BackgroundColor = TsbColor.surface;
         }
     }
 }
