@@ -73,7 +73,6 @@
             this.emailInput.TabIndex = 3;
             this.emailInput.TabStop = false;
             this.emailInput.UseSystemPasswordChar = false;
-            this.emailInput.Click += new System.EventHandler(this.emailInput_Click);
             // 
             // pictureBoxLogo
             // 
@@ -86,7 +85,6 @@
             this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxLogo.TabIndex = 6;
             this.pictureBoxLogo.TabStop = false;
-            this.pictureBoxLogo.Click += new System.EventHandler(this.pictureBoxLogo_Click);
             // 
             // buttonLogin
             // 
@@ -111,7 +109,6 @@
             this.illustrationLogin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.illustrationLogin.TabIndex = 9;
             this.illustrationLogin.TabStop = false;
-            this.illustrationLogin.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // LoginForm
             // 

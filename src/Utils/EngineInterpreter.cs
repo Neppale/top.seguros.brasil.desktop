@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
 
 namespace Top_Seguros_Brasil_Desktop.Utils
 {
-    public class EngineInterpreter
+    public class EngineInterpreter 
     {
         public HttpClient httpClient { get; set; }
 
@@ -11,7 +13,13 @@ namespace Top_Seguros_Brasil_Desktop.Utils
             this.httpClient = new HttpClient();
         }
 
-        public async Task<EngineInterpreterResponse> Request<type>(string address, string method, StringContent data)
+        public EngineInterpreter(string token)
+        {
+            this.httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        }
+        
+        public async Task<EngineInterpreterResponse> Request<type>(string address, string method, StringContent? data)
         {
             if (string.IsNullOrEmpty(address)) throw new ArgumentException("Endereço inválido.");
 

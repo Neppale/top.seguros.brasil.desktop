@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 using Top_Seguros_Brasil_Desktop.src.Components;
 
 namespace Top_Seguros_Brasil_Desktop
@@ -22,6 +23,8 @@ namespace Top_Seguros_Brasil_Desktop
             this.ForeColor = Color.FromArgb(255, 255, 255);
             this.Size = new Size(331, 56);
             this.Location = new Point(555, 760);
+
+            //todo: Arrumar esse metodo de adicionar texto 
         }
 
         public void changeButtonText(string text)
