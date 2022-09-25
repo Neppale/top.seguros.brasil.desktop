@@ -20,11 +20,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.BaseForm
 
         public BaseForm()
         {
-            this.Size = new Size(1440, 1024);
+            this.Size = new Size(1920, 1080);
             this.BackColor = TsbColor.background;
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.MaximizeBox = false;
+            this.MaximizeBox = true;
 
             InitializeComponent();
         }

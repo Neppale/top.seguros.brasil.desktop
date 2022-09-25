@@ -20,10 +20,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         public BasePanel()
         {
-            this.Anchor = (AnchorStyles.Right | AnchorStyles.Bottom);
+            this.Anchor = (AnchorStyles.None | AnchorStyles.None);
             this.Size = new Size(1173, 909);
             this.Location = new Point(267, 115);
-
            
             
             InitializeComponent();
