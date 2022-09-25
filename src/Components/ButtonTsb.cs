@@ -25,7 +25,7 @@ namespace Top_Seguros_Brasil_Desktop
             this.Location = new Point(555, 760);
             
 
-            //todo: Arrumar esse metodo de adicionar texto ao botão;
+            //todo: Arrumar esse metodo de adicionar texto 
         }
 
         public void changeButtonText(string text)

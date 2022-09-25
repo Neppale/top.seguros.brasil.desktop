@@ -4,136 +4,143 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Top_Seguros_Brasil_Desktop.src.Models;
 
 namespace Top_Seguros_Brasil_Desktop.src.Components
 {
     public partial class TsbDataTable : DataGridView
     {
-
-        DataGridView dataGridView = new DataGridView();
-        DataGridViewButtonColumn buttonColumn = new DataGridViewButtonColumn();
-
         private string? selectedId { get; set; }
         
         public TsbDataTable()
         {
-            InitializeComponent();
+            SetupDataTable();
+            ActionColumnSetup();
+            OrganizeColumns();
+            
         }
-
-        public TsbDataTable(DataTable datasource)
-        {
-            SetupDataTable(datasource);
-        }
-
+        
         public TsbDataTable(IContainer container)
         {
             container.Add(this);
-
             InitializeComponent();
         }
-        
-        public string getSelectedId() 
+
+        //public void selectId(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    var grid = (DataGridView)sender;
+
+        //    if (e.RowIndex < 0)
+        //    {
+        //        return;
+        //    }
+
+        //    if (e.ColumnIndex == this.Columns["Deletar"].Index && e.RowIndex >= 0)
+        //    {
+        //        selectedId = this.SelectedRows[0].Cells[2].Value.ToString();
+        //        MessageBox.Show(selectedId);
+        //    }      
+        //}
+
+        public string getSelectedId()
         {
-            MessageBox.Show(selectedId);
             return selectedId;
         }
 
         public void removeRow(int id)
         {
             
-            foreach (DataGridViewRow row in dataGridView.Rows)
+            foreach (DataGridViewRow row in this.Rows)
             {
                 if (row.Cells[0].Value.ToString() == id.ToString())
                 {
-                    dataGridView.Rows.Remove(row);
-                    MessageBox.Show("Removido com sucesso");
+                    this.Rows.Remove(row);
+                    MessageBox.Show("Removido com sucesso!");
                 }
             }
 
         }
 
-        private async void SetupDataTable(DataTable datasource)
+        public void LoadData(DataTable source)
         {
-            this.Controls.Add(dataGridView);
-
-            dataGridView.DataSource = datasource;
-            dataGridView.ColumnHeadersDefaultCellStyle.BackColor = TsbColor.secondary;
-            dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = TsbColor.neutralGray;
-            dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView.Font, FontStyle.Bold);
-
-            dataGridView.Name = "Tabela padrão";
-            this.Size = new Size(1109, 316);
-            dataGridView.Location = new Point(0, 0);
+            this.DataSource = source;
+            InitializeComponent();
+        }
+        
+        public void ActionColumnSetup()
+        {
             
+            DataGridViewButtonColumn edit = new DataGridViewButtonColumn();
+            edit.Name = "Editar";
+            edit.HeaderText = "Editar";
+            edit.Text = "Editar";
+            edit.UseColumnTextForButtonValue = true;
+            edit.FlatStyle = FlatStyle.Flat;
+            edit.DefaultCellStyle.ForeColor = TsbColor.neutralGray;
+            edit.DefaultCellStyle.Font = new Font(this.Font, FontStyle.Bold);
 
-            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            dataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridView.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            dataGridView.GridColor = Color.Black;
-            dataGridView.RowHeadersVisible = false;
+          
+            DataGridViewButtonColumn delete = new DataGridViewButtonColumn();
+            delete.Name = "Deletar";
+            delete.HeaderText = "Deletar";
+            delete.Text = "Deletar";
+            delete.FlatStyle = FlatStyle.Flat;
+            delete.DefaultCellStyle.ForeColor = TsbColor.neutralGray;
+            delete.DefaultCellStyle.Font = new Font(this.Font, FontStyle.Bold);
+            delete.UseColumnTextForButtonValue = true;
+    
+            this.Columns.Add(edit);
+            this.Columns.Add(delete);
+        }
 
-            dataGridView.Size = this.Size;
-            this.Location = new Point(32, 239);
+        private void OrganizeColumns()
+        {
+            this.Columns["Editar"].Visible = true;
 
-            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            buttonColumn.Name = "Acoes";
-            buttonColumn.Text = "Deletar";
-            
-            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            dataGridView.AllowUserToResizeRows = false;
-
-            dataGridView.ColumnHeadersHeight = 52;
-
-            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-
-            
-            dataGridView.ReadOnly = true;
-
-
-            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-
-            //make every line height of the table 58 pixels
-            dataGridView.RowTemplate.Height = 52;
-
-            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView.MultiSelect = false;
-            dataGridView.Dock = DockStyle.Fill;
-
-            //get the first column cell value on select
-            dataGridView.CellClick += (sender, e) =>
+            this.DataBindingComplete += (sender, e) =>
             {
-                if (e.RowIndex >= 0)
-                {
-                    DataGridViewRow row = this.dataGridView.Rows[e.RowIndex];
-                    string cellValue = row.Cells[0].Value.ToString();
-                    this.selectedId = cellValue;
-                }
+                this.Columns["Editar"].DisplayIndex = this.Columns.Count - 1;
+                this.Columns["Deletar"].DisplayIndex = this.Columns.Count - 1;
             };
 
-            dataGridView.Height = (dataGridView.RowCount * 52) - 52;
-            dataGridView.BorderStyle = BorderStyle.Fixed3D;
-
-            
-            dataGridView.ForeColor = TsbColor.neutralGray;
-            
-            dataGridView.Margin = new Padding(16);
-
-            dataGridView.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridView.AllowUserToAddRows = false;
-
-            //dataGridView.DataBindingComplete += (sender, e) =>
-            //{
-
-
-            //};
-
-            dataGridView.BackgroundColor = TsbColor.surface;
+        }
+        
+        public void SetupDataTable()
+        {
+            this.ColumnHeadersDefaultCellStyle.BackColor = TsbColor.secondary;
+            this.ColumnHeadersDefaultCellStyle.ForeColor = TsbColor.neutralGray;
+            this.ColumnHeadersDefaultCellStyle.Font = new Font(this.Font, FontStyle.Bold);
+            this.Name = "Tabela padrão";
+            this.Size = new Size(1109, 316);
+            this.Location = new Point(0, 0);
+            this.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            this.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            this.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            this.GridColor = Color.Black;
+            this.RowHeadersVisible = false;
+            this.Location = new Point(32, 239);
+            this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            this.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            this.AllowUserToResizeRows = false;
+            this.ColumnHeadersHeight = 52;
+            this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.ReadOnly = true;
+            this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.RowTemplate.Height = 52;
+            this.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            this.MultiSelect = false;
+            this.BorderStyle = BorderStyle.Fixed3D;
+            this.ForeColor = TsbColor.neutralGray;
+            this.Margin = new Padding(16);
+            this.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            this.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            this.AllowUserToAddRows = false;
+            this.BackgroundColor = TsbColor.surface;   
         }
     }
 }
