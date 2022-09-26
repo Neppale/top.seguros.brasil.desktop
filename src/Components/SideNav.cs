@@ -1,4 +1,5 @@
 ﻿using MaterialSkin;
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using Top_Seguros_Brasil_Desktop.src.Components;
 using Top_Seguros_Brasil_Desktop.src.Panels;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 {
@@ -107,6 +109,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             this.Image = bitmap;
             this.TextImageRelation = TextImageRelation.ImageBeforeText;
             this.ImageAlign = ContentAlignment.MiddleLeft;
+            
+            this.Click += new EventHandler(OnClickItem);
 
         }
 
@@ -117,19 +121,26 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             base.OnMouseHover(e);
         }
 
-        protected override void OnClick(EventArgs e)
+
+        protected void OnClickItem(object sender, EventArgs e)
         {
-            //this.Parent.Controls.Add(new BasePanel());
 
-            base.OnClick(e);
-
-            switch (this.name)
+            if (this.name == "Usuários")
             {
-                case "Usuários":
-
-                    this.FindForm().Controls.Add(new Users());
-                    break;
+                Users usersPage = new Users();
+                FindForm().Controls.Add(usersPage);
+                usersPage.BringToFront();
+                return;
             }
+            
+            if (this.name == "Clientes")
+            {
+                Customers customersPage = new Customers();
+                FindForm().Controls.Add(customersPage);
+                customersPage.BringToFront();
+                return;
+            }
+            
         }
     }
 }

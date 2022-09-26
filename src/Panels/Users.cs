@@ -100,14 +100,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             putButton.changeButtonText("Editar");
             putButton.Click += PutButton_Click;
 
-
-
             userDataTable.CellClick += new DataGridViewCellEventHandler(DeleteButton_Click);
             userDataTable.CellClick += new DataGridViewCellEventHandler(EditButton_Click);
 
             submit.changeButtonText("Cadastrar");
             this.Controls.Add(userDataTable);
 
+            InitializeComponent();
         }
 
 
