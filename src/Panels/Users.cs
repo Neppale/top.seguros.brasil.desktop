@@ -104,7 +104,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             userDataTable.CellClick += new DataGridViewCellEventHandler(EditButton_Click);
 
             submit.changeButtonText("Cadastrar");
-            this.Controls.Add(userDataTable);
+            //this.Controls.Add(userDataTable);
 
             InitializeComponent();
         }
@@ -175,48 +175,22 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         public async void Get()
         {
-            int page = 2;
-            var response = await engineInterpreter.Request<IEnumerable<Usuario>>($"https://tsb-api-policy-engine.herokuapp.com/usuario/?pageNumber={page}", "GET", null);
+            TsbDataTable usersTable = new TsbDataTable($"https://tsb-api-policy-engine.herokuapp.com/usuario/", typeof(Usuario));
+            usersTable.Get<Usuario>();
 
-            IEnumerable<Usuario> responseBody = response.Body;
+            this.Controls.Add(usersTable);
 
-            string[] properties = responseBody.First().GetType().GetProperties().Select(x => x.Name).ToArray();
-
-            try
+            usersTable.DataBindingComplete += (sender, e) =>
             {
-                foreach (var property in properties)
-                {
-
-                    if (property != "senha" && property != "status")
-                    {
-                        dataTable.Columns.Add(property);
-                    }
-                }
-
-                foreach (var item in responseBody)
-                {
-                    DataRow row = dataTable.NewRow();
-                    foreach (var property in properties)
-                    {
-                        if (property != "senha" && property != "status")
-                        {
-                            row[property] = item.GetType().GetProperty(property).GetValue(item, null);
-                        }
-                    }
-                    dataTable.Rows.Add(row);
-                }
-
-                dataTable.Columns["id_usuario"].ColumnName = "Identificação";
-                dataTable.Columns["nome_completo"].ColumnName = "Nome";
-                dataTable.Columns["email"].ColumnName = "Email";
-                dataTable.Columns["tipo"].ColumnName = "Tipo";
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+                usersTable.Columns["id_usuario"].HeaderText = "ID";
+                usersTable.Columns["nome_completo"].HeaderText = "Nome";
+                usersTable.Columns["email"].HeaderText = "Email";
+                usersTable.Columns["tipo"].HeaderText = "Tipo";
+                
+                usersTable.Columns["senha"].Visible = false;
+                usersTable.Columns["status"].Visible = false;
+            };
             
-            userDataTable.LoadData(dataTable);
         }
 
 
@@ -266,12 +240,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         protected async void Post()
         {
+            TsbDataTable usersTable = new TsbDataTable("https://tsb-api-policy-engine.herokuapp.com/usuario/", typeof(Usuario));
             Usuario usuario = new Usuario(nomeCompleto: nameBox.Text, email: emailBox.Text, tipo: typeBox.Text, senha: "Senha123-");
-            var json = JsonConvert.SerializeObject(usuario);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response =  await engineInterpreter.Request<Usuario>("https://tsb-api-policy-engine.herokuapp.com/usuario/", "POST", data);
-            Usuario responseUser = response.Body;
-            ReloadUserTable();
+
+            usersTable.Post<UserInsertResponse>(usuario);
+            
+            Get();
         }
         
         protected async void Put()
@@ -307,4 +281,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         }
 
     }
+}
+
+public class UserInsertResponse
+{
+    public Usuario? usuario { get; set; }
+    public string? message { get; set; }
 }

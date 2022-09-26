@@ -111,7 +111,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
 
 
-
             this.Controls.Add(nomePost);
             nomePost.Location = new Point(253, 666);
             nomePost.PlaceholderText = "nome";
@@ -157,12 +156,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             postButton.Click += new EventHandler(SubmitCustomerOnClick);
 
             
-            
             InitializeComponent();
             GetCustomers();
 
-
-            
         }
 
         
@@ -203,8 +199,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         private async void GetCustomers()
         {
+            
             TsbDataTable customersTable = new TsbDataTable("https://tsb-api-policy-engine.herokuapp.com/cliente/", typeof(Cliente));
+
+            customersTable.Refresh();
+
             customersTable.Get<Cliente>();
+
             this.Controls.Add(customersTable);
             
 
@@ -243,6 +244,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 );
             
             customersTable.Post<CustomerInsertResponse>(cliente);
+
+            //customersTable.Get<Cliente>();
         }
 
 
@@ -264,6 +267,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 );
 
             customersTable.Put<CustomerInsertResponse>(cliente);
+
         }
         
 
@@ -271,27 +275,25 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         {
 
             nomePost.Text = "Teste Table Post";
-            emailPost.Text = "teste@mail.com";
+            emailPost.Text = "testedasd@mail.com";
             senhaPost.Text = "Senhar123-";
-            cpfPost.Text = "819.489.038-14";
+            cpfPost.Text = "752.338.950-30";
             cepPost.Text = "88353-452";
-            cnhPost.Text = "51471625699";
+            cnhPost.Text = "04254361404";
             dataNsPost.Text = "12/08/1979";
-            tel1Post.Text = "(47) 99999-9999";
-            tel2Post.Text = "(47) 99999-9992";
+            tel1Post.Text = "(66) 99999-9912";
+            tel2Post.Text = "(77) 99999-4592";
 
             PostCustomer();
-            GetCustomers();
+
+            //to do: time interval
+            //GetCustomers();
 
         }
 
-
         private void PutCustomerOnClick(object sender, EventArgs e)
         {
-
             PutCustomer();
-            //GetCustomers();
-
         }
 
         public Customers(IContainer container)

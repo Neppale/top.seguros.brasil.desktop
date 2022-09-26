@@ -41,7 +41,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         {
             DataTable dataTable = new DataTable();
 
-            int page = 1;
+            string page = "?pageNumber=1";
             var response = await engineInterpreter.Request<IEnumerable<Type>>($"{this.address}", "GET", null);
             IEnumerable<Type> responseBody = response.Body;
 
@@ -63,10 +63,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                     }
                     dataTable.Rows.Add(row);
                 }
+
+                
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
+
             }
 
             LoadData(dataTable);
@@ -79,17 +82,24 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await engineInterpreter.Request<Type>($"{this.address}", "POST", data);
 
-            if (response.StatusCode == 201)
+            try
             {
-                MessageBox.Show("Cadastrado com sucesso!");
+                if (response.StatusCode == 201)
+                {
+                    MessageBox.Show("Cadastrado com sucesso!");
+                }
+                else
+                {
+                    MessageBox.Show("Erro ao cadastrar! " + response.Body.message);
+                }
             }
-            else
+            catch (Exception e)
             {
-                MessageBox.Show("Erro ao cadastrar! " + response.Body.message);
+                MessageBox.Show(e.ToString());
             }
-            
-            Get<Type>();
-            
+
+            //Get<Type>();
+
         }
 
         public async void Put<Type>(object body)
@@ -110,7 +120,25 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         
         public async void Delete<Type>(string id)
         {
-            var response = await engineInterpreter.Request<IEnumerable<Type>>($"{ this.address}+{id}", "DELETE", null);
+            var response = await engineInterpreter.Request<Type>($"{this.address}{id}", "DELETE", null);   
+
+            if (response.StatusCode == 204)
+            {
+                MessageBox.Show("Deletado com sucesso!");
+            }
+            else
+            {
+                if (response.Body == null)
+                {
+                    MessageBox.Show("Erro ao deletar!");
+                }
+                else
+                {
+                    MessageBox.Show("Erro ao deletar! " + response.Body.message);
+                }
+            }
+
+            //Get<Type>();
         }
 
         public TsbDataTable(IContainer container)
@@ -204,9 +232,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             this.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             this.AllowUserToAddRows = false;
             this.BackgroundColor = TsbColor.surface;
-            
-            
-
         }
 
         private void DeleteButton_Click(object? sender, DataGridViewCellEventArgs e)
