@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
-    public partial class Apolices : BasePanel
+    public partial class Policies : BasePanel
     {
-        public Apolices()
+        public Policies()
         {
+            this.BackColor = Color.Purple;   
             InitializeComponent();
         }
 
-        public Apolices(IContainer container)
+        public Policies(IContainer container)
         {
             container.Add(this);
 

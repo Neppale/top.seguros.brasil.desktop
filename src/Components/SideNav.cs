@@ -105,8 +105,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             this.TextAlign = ContentAlignment.MiddleLeft;
             this.Padding = new Padding(32, 8, 32, 8);
 
-            Bitmap bitmap = new Bitmap(img);
-            this.Image = bitmap;
+            //Bitmap bitmap = new Bitmap(img);
+            //this.Image = bitmap;
             this.TextImageRelation = TextImageRelation.ImageBeforeText;
             this.ImageAlign = ContentAlignment.MiddleLeft;
             
@@ -138,6 +138,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
                 Customers customersPage = new Customers();
                 FindForm().Controls.Add(customersPage);
                 customersPage.BringToFront();
+                return;
+            }
+            if (this.name == "Solicitações de apólice") 
+            { 
+                Policies policiesPage = new Policies();
+                FindForm().Controls.Add(policiesPage);
+                policiesPage.BringToFront();
                 return;
             }
             
