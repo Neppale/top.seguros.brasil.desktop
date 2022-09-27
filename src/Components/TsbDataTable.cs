@@ -14,6 +14,8 @@ using Top_Seguros_Brasil_Desktop.Utils;
 using Top_Seguros_Brasil_Desktop.src.Panels;
 using Newtonsoft.Json;
 using System.Collections;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
+using System.Net.Http.Json;
 
 namespace Top_Seguros_Brasil_Desktop.src.Components
 {
@@ -21,9 +23,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
     {
 
         private string address { get; set; }
-        private string? selectedId { get; set; }
 
         public static ArrayList selectedRowValues = new ArrayList();
+        public static string? selectedId { get; set; }
+
+        public static bool tableCreated { get; set; }
 
         EngineInterpreter engineInterpreter = new EngineInterpreter(BasePanel.token);
 
@@ -37,12 +41,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             this.address = adress;
         }
         
-        public async void Get<Type>()
+        public async Task Get<Type>(string address)
         {
+            this.address = address;
             DataTable dataTable = new DataTable();
+            //dataTable.Reset();
 
-            string page = "?pageNumber=1";
-            var response = await engineInterpreter.Request<IEnumerable<Type>>($"{this.address}", "GET", null);
+            var response = await engineInterpreter.Request<IEnumerable<Type>>($"{address}", "GET", null);
             IEnumerable<Type> responseBody = response.Body;
 
 
@@ -63,7 +68,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                     }
                     dataTable.Rows.Add(row);
                 }
-
                 
             }
             catch (Exception e)
@@ -72,10 +76,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             }
 
-            LoadData(dataTable);
+            await LoadData(dataTable);
         }
 
-        public async void Post<Type>(object body)
+        public async Task Post<Type>(object body)
         {
             
             var json = JsonConvert.SerializeObject(body);
@@ -87,22 +91,31 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 if (response.StatusCode == 201)
                 {
                     MessageBox.Show("Cadastrado com sucesso!");
+
+                    //await Get<Type>();
                 }
                 else
                 {
-                    MessageBox.Show("Erro ao cadastrar! " + response.Body.message);
+                    if (response.Body == null)
+                    {
+                        MessageBox.Show("Erro ao cadastrar!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Erro ao cadastrar! " + response.Body.message);
+                    }
+
                 }
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
-
-            //Get<Type>();
+            
 
         }
 
-        public async void Put<Type>(object body)
+        public async Task Put<Type>(object body)
         {
             var json = JsonConvert.SerializeObject(body);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -114,17 +127,27 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
             else
             {
-                MessageBox.Show("Erro ao atualizar! " + response.Body.message);
+                if (response.Body == null)
+                {
+                    MessageBox.Show("Erro ao atualizar!");
+                }
+                else
+                {
+                    MessageBox.Show("Erro ao atualizar! " + response.Body.message);
+                }
             }
         }
         
-        public async void Delete<Type>(string id)
+        public async Task Delete<Type>(string id)
         {
+            ;
+
             var response = await engineInterpreter.Request<Type>($"{this.address}{id}", "DELETE", null);   
 
             if (response.StatusCode == 204)
             {
                 MessageBox.Show("Deletado com sucesso!");
+                
             }
             else
             {
@@ -138,7 +161,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 }
             }
 
-            //Get<Type>();
         }
 
         public TsbDataTable(IContainer container)
@@ -146,19 +168,20 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             container.Add(this);
             InitializeComponent();
         }
-
+        
         public string getSelectedId()
         {
             return selectedId;
         }
 
-        public void LoadData(DataTable source)
+        public async Task LoadData(DataTable source)
         {
-            this.DataSource = source;
-            ActionColumnSetup();
-            OrganizeColumns();
+            var bindingSource = new BindingSource();
+            bindingSource.DataSource = source;
+            DataSource = bindingSource;
             SetupDataTable();
             InitializeComponent();
+            
         }
         
         public void ActionColumnSetup()
@@ -183,22 +206,44 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             delete.DefaultCellStyle.Font = new Font(this.Font, FontStyle.Bold);
             delete.UseColumnTextForButtonValue = true;
 
-            this.CellClick += new DataGridViewCellEventHandler(DeleteButton_Click);
-            this.CellClick += new DataGridViewCellEventHandler(EditButton_Click);
 
-            this.Columns.Add(edit);
-            this.Columns.Add(delete);
-        }
 
-        private void OrganizeColumns()
-        {
 
-            this.DataBindingComplete += (sender, e) =>
+            DataBindingComplete += (sender, e) =>
             {
-                this.Columns["Editar"].DisplayIndex = this.Columns.Count - 1;
-                this.Columns["Deletar"].DisplayIndex = this.Columns.Count - 1;
+                if (Columns.Contains("Editar") && Columns.Contains("Deletar"))
+                {
+                    ActionButtonsSetup();
+
+
+                }
+                else
+                {
+                    this.Columns.Add(edit);
+                    this.Columns.Add(delete);
+                    ActionButtonsSetup();
+                }
             };
 
+
+        }
+        
+        
+        public void ActionButtonsSetup()
+        {
+            if (Columns.Contains("Editar") && Columns.Contains("Deletar"))
+            {
+                Columns["Editar"].DisplayIndex = this.Columns.Count - 1;
+                Columns["Deletar"].DisplayIndex = this.Columns.Count - 1;
+                CellClick += new DataGridViewCellEventHandler(DeleteButton_Click);
+                CellClick += new DataGridViewCellEventHandler(EditButton_Click);
+            }
+            else
+            {
+                return;
+            }
+
+            
         }
         
         public void SetupDataTable()
@@ -216,10 +261,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             this.RowHeadersVisible = false;
             this.Location = new Point(32, 239);
             this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             this.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             this.AllowUserToResizeRows = false;
             this.ColumnHeadersHeight = 52;
+            this.RowTemplate.Height = 52;
             this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.ReadOnly = true;
             this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -232,12 +277,15 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             this.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             this.AllowUserToAddRows = false;
             this.BackgroundColor = TsbColor.surface;
+
+            ActionColumnSetup();
+            
         }
 
-        private void DeleteButton_Click(object? sender, DataGridViewCellEventArgs e)
+        private async void DeleteButton_Click(object? sender, DataGridViewCellEventArgs e)
         {
-            var grid = (DataGridView)sender;
 
+            int rowIndex = this.CurrentCell.RowIndex;
             if (e.RowIndex < 0)
             {
                 return;
@@ -245,17 +293,28 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             if (e.ColumnIndex == this.Columns["Deletar"].Index && e.RowIndex >= 0)
             {
-                string selectedId = this.SelectedRows[0].Cells[0].Value.ToString();
-                if(MessageBox.Show(
+                
+                selectedId = this.SelectedRows[0].Cells[0].Value.ToString();
+                if (MessageBox.Show(
                     "Deseja realmente deletar o registro " + selectedId + "?",
                     "Deletar registro",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question,
                     MessageBoxDefaultButton.Button2
-                    ) == DialogResult.Yes )
-                    { Delete<Type>(selectedId); };
+                    ) == DialogResult.Yes)
+                {
+                   
+                    await Delete<Type>(selectedId);
+
+                    foreach (DataGridViewCell oneCell in this.SelectedCells)
+                    {
+                        if (oneCell.Selected)
+                            this.Rows.RemoveAt(oneCell.RowIndex);
+                    }
+                };
 
             }
+
         }
 
         private void EditButton_Click(object? sender, DataGridViewCellEventArgs e)
@@ -274,10 +333,20 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                     selectedRowValues.Add(SelectedRows[0].Cells[i].Value.ToString());
                 }
 
-                string selectedId = SelectedRows[0].Cells[0].Value.ToString();
+                string selectedId = SelectedRows[0].Cells[1].Value.ToString();
                 MessageBox.Show(selectedId);
             }
 
+        }
+        public void ReloadTable(string pageName, Control control)
+        {
+            if (pageName == "users")
+            {
+                Users usersPage = new Users();
+                control.FindForm().Controls.Add(usersPage);
+                usersPage.BringToFront();
+                return;
+            }
         }
 
     }

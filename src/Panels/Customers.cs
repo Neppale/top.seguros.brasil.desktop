@@ -204,7 +204,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             customersTable.Refresh();
 
-            customersTable.Get<Cliente>();
+            //customersTable.Get<Cliente>();
 
             this.Controls.Add(customersTable);
             

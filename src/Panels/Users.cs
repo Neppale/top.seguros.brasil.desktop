@@ -20,6 +20,7 @@ using Microsoft.VisualBasic.ApplicationServices;
 using System.Data.Common;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
 using System.Collections;
+using Top_Seguros_Brasil_Desktop.src.Screens.Components;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -29,8 +30,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
     {
 
         private static readonly HttpClient client = new HttpClient();
-        
 
+        
+        public static string deleteMessage;
+
+        TsbDataTable usersDataTable = new TsbDataTable();
         EngineInterpreter engineInterpreter = new EngineInterpreter(token);
 
         ButtonTsb submit = new ButtonTsb();
@@ -50,13 +54,14 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
 
         DataTable dataTable = new DataTable();
-        TsbDataTable userDataTable = new TsbDataTable();
+        //TsbDataTable userDataTable = new TsbDataTable();
         BindingSource source = new BindingSource();
 
         public Users()
         {
-            Get();
+          
 
+            Get();
             submit.Click += new EventHandler(Submit_OnClick);
             this.Controls.Add(submit);
 
@@ -100,186 +105,89 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             putButton.changeButtonText("Editar");
             putButton.Click += PutButton_Click;
 
-            userDataTable.CellClick += new DataGridViewCellEventHandler(DeleteButton_Click);
-            userDataTable.CellClick += new DataGridViewCellEventHandler(EditButton_Click);
-
             submit.changeButtonText("Cadastrar");
-            //this.Controls.Add(userDataTable);
+
+            
 
             InitializeComponent();
+            
         }
 
 
-        private void DeleteButton_Click(object? sender, DataGridViewCellEventArgs e)
-        {
-            var grid = (DataGridView)sender;
-
-            if (e.RowIndex < 0)
-            {
-                return;
-            }
-
-            if (e.ColumnIndex == userDataTable.Columns["Deletar"].Index && e.RowIndex >= 0)
-            {
-                string selectedId = userDataTable.SelectedRows[0].Cells[2].Value.ToString();
-                Delete(selectedId);
-            }
-        }
-
-        private void EditButton_Click(object? sender, DataGridViewCellEventArgs e)
-        {
-            ArrayList rowValues = new ArrayList();
-
-            if (e.RowIndex < 0)
-            {
-                return;
-            }
-
-            if (e.ColumnIndex == userDataTable.Columns["Editar"].Index && e.RowIndex >= 0)
-            {
-                idPut.Text = "";
-                nomePut.Text = "";
-                emailBox.Text = "";
-                tipoPut.Text = "";
-                senhaPut.Text = "";
-
-                for (int i = 0; i < userDataTable.Columns.Count; i++)
-                {
-                    rowValues.Add(userDataTable.SelectedRows[0].Cells[i].Value.ToString());
-                }
-
-                nomePut.Text = rowValues[3].ToString();
-                senhaPut.Text = "Senha123-";
-                emailPut.Text = rowValues[4].ToString();
-                tipoPut.Text = rowValues[5].ToString();
-                idPut.Text = rowValues[2].ToString();
-            }
-        }
 
         private void PutButton_Click(object? sender, EventArgs e)
         {
             Put();
         }
 
-        private void Delete_OnClick(object sender, EventArgs e)
-        {
-            Delete(userDataTable.getSelectedId());
-            Get();
-        }
 
         private void Submit_OnClick(object sender, EventArgs e)
         {
             Post();
         }
+
         
-
-        public async void Get()
+        protected async void Get()
         {
-            TsbDataTable usersTable = new TsbDataTable($"https://tsb-api-policy-engine.herokuapp.com/usuario/", typeof(Usuario));
-            usersTable.Get<Usuario>();
-
-            this.Controls.Add(usersTable);
-
-            usersTable.DataBindingComplete += (sender, e) =>
-            {
-                usersTable.Columns["id_usuario"].HeaderText = "ID";
-                usersTable.Columns["nome_completo"].HeaderText = "Nome";
-                usersTable.Columns["email"].HeaderText = "Email";
-                usersTable.Columns["tipo"].HeaderText = "Tipo";
-                
-                usersTable.Columns["senha"].Visible = false;
-                usersTable.Columns["status"].Visible = false;
-            };
             
-        }
+            await usersDataTable.Get<Usuario>("https://tsb-api-policy-engine.herokuapp.com/usuario/");
 
-
-        public async void ReloadUserTable()
-        {
-
-            dataTable.Columns["Identificação"].ColumnName = "id_usuario";
-            dataTable.Columns["Nome"].ColumnName = "nome_completo";
-            dataTable.Columns["Email"].ColumnName = "email";
-            dataTable.Columns["Tipo"].ColumnName = "tipo";
-
-            dataTable.Clear();
-            int page = 2;
-            var response = await engineInterpreter.Request<IEnumerable<Usuario>>($"https://tsb-api-policy-engine.herokuapp.com/usuario/?pageNumber={page}", "GET", null);
-            IEnumerable<Usuario> responseBody = response.Body;
-            string[] properties = responseBody.First().GetType().GetProperties().Select(x => x.Name).ToArray();
-
-            try
+            usersDataTable.DataBindingComplete += (sender, e) =>
             {
+                usersDataTable.Columns["id_usuario"].HeaderText = "ID";
+                usersDataTable.Columns["nome_completo"].HeaderText = "Nome";
+                usersDataTable.Columns["email"].HeaderText = "Email";
+                usersDataTable.Columns["tipo"].HeaderText = "Tipo";
+                usersDataTable.Columns["senha"].Visible = false;
+                usersDataTable.Columns["status"].Visible = false;
+            };
 
-                foreach (var item in responseBody)
-                {
-                    DataRow row = dataTable.NewRow();
-                    foreach (var property in properties)
-                    {
-                        if (property != "senha" && property != "status")
-                        {
-                            row[property] = item.GetType().GetProperty(property).GetValue(item, null);
-                        }
-                    }
-                    dataTable.Rows.Add(row);
-                }
+            Controls.Add(usersDataTable);
 
-                dataTable.Columns["id_usuario"].ColumnName = "Identificação";
-                dataTable.Columns["nome_completo"].ColumnName = "Nome";
-                dataTable.Columns["email"].ColumnName = "Email";
-                dataTable.Columns["tipo"].ColumnName = "Tipo";
-                
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
         }
         
-
-        protected async void Post()
+        protected async Task Post()
         {
-            TsbDataTable usersTable = new TsbDataTable("https://tsb-api-policy-engine.herokuapp.com/usuario/", typeof(Usuario));
-            Usuario usuario = new Usuario(nomeCompleto: nameBox.Text, email: emailBox.Text, tipo: typeBox.Text, senha: "Senha123-");
+           
+            Usuario usuario = new Usuario(nomeCompleto: nameBox.Text, email: emailBox.Text, tipo: typeBox.Text, senha: "Senha123-", status: true);
 
-            usersTable.Post<UserInsertResponse>(usuario);
+            await usersDataTable.Post<UserInsertResponse>(usuario);
+
+            Controls.Remove(usersDataTable);
             
             Get();
         }
+     
         
-        protected async void Put()
+        protected async Task Put()
         {
+
+            //finalizar esse metodo
+            //resolver o ID
             Usuario usuario = new Usuario(nomeCompleto: nomePut.Text, email: emailPut.Text, tipo: tipoPut.Text, senha: "Senha123-");
             var json = JsonConvert.SerializeObject(usuario);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await engineInterpreter.Request<Usuario>($"https://tsb-api-policy-engine.herokuapp.com/usuario/{idPut.Text}", "PUT", data);
             Usuario responseUser = response.Body;
-            ReloadUserTable();
+
+            await usersDataTable.Put<Usuario>(usuario);
+         
 
             idPut.Text = "";
             nomePut.Text = "";
             emailBox.Text = "";
             tipoPut.Text = "";
             senhaPut.Text = "";
-
-        }
-        
-        protected async void Delete(string id)
-        {
-            var response = await engineInterpreter.Request <IEnumerable<Usuario>>($"https://tsb-api-policy-engine.herokuapp.com/usuario/{id}", "DELETE", null);
-            dataTable.Dispose();
-            ReloadUserTable();
             
         }
-        
 
+       
+        
         public Users(IContainer container)
         {
             container.Add(this);
             InitializeComponent();
         }
-
     }
 }
 
