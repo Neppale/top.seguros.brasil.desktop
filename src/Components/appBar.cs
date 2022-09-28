@@ -23,15 +23,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             
             this.Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right);
             this.Dock = DockStyle.Top;
-
-            //Panel divider = new Panel();
-            //divider.Height = 1;
-            //divider.BackColor = TsbColor.neutralWhite;
-            //divider.Dock = DockStyle.Bottom;
-            //this.Controls.Add(divider);
-
             this.Height = 115;
-            //this.BackColor = Color.Red;
+            
 
             string[] nameAka = currentUserName.Split();
 
@@ -81,11 +74,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             this.Controls.Add(notificationIcon);
             this.Controls.Add(userIcon);
-            this.Controls.Add(userBox);
-
-            
-
-            
+            this.Controls.Add(userBox);            
 
             this.SendToBack();
             this.SendToBack();
