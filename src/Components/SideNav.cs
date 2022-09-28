@@ -1,4 +1,5 @@
 ﻿using MaterialSkin;
+using MaterialSkin.Controls;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             logoBox.Location = new Point(0, 32);
             logoBox.Width = this.Width;
             this.Controls.Add(logoBox);
+            
 
             panel = new Panel();
             panel.Width = this.Width;
@@ -76,6 +78,19 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             panel.Controls.Add(customer);
             panel.Controls.Add(policySolicitation);
             panel.Controls.Add(user);
+
+            this.Dock = DockStyle.Left;
+
+            Panel divider = new Panel();
+            divider.Width = 1;
+            divider.Height = 50;
+            divider.BackColor = TsbColor.neutralWhite;
+            divider.Dock = DockStyle.Right;
+            this.Controls.Add(divider);
+            divider.BringToFront();
+
+
+
         }
 
         public SideNav(IContainer container)
@@ -127,7 +142,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
             if (this.name == "Usuários")
             {
-                Users usersPage = new Users();
+                Users usersPage = new Users("Usuários", "Gerenciamento de Usuários");
                 FindForm().Controls.Add(usersPage);
                 usersPage.BringToFront();
                 return;

@@ -21,8 +21,6 @@ using System.Data.Common;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
 using System.Collections;
 using Top_Seguros_Brasil_Desktop.src.Screens.Components;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
@@ -30,18 +28,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
   {
 
     private static readonly HttpClient client = new HttpClient();
-
-
     public static string deleteMessage;
-
     TsbDataTable usersDataTable = new TsbDataTable();
     EngineInterpreter engineInterpreter = new EngineInterpreter(token);
-
     ButtonTsb submit = new ButtonTsb();
     TextBox nameBox = new TextBox();
     TextBox emailBox = new TextBox();
     TextBox typeBox = new TextBox();
-
     TextBox idBox = new TextBox();
     ButtonTsb Deletar = new ButtonTsb();
 
@@ -51,16 +44,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
     TextBox tipoPut = new TextBox();
     TextBox idPut = new TextBox();
     ButtonTsb putButton = new ButtonTsb();
-
-
     DataTable dataTable = new DataTable();
-    //TsbDataTable userDataTable = new TsbDataTable();
     BindingSource source = new BindingSource();
 
     public Users()
     {
-
-
       Get();
       submit.Click += new EventHandler(Submit_OnClick);
       this.Controls.Add(submit);
@@ -76,11 +64,24 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
       this.Controls.Add(typeBox);
       typeBox.Location = new Point(900, 700);
       typeBox.PlaceholderText = "Tipo";
+    }
 
+    public Users(string pageTitle, string subTitle)
+    {
+      submit.Click += new EventHandler(Submit_OnClick);
+      this.Controls.Add(submit);
 
-      this.Controls.Add(nomePut);
-      nomePut.Location = new Point(32, 112);
-      nomePut.PlaceholderText = "Nome";
+      this.Controls.Add(nameBox);
+      nameBox.Location = new Point(342, 700);
+      nameBox.PlaceholderText = "Nome";
+
+      this.Controls.Add(emailBox);
+      emailBox.Location = new Point(600, 700);
+      emailBox.PlaceholderText = "email";
+
+      this.Controls.Add(typeBox);
+      typeBox.Location = new Point(900, 700);
+      typeBox.PlaceholderText = "Tipo";
 
 
       this.Controls.Add(senhaPut);
@@ -105,21 +106,30 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
       putButton.changeButtonText("Editar");
       putButton.Click += PutButton_Click;
 
+      this.Controls.Add(idPut);
+      idPut.Location = new Point(32, 176);
+      idPut.PlaceholderText = "id";
+      idPut.Enabled = false;
+
+      this.Controls.Add(putButton);
+      putButton.Location = new Point(601, 176);
+      putButton.changeButtonText("Editar");
+      putButton.Click += PutButton_Click;
+
       submit.changeButtonText("Cadastrar");
 
-
+      Title(pageTitle);
+      SubTitle(subTitle);
 
       InitializeComponent();
 
+      Get();
     }
-
-
 
     private void PutButton_Click(object? sender, EventArgs e)
     {
       Put();
     }
-
 
     private void Submit_OnClick(object sender, EventArgs e)
     {
@@ -143,7 +153,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
       };
 
       Controls.Add(usersDataTable);
-
     }
 
     protected async Task Post()
@@ -158,12 +167,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
       Get();
     }
 
-
     protected async Task Put()
     {
 
-      //finalizar esse metodo
-      //resolver o ID
+
       Usuario usuario = new Usuario(nomeCompleto: nomePut.Text, email: emailPut.Text, tipo: tipoPut.Text, senha: "Senha123-");
       var json = JsonConvert.SerializeObject(usuario);
       var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -172,7 +179,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
       await usersDataTable.Put<Usuario>(usuario);
 
-
       idPut.Text = "";
       nomePut.Text = "";
       emailBox.Text = "";
@@ -180,9 +186,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
       senhaPut.Text = "";
 
     }
-
-
-
     public Users(IContainer container)
     {
       container.Add(this);
@@ -190,7 +193,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
     }
   }
 }
-
 public class UserInsertResponse
 {
   public Usuario? usuario { get; set; }
