@@ -21,8 +21,6 @@ using System.Data.Common;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
 using System.Collections;
 using Top_Seguros_Brasil_Desktop.src.Screens.Components;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
@@ -52,16 +50,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         TextBox idPut = new TextBox();
         ButtonTsb putButton = new ButtonTsb();
 
+       
 
-        DataTable dataTable = new DataTable();
-        //TsbDataTable userDataTable = new TsbDataTable();
-        BindingSource source = new BindingSource();
-
-        public Users()
+        public Users(string pageTitle, string subTitle)
         {
-          
 
-            Get();
+            
             submit.Click += new EventHandler(Submit_OnClick);
             this.Controls.Add(submit);
 
@@ -107,13 +101,17 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             submit.changeButtonText("Cadastrar");
 
-            
+            Title(pageTitle);
+            SubTitle(subTitle);
+
+            //this.Parent = FindForm();
+
 
             InitializeComponent();
-            
+
+            Get();
+
         }
-
-
 
         private void PutButton_Click(object? sender, EventArgs e)
         {
@@ -162,8 +160,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         protected async Task Put()
         {
 
-            //finalizar esse metodo
-            //resolver o ID
+
             Usuario usuario = new Usuario(nomeCompleto: nomePut.Text, email: emailPut.Text, tipo: tipoPut.Text, senha: "Senha123-");
             var json = JsonConvert.SerializeObject(usuario);
             var data = new StringContent(json, Encoding.UTF8, "application/json");

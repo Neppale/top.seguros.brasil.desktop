@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Top_Seguros_Brasil_Desktop.src.Models;
+using Top_Seguros_Brasil_Desktop.src.Screens.Management_Stage;
 
 namespace Top_Seguros_Brasil_Desktop.src.Components
 {
@@ -19,18 +20,26 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
         public appBar(string currentUserName, string currentUserType)
         {
+            
+            this.Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right);
             this.Dock = DockStyle.Top;
+
+            //Panel divider = new Panel();
+            //divider.Height = 1;
+            //divider.BackColor = TsbColor.neutralWhite;
+            //divider.Dock = DockStyle.Bottom;
+            //this.Controls.Add(divider);
+
             this.Height = 115;
-            this.Padding = new Padding(32);
+            //this.BackColor = Color.Red;
 
             string[] nameAka = currentUserName.Split();
 
-
             if (currentUserName != null)
             {
-                
                 userName.Text = nameAka[0] + " " + nameAka[1];
-            } else
+            } 
+            else
             {
                 userName.Text = "John Due";
             }
@@ -46,42 +55,42 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             userName.Font = new Font("Arial", 12, FontStyle.Bold);
             userType.Font = new Font("Arial", 12, FontStyle.Regular);
-           
 
-            userName.Location = new Point(0, 0);
+            userName.Location = new Point(0, 32);
             userName.Width = userBox.Width;
 
-            userType.Location = new Point(0, 27);
+            userType.Location = new Point(0, 52);
             userName.ForeColor = TsbColor.secondaryDarkest;
-          
-
             userType.ForeColor = TsbColor.neutralGray;
-
-
+            
             userIcon.Dock = DockStyle.Right;
             userIcon.Image = new Bitmap(Directory.GetCurrentDirectory() + "\\src\\img\\icon\\appbar\\userIcon.png");
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.Size = new Size(50, 50);
-
-
+            
             notificationIcon.Dock = DockStyle.Right;
             notificationIcon.Image = new Bitmap(Directory.GetCurrentDirectory() + "\\src\\img\\icon\\appbar\\notification.png");
             notificationIcon.SizeMode = PictureBoxSizeMode.CenterImage;
             notificationIcon.Size = new Size(64, 32);
-            
-
 
             userBox.Controls.Add(userName);
             userBox.Controls.Add(userType);
-           
 
+            userBox.SendToBack();
             userBox.Dock = DockStyle.Right;
+
             this.Controls.Add(notificationIcon);
             this.Controls.Add(userIcon);
             this.Controls.Add(userBox);
 
-            InitializeComponent();
+            
 
+            
+
+            this.SendToBack();
+            this.SendToBack();
+
+            InitializeComponent();
         }
 
         public appBar(IContainer container)

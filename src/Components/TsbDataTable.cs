@@ -252,12 +252,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             this.ColumnHeadersDefaultCellStyle.ForeColor = TsbColor.neutralGray;
             this.ColumnHeadersDefaultCellStyle.Font = new Font(this.Font, FontStyle.Bold);
             this.Name = "Tabela padrão";
-            this.Size = new Size(1109, 316);
-            this.Location = new Point(0, 0);
+            this.Size = new Size(1109, 368);
+
+            this.Anchor = (AnchorStyles.Top | AnchorStyles.Left );
             this.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             this.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             this.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            this.GridColor = Color.Black;
+            this.GridColor = TsbColor.neutralWhite;
             this.RowHeadersVisible = false;
             this.Location = new Point(32, 239);
             this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -312,7 +313,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                             this.Rows.RemoveAt(oneCell.RowIndex);
                     }
                 };
-
+            
             }
 
         }
@@ -337,16 +338,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 MessageBox.Show(selectedId);
             }
 
-        }
-        public void ReloadTable(string pageName, Control control)
-        {
-            if (pageName == "users")
-            {
-                Users usersPage = new Users();
-                control.FindForm().Controls.Add(usersPage);
-                usersPage.BringToFront();
-                return;
-            }
         }
 
     }
