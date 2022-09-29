@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using Top_Seguros_Brasil_Desktop.src.Components;
+using Top_Seguros_Brasil_Desktop.src.font;
 using Top_Seguros_Brasil_Desktop.src.Panels;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
@@ -110,7 +111,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
         public MenuItem(string name, string img)
         {
-
+            TsbFont tsbFont = new TsbFont();
+            
             this.name = name;
             this.Height = 50;
             this.ForeColor = TsbColor.neutralGray;
@@ -119,6 +121,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             this.FlatAppearance.BorderSize = 0;
             this.TextAlign = ContentAlignment.MiddleLeft;
             this.Padding = new Padding(32, 8, 32, 8);
+            this.Font = new Font(TsbFont.TsbFonts.Families[3], 10);
 
             Bitmap bitmap = new Bitmap(img);
             this.Image = bitmap;

@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Top_Seguros_Brasil_Desktop.src.Components;
+using Top_Seguros_Brasil_Desktop.src.font;
 using Top_Seguros_Brasil_Desktop.src.Screens.Components;
 using Top_Seguros_Brasil_Desktop.src.Screens.Management_Stage;
 
@@ -34,9 +35,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                     this.Dock = DockStyle.Fill;
                     this.BringToFront();
                     this.Visible = true;
-                    
-                    
-
                 }
             };
 
@@ -50,30 +48,34 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             this.Size = new Size(1654, 965);
             this.AutoSize = true;
-            //this.Padding = new Padding(32, 32, 32, 32);
             InitializeComponent();
             
         }
 
         public void Title(string title)
         {
+            TsbFont tsbFont = new TsbFont();
             Label pageTitleLabel = new Label();
             pageTitleLabel.ForeColor = TsbColor.neutral;
             pageTitleLabel.Text = title;
             pageTitleLabel.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
-            pageTitleLabel.Location = new Point(32, 32);
+            pageTitleLabel.Location = new Point(30, 32);
+            pageTitleLabel.Font = new Font(TsbFont.TsbFonts.Families[0], 18, FontStyle.Bold);
+            pageTitleLabel.AutoSize = true;
 
             Controls.Add(pageTitleLabel);
         }
 
         public void SubTitle(string title)
         {
+            TsbFont tsbFont = new TsbFont();
             Label pageSubTitleLabel = new Label();
-            pageSubTitleLabel.ForeColor = TsbColor.neutral;
+            pageSubTitleLabel.ForeColor = TsbColor.neutralGray;
             pageSubTitleLabel.Text = title;
             pageSubTitleLabel.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
-            pageSubTitleLabel.Location = new Point(32, 58);
+            pageSubTitleLabel.Location = new Point(32, 64);
             pageSubTitleLabel.AutoSize = true;
+            pageSubTitleLabel.Font = new Font(TsbFont.TsbFonts.Families[3], 10);
 
             Controls.Add(pageSubTitleLabel);
         }

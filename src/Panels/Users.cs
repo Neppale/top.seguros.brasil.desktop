@@ -121,7 +121,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
       Title(pageTitle);
       SubTitle(subTitle);
 
-      InitializeComponent();
+            //this.Parent = FindForm();
+
+
+            
+
+
+            InitializeComponent();
 
       Get();
     }
