@@ -73,6 +73,16 @@ namespace Top_Seguros_Brasil_Desktop.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap arrow_back_ios_black_24dp {
+            get {
+                object obj = ResourceManager.GetObject("arrow_back_ios_black_24dp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap campaign_FILL0_wght400_GRAD0_opsz48_1 {
             get {
                 object obj = ResourceManager.GetObject("campaign_FILL0_wght400_GRAD0_opsz48 1", resourceCulture);

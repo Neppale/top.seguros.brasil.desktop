@@ -78,6 +78,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             this.SendToBack();
             this.SendToBack();
+            this.SendToBack();
 
             InitializeComponent();
         }

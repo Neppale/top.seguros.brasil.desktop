@@ -145,18 +145,30 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
             if (this.name == "Usuários")
             {
-                Users usersPage = new Users("Usuários", "Gerenciamento de Usuários");
-                FindForm().Controls.Add(usersPage);
-                usersPage.BringToFront();
+                if (this.FindForm().Controls.OfType<Users>().Count() == 0)
+                {
+                    Users usersPage = new Users("Usuários", "Gerenciamento de Usuários");
+                    FindForm().Controls.Add(usersPage);
+                    usersPage.BringToFront();
+                    return;
+                }
+
                 return;
             }
             
             if (this.name == "Clientes")
             {
-                Customers customersPage = new Customers();
-                FindForm().Controls.Add(customersPage);
-                customersPage.BringToFront();
+
+                if (this.FindForm().Controls.OfType<Customers>().Count() == 0)
+                {
+                    Customers customersPage = new Customers();
+                    FindForm().Controls.Add(customersPage);
+                    customersPage.BringToFront();
+                    return;
+                }
+
                 return;
+
             }
             
         }

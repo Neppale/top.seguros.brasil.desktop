@@ -14,12 +14,16 @@ using Top_Seguros_Brasil_Desktop.src.Screens.Management_Stage;
 
 namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
-    public partial class BasePanel : Panel
+    public partial class BasePanel : TableLayoutPanel
     {
+
         public static string? token { get; set; }
         public string? userName { get; set; }
         public string? userType { get; set; }
-      
+
+        public Label pageTitleLabel = new Label();
+        public Label pageSubTitleLabel = new Label();
+
         public BasePanel()
         {
 
@@ -43,41 +47,70 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             divider.Height = 1;
             divider.BackColor = TsbColor.neutralWhite;
             divider.Dock = DockStyle.Top;
-            this.Controls.Add(divider);
-            divider.BringToFront();
+            this.Controls.Add(divider, 0, 0);
+            this.SetColumnSpan(divider, 3);
 
-            this.Size = new Size(1654, 965);
+
+
+            this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30));
+            this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 44));
+            this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 26));
+            
+            
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 31));
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 27));
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 21));
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 39));
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 54));
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 56));
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 20));
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 392));
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 80));
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 194));
+
+
+            this.Dock = DockStyle.Fill;
             this.AutoSize = true;
+
+            Controls.Add(pageTitleLabel, 0, 1);
+            this.SetColumnSpan(pageTitleLabel, 3);
+
+            Controls.Add(pageSubTitleLabel, 0, 2);
+            this.SetColumnSpan(pageSubTitleLabel, 3);
+
+
             InitializeComponent();
+
             
         }
 
         public void Title(string title)
         {
             TsbFont tsbFont = new TsbFont();
-            Label pageTitleLabel = new Label();
             pageTitleLabel.ForeColor = TsbColor.neutral;
             pageTitleLabel.Text = title;
             pageTitleLabel.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+            pageTitleLabel.Margin = new Padding(30, 0, 0, 0);
             pageTitleLabel.Location = new Point(30, 32);
             pageTitleLabel.Font = new Font(TsbFont.TsbFonts.Families[0], 18, FontStyle.Bold);
             pageTitleLabel.AutoSize = true;
-
-            Controls.Add(pageTitleLabel);
+            pageTitleLabel.Dock = DockStyle.Top;
+            pageTitleLabel.SendToBack();
+            
         }
 
         public void SubTitle(string title)
         {
             TsbFont tsbFont = new TsbFont();
-            Label pageSubTitleLabel = new Label();
             pageSubTitleLabel.ForeColor = TsbColor.neutralGray;
             pageSubTitleLabel.Text = title;
             pageSubTitleLabel.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
-            pageSubTitleLabel.Location = new Point(32, 64);
+            pageSubTitleLabel.Margin = new Padding(32, 0, 0, 0);
+            //pageSubTitleLabel.Location = new Point(32, 64);
             pageSubTitleLabel.AutoSize = true;
             pageSubTitleLabel.Font = new Font(TsbFont.TsbFonts.Families[3], 10);
-
-            Controls.Add(pageSubTitleLabel);
+            pageSubTitleLabel.Dock = DockStyle.Top;
+            
         }
 
         public BasePanel(string name, string type)
