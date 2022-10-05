@@ -267,7 +267,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
           status: false
           );
 
-      customersTable.Put<CustomerInsertResponse>(cliente);
+      //customersTable.Put<CustomerInsertResponse>(cliente);
     }
 
 
