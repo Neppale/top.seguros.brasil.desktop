@@ -6,16 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Top_Seguros_Brasil_Desktop.src.Components
+namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
-    public partial class TsbComboBox : ComboBox
+    public partial class Incidents : BasePanel
     {
-        public TsbComboBox() 
+        public Incidents()
         {
             InitializeComponent();
         }
 
-        public TsbComboBox(IContainer container)
+        public Incidents(IContainer container)
         {
             container.Add(this);
 

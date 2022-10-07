@@ -1,20 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Top_Seguros_Brasil_Desktop.src.Components
+﻿namespace Top_Seguros_Brasil_Desktop.src.Components
 {
     public partial class TestField : Form
     {
         public TestField()
         {
+
+            this.Controls.Add(new TsbInput
+            {
+                Location = new Point(0, 50),
+                HintText = "Email do usuário aqui",
+                LabelText = "Email",
+                ForeColor = TsbColor.neutralGray,
+                Dock = DockStyle.Top
+            });
+
+
+            this.Controls.Add(new TsbInput
+            {
+                Location = new Point(0, 50),
+                HintText = "Nome completo do usuário aqui",
+                LabelText = "Nome completo",
+                Dock = DockStyle.Top
+            });
+
             InitializeComponent();
+        }
+
+        private void TestField_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

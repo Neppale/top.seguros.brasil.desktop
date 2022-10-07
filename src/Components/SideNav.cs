@@ -145,6 +145,16 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
             if (this.name == "Usuários")
             {
+                foreach (Control control in this.FindForm().Controls)
+                {
+                    if (control is appBar || control is SideNav)
+                    {
+                        continue;
+                    }
+
+                    control.Dispose();
+                }
+
                 if (this.FindForm().Controls.OfType<Users>().Count() == 0)
                 {
                     Users usersPage = new Users("Usuários", "Gerenciamento de Usuários");
@@ -158,19 +168,56 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             
             if (this.name == "Clientes")
             {
+                foreach (Control control in this.FindForm().Controls)
+                {
+                    if (control is appBar || control is SideNav)
+                    {
+                        continue;
+                    }
+
+                    control.Dispose();
+                }
 
                 if (this.FindForm().Controls.OfType<Customers>().Count() == 0)
                 {
-                    Customers customersPage = new Customers();
+                    Customers customersPage = new Customers("Clientes", "Gerenciamento de Clientes");
                     FindForm().Controls.Add(customersPage);
-                    customersPage.BringToFront();
+                    customersPage.BringToFront();                    
                     return;
                 }
 
                 return;
 
             }
-            
+
+            if (this.name == "Ocorrências")
+            {
+                //dispose all controls except SideNav and appbar
+                foreach (Control control in this.FindForm().Controls)
+                {
+                    if (control is appBar || control is SideNav)
+                    {
+                        continue;
+                    }
+
+                    control.Dispose();
+                }
+
+
+                if (this.FindForm().Controls.OfType<Incidents>().Count() == 0)
+                {
+                    Incidents IncidentsPage = new Incidents();
+                    FindForm().Controls.Add(IncidentsPage);
+                    IncidentsPage.BringToFront();
+                    return;
+
+
+                }
+
+                return;
+
+            }
+
         }
 
         
