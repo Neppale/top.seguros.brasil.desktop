@@ -373,14 +373,14 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             return;
         }
-
+        
         private async Task SubmitPanelSetup<Type>(string id)
         {
-            //string address = "https://tsb-api-policy-engine.herokuapp.com/cliente/";
+            string address = "https://tsb-api-policy-engine.herokuapp.com/cliente/";
 
-            //var response = await engineInterpreter.Request<Type>($"{address}{id}", "GET", null);
-            Cliente responseBody = await customersDataTable.GetSelected<Cliente>(id);
+            var response = await engineInterpreter.Request<Type>($"{address}{id}", "GET", null);
 
+            Cliente responseBody = response.Body;
 
             SubmitPanel submitPanel = new SubmitPanel();
             TitleBox titlebox = new TitleBox
