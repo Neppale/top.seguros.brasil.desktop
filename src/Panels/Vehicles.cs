@@ -30,8 +30,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         public Vehicles(string pageTitle, string subtitle)
         {
 
-            ButtonTsbPrimary putButton = new ButtonTsbPrimary();
-            this.Controls.Add(putButton, 2, 9);
 
             MaterialSingleLineTextField customerSearchBox = new MaterialSingleLineTextField
             {
@@ -61,11 +59,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
 
             this.Controls.Add(customerSearchBox, 0, 5);
-            putButton.Dock = DockStyle.Top;
-            putButton.Margin = new Padding(32);
-            putButton.Text = "+ ADICIONAR VEÍCULO";
-            putButton.Click += PutButton_Click;
-
+            
             SubTitle(subtitle);
             Title(pageTitle);
             InitializeComponent();
@@ -95,6 +89,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 vehiclesDataTable.Columns["uso"].Visible = false;
                 vehiclesDataTable.Columns["sinistrado"].Visible = false;
                 vehiclesDataTable.Columns["id_cliente"].Visible = false;
+                vehiclesDataTable.Columns["message"].Visible = false;
             };
 
             Controls.Add(vehiclesDataTable, 0, 7);
@@ -704,12 +699,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             return;
         }
-
-        private void PutButton_Click(object? sender, EventArgs? e)
-        {
-            SubmitPanelSetup("1");
-        }
-
+        
         protected async Task PutVehicle(Veiculo vehicleData, string id)
         {
             await vehiclesDataTable.Put<Veiculo>(vehicleData, id);

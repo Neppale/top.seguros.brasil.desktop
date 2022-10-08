@@ -202,7 +202,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             this.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             this.AllowUserToAddRows = false;
             this.BackgroundColor = TsbColor.surface;
-            this.Dock = DockStyle.Fill;
+            this.Height = 368;
+            this.Dock = DockStyle.Top;
 
 
             ActionColumnSetup();
