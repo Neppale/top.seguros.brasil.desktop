@@ -30,7 +30,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         public Vehicles(string pageTitle, string subtitle)
         {
 
-
             MaterialSingleLineTextField customerSearchBox = new MaterialSingleLineTextField
             {
                 Hint = "🔎 | Buscar cliente: ",
@@ -706,7 +705,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             Controls.Remove(vehiclesDataTable);
             GetVehicles();
         }
-
 
         public Vehicles(IContainer container)
         {

@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using Top_Seguros_Brasil_Desktop.src.Components;
 using Top_Seguros_Brasil_Desktop.src.font;
+using Top_Seguros_Brasil_Desktop.src.Models;
 using Top_Seguros_Brasil_Desktop.src.Panels;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
@@ -218,34 +219,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
             }
 
-            if (this.name == "Solicitações de apólice")
-            {
-                //dispose all controls except SideNav and appbar
-                foreach (Control control in this.FindForm().Controls)
-                {
-                    if (control is appBar || control is SideNav)
-                    {
-                        continue;
-                    }
-
-                    control.Dispose();
-                }
-
-
-                if (this.FindForm().Controls.OfType<Apolices>().Count() == 0)
-                {
-                    Apolices ApolicesPage = new Apolices("Apolices", "Gerenciamento de apólices");
-                    FindForm().Controls.Add(ApolicesPage);
-                    ApolicesPage.BringToFront();
-                    return;
-
-
-                }
-
-                return;
-
-            }
-
 
             if (this.name == "Veículos")
             {
@@ -266,6 +239,34 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
                     Vehicles VehiclesPage = new Vehicles("Veículos", "Gerenciamento de Veículos");
                     FindForm().Controls.Add(VehiclesPage);
                     VehiclesPage.BringToFront();
+                    return;
+
+
+                }
+
+                return;
+
+            }
+
+            if (this.name == "Coberturas")
+            {
+
+                foreach (Control control in this.FindForm().Controls)
+                {
+                    if (control is appBar || control is SideNav)
+                    {
+                        continue;
+                    }
+
+                    control.Dispose();
+                }
+
+
+                if (this.FindForm().Controls.OfType<Cobertura>().Count() == 0)
+                {
+                    Coverages CoveragesPage = new Coverages("Coberturas", "Gerenciamento de coberturas");
+                    FindForm().Controls.Add(CoveragesPage);
+                    CoveragesPage.BringToFront();
                     return;
 
 
