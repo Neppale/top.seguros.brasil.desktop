@@ -19,7 +19,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
         public string telefone1 { get; set; }
         public string telefone2 { get; set; }
         public bool status { get; set; }
-
         public string message { get; set; }
 
 

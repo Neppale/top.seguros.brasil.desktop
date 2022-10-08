@@ -256,7 +256,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             ButtonTsbSecondary submitButton = new ButtonTsbSecondary
             {
-                Text = "CADASTRAR CLIENTE SEM APÓLICE",
+                Text = "CADASTRAR CLIENTE SEM VEÍCULO",
                 Dock = DockStyle.Top,
                 Margin = new Padding
                 {
@@ -610,6 +610,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         protected async Task PutCustomer(Cliente customerData, string id)
         {
             await customersDataTable.Put<Cliente>(customerData, id);
+            Controls.Remove(customersDataTable);
+            GetCustomers();
         }
 
         protected async Task PostCustomer(Cliente customerData, EventHandler? e)

@@ -30,10 +30,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         {
             BorderStyle = BorderStyle.None,
             ForeColor = TsbColor.neutralGray,
-            //Culture = new System.Globalization.CultureInfo("pt-BR"),
             PromptChar = ' ',
             Font = MaterialSkinManager.Instance.ROBOTO_MEDIUM_11,
-            //TextMaskFormat = MaskFormat.ExcludePromptAndLiterals,
             InsertKeyMode = InsertKeyMode.Overwrite,
             HidePromptOnLeave = true,
             BackColor = TsbColor.background, 
@@ -98,9 +96,55 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
         }
 
+        public bool ToUper
+        {
+            set
+            {
+                input.TextChanged += (sender, e) =>
+                {
+                    input.Text = input.Text.ToUpper();
+                };
+            }
+        }
+
+
+        public int TextLength
+        {
+            get
+            {
+                return input.TextLength;
+            }
+        }
+
+        public new event EventHandler TextChanged
+        {
+            add
+            {
+                input.TextChanged += value;
+            }
+            remove
+            {
+                input.TextChanged -= value;
+            }
+        }
+
+        public new bool Enabled
+        {
+            get
+            {
+                return input.Enabled;
+                
+            }
+            set
+            {
+                input.Enabled = value;
+                Label.Enabled = value;
+            }
+        }
+
         public TsbMaskedTextBox()
         {
-
+            
             ForeColor = TsbColor.neutralGray;
             InputPanel.Height = 100;
             InputPanel.AutoSize = true;

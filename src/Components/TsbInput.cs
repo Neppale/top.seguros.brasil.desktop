@@ -52,8 +52,20 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 
             }
         }
-        
-        
+
+        public new bool Enabled
+        {
+            get
+            {
+                return input.Enabled;
+            }
+            set
+            {
+                input.Enabled = value;
+                Label.Enabled = value;
+            }
+        }
+
         public int MaxLength
         {
             get

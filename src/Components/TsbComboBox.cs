@@ -38,6 +38,45 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         {
             AutoSize = true
         };
+
+        public new bool Enabled
+        {
+
+            get
+            {
+                return input.Enabled;
+            }
+            set
+            {
+                input.Enabled = value;
+                Label.Enabled = value;
+            }
+
+        }
+
+        public event EventHandler LoadValues
+        {
+            add
+            {
+                input.Click += value;
+            }
+            remove
+            {
+                input.Click -= value;                
+            }
+        }
+
+        public object DataSource
+        {
+            get
+            {
+                return input.DataSource;
+            }
+            set
+            {
+                input.DataSource = value;
+            }
+        }
         
         public string LabelText
         {
@@ -75,6 +114,42 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
         }
 
+        public object SelectedItem {
+            get
+            {
+                return input.SelectedItem;
+            }
+            
+            set
+            {
+                input.SelectedItem = value;
+            }
+        }
+
+        public event EventHandler SelectedValueChanged
+        {
+            add
+            {
+                input.SelectedValueChanged += value;
+            }
+            remove
+            {
+                input.SelectedValueChanged -= value;
+            }
+        }
+        
+        public object SelectedComboItem
+        {
+            get
+            {
+                return input.SelectedItem;
+            }
+            set
+            {
+                input.SelectedItem = value;
+                
+            }
+        }
 
         public TsbComboBox() 
         {
@@ -84,6 +159,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             InputPanel.Height = 100;
             InputPanel.AutoSize = true;
             InputPanel.Dock = DockStyle.Bottom;
+            
 
             InputPanel.Controls.Add(input);
             InputPanel.Controls.Add(Label);

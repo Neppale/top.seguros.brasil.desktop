@@ -246,6 +246,35 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
             }
 
+
+            if (this.name == "Veículos")
+            {
+                
+                foreach (Control control in this.FindForm().Controls)
+                {
+                    if (control is appBar || control is SideNav)
+                    {
+                        continue;
+                    }
+
+                    control.Dispose();
+                }
+
+
+                if (this.FindForm().Controls.OfType<Vehicles>().Count() == 0)
+                {
+                    Vehicles VehiclesPage = new Vehicles("Veículos", "Gerenciamento de Veículos");
+                    FindForm().Controls.Add(VehiclesPage);
+                    VehiclesPage.BringToFront();
+                    return;
+
+
+                }
+
+                return;
+
+            }
+
         }
 
         
