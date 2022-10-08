@@ -40,6 +40,18 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
         }
 
+        public new bool GoBackable
+        {
+            get
+            {
+                return pictureBox1.Visible;
+            }
+            set
+            {
+                pictureBox1.Visible = value;
+            }
+        }
+
         public TitleBox()
         {
 

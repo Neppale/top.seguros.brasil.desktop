@@ -48,7 +48,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                     foreach (var property in properties) row[property] = item.GetType().GetProperty(property).GetValue(item);
                     dataTable.Rows.Add(row);
                 }
-
+                
             }
             catch (Exception e)
             {
@@ -88,7 +88,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             else if (response.Body == null) MessageBox.Show("Erro ao atualizar!");
             else MessageBox.Show("Erro ao atualizar! " + response.Body.message);
         }
-
+        
         public async Task Delete<Type>(string id)
         {
             var response = await engineInterpreter.Request<Type>($"{this.address}{id}", "DELETE", null);
@@ -97,16 +97,20 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             else if (response.Body == null) MessageBox.Show("Erro ao deletar!");
             else MessageBox.Show("Erro ao deletar! " + response.Body.message);
         }
-
+        
         public TsbDataTable(IContainer container)
         {
             container.Add(this);
             InitializeComponent();
         }
 
-        public string getSelectedId()
+        public async Task<Type?> GetSelected<Type>(string id)
         {
-            return selectedId;
+            this.address = address;
+            var response = await engineInterpreter.Request<IEnumerable<Type>>($"{address}{id}", "GET", null);
+            Type responseBody = response.Body;
+
+            return responseBody;
         }
 
         public async Task LoadData(DataTable source)

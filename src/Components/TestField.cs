@@ -23,6 +23,14 @@
                 Dock = DockStyle.Top
             });
 
+            this.Controls.Add(new TsbComboBox
+            {
+                Location = new Point(0, 50),
+                HintText = "Itens",
+                LabelText = "Teste combobox",
+                
+                Dock = DockStyle.Top
+            });
             InitializeComponent();
         }
 

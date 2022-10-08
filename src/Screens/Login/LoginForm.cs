@@ -35,7 +35,7 @@ namespace Top_Seguros_Brasil_Desktop
             emailInput.Location = new System.Drawing.Point(555, 584);
             passwordInput.Location = new System.Drawing.Point(555, 672);
             illustrationLogin.Location = new System.Drawing.Point(592, 280);
-            buttonLogin.changeButtonText("Entrar");
+            buttonLogin.Text = "ENTRAR";
             buttonLogin.Enabled = false;
         }
         

@@ -22,12 +22,16 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.BaseForm
         {
             this.BackColor = TsbColor.background;
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
+            this.StartPosition = FormStartPosition.CenterParent;
+            this.WindowState = FormWindowState.Maximized;
 
-            this.StartPosition = FormStartPosition.CenterScreen;
             this.AutoSize = true;
-            this.MaximizeBox = true;
-            WindowState = FormWindowState.Maximized;
+            this.FormClosed += (sender, e) =>
+            {
+                Application.Exit();
+            };
             
+            this.MaximizeBox = true;
             InitializeComponent();
         }
         private void BaseForm_Load(object sender, EventArgs e)

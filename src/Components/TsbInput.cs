@@ -34,11 +34,40 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             AutoSize = true
         };
         
-        Panel InputPanel = new Panel
+        Panel InputPanel = new Panel 
         {
             AutoSize = true
         };
+
+        public string Text
+        {
+            get
+            {
+                return input.Text;
+            }
+            set
+            {
+                
+                input.Text = value;
+                
+            }
+        }
         
+        
+        public int MaxLength
+        {
+            get
+            {
+                return input.MaxLength;
+            }
+            set
+            {
+                input.MaxLength = value;
+            }             
+            
+        }
+        
+
         public string LabelText
         {
             get 
@@ -63,13 +92,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
         }
         
-        public TsbInput()
+        public TsbInput() 
         {
-
             ForeColor = TsbColor.neutralGray;
-            
             InputPanel.Height = 100;
             InputPanel.AutoSize = true;
+            InputPanel.Dock = DockStyle.Bottom;
             
             InputPanel.Controls.Add(input);
             InputPanel.Controls.Add(Label);
@@ -77,6 +105,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             InitializeComponent();
         }
+
+        
 
         public TsbInput(IContainer container)
         {
@@ -86,3 +116,4 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         }
     }
 }
+

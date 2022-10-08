@@ -25,7 +25,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         public Users(string pageTitle, string subtitle)
         {
-            ButtonTsb putButton = new ButtonTsb();
+            ButtonTsbPrimary putButton = new ButtonTsbPrimary();
             this.Controls.Add(putButton, 2, 9);
 
             MaterialSingleLineTextField userSearchBox = new MaterialSingleLineTextField
@@ -59,7 +59,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             this.Controls.Add(userSearchBox, 0, 5);
             putButton.Dock = DockStyle.Top;
             putButton.Margin = new Padding(32);
-            putButton.changeButtonText("Adicionar Usuário");
+            putButton.Text = "Adicionar Usuário";
             putButton.Click += PutButton_Click;
 
             SubTitle(subtitle);
@@ -82,7 +82,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
 
 
-            submitPanel.Controls.Add(titlebox, 0, 0);
+            submitPanel.Controls.Add(titlebox, 0, 1);
 
 
             submitPanel.Controls.OfType<TitleBox>().First().GoBack += (sender, e) =>
@@ -96,19 +96,17 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 LabelText = "Nome completo",
                 HintText = "Nome Completo do usuário aqui",
                 ForeColor = TsbColor.neutralGray,
-                Dock = DockStyle.Bottom,
-                Width = 331,
-                BackColor = Color.Red,
+                Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
             };
 
-            submitPanel.Controls.Add(nameField, 1, 0); ;
+            submitPanel.Controls.Add(nameField, 1, 1); ;
 
 
             TsbInput emailField = new TsbInput
@@ -116,36 +114,37 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 LabelText = "Email",
                 HintText = "Email do usuário aqui",
                 ForeColor = TsbColor.neutralGray,
-                Dock = DockStyle.Bottom,
+                Dock = DockStyle.Top,
                 Width = 331,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
             };
 
-            submitPanel.Controls.Add(emailField, 2, 0);
+            submitPanel.Controls.Add(emailField, 2, 1);
 
 
             TsbComboBox userTypeField = new TsbComboBox
             {
-                Text = "Tipo de usuário",
+                LabelText = "Tipo",
+                HintText = "Tipo de usuário",
                 Items = { "Administrador", "Corretor" },
                 ForeColor = TsbColor.neutralGray,
-                Dock = DockStyle.Bottom,
+                Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
             };
 
-            submitPanel.Controls.Add(userTypeField, 1, 1);
+            submitPanel.Controls.Add(userTypeField, 1, 2);
 
 
             TsbInput passwordField = new TsbInput
@@ -153,27 +152,27 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 LabelText = "Senha",
                 HintText = "Senha do usuário",
                 ForeColor = TsbColor.neutralGray,
-                Dock = DockStyle.Bottom,
+                Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
             };
 
-            submitPanel.Controls.Add(passwordField, 2, 1); ;
+            submitPanel.Controls.Add(passwordField, 2, 2); ;
 
 
-            ButtonTsb submitButton = new ButtonTsb
+            ButtonTsbPrimary submitButton = new ButtonTsbPrimary
             {
                 Text = "Cadastrar Usuário",
                 Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
@@ -186,7 +185,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
 
 
-            submitPanel.Controls.Add(submitButton, 3, 2);
+            submitPanel.Controls.Add(submitButton, 3, 3);
 
 
             if (Controls.OfType<SubmitPanel>().Count() != 0)
@@ -215,7 +214,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
 
 
-            submitPanel.Controls.Add(titlebox, 0, 0);
+            submitPanel.Controls.Add(titlebox, 0, 1);
 
 
             submitPanel.Controls.OfType<TitleBox>().First().GoBack += (sender, e) =>
@@ -239,7 +238,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
 
-            submitPanel.Controls.Add(nameField, 1, 0); ;
+            submitPanel.Controls.Add(nameField, 1, 1); ;
 
 
             MaterialSingleLineTextField emailField = new MaterialSingleLineTextField
@@ -256,11 +255,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
 
-            submitPanel.Controls.Add(emailField, 2, 0);
+            submitPanel.Controls.Add(emailField, 2, 1);
 
 
             TsbComboBox userTypeField = new TsbComboBox
             {
+                LabelText = "Tipo",
+                HintText = "Tipo de usuário",
                 Text = arrayList[3].ToString(),
                 Items = { "Administrador", "Corretor" },
                 ForeColor = TsbColor.neutralGray,
@@ -274,7 +275,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
 
-            submitPanel.Controls.Add(userTypeField, 1, 1);
+            submitPanel.Controls.Add(userTypeField, 1, 2);
 
 
             MaterialSingleLineTextField passwordField = new MaterialSingleLineTextField
@@ -293,10 +294,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
 
-            submitPanel.Controls.Add(passwordField, 2, 1); ;
+            submitPanel.Controls.Add(passwordField, 2, 2); ;
 
 
-            ButtonTsb submitButton = new ButtonTsb
+            ButtonTsbPrimary submitButton = new ButtonTsbPrimary
             {
                 Text = "Editar Usuário",
                 Dock = DockStyle.Top,
@@ -316,7 +317,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
 
 
-            submitPanel.Controls.Add(submitButton, 3, 2);
+            submitPanel.Controls.Add(submitButton, 3, 3);
 
 
             if (Controls.OfType<SubmitPanel>().Count() != 0)

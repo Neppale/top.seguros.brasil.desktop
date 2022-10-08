@@ -218,6 +218,34 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
             }
 
+            if (this.name == "Solicitações de apólice")
+            {
+                //dispose all controls except SideNav and appbar
+                foreach (Control control in this.FindForm().Controls)
+                {
+                    if (control is appBar || control is SideNav)
+                    {
+                        continue;
+                    }
+
+                    control.Dispose();
+                }
+
+
+                if (this.FindForm().Controls.OfType<Apolices>().Count() == 0)
+                {
+                    Apolices ApolicesPage = new Apolices("Apolices", "Gerenciamento de apólices");
+                    FindForm().Controls.Add(ApolicesPage);
+                    ApolicesPage.BringToFront();
+                    return;
+
+
+                }
+
+                return;
+
+            }
+
         }
 
         
