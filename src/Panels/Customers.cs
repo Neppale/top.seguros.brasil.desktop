@@ -12,7 +12,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
     public partial class Customers : BasePanel
     {
         private static readonly HttpClient client = new HttpClient();
-        public ArrayList selectedCustomer = new ArrayList();
+        public static ArrayList selectedCustomer = new ArrayList();
         TsbDataTable customersDataTable = new TsbDataTable();
         EngineInterpreter engineInterpreter = new EngineInterpreter(token);
         public Customers()
@@ -41,7 +41,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
 
                 if (e.ColumnIndex == customersDataTable.Columns["Editar"].Index && e.RowIndex >= 0)
-                {
+                {                    
                     for (int i = 0; i < customersDataTable.Columns.Count; i++)
                     {
                         selectedCustomer.Add(customersDataTable.SelectedRows[0].Cells[i].Value.ToString());
@@ -83,6 +83,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 customersDataTable.Columns["cep"].Visible = false;
                 customersDataTable.Columns["data_nascimento"].Visible = false;
                 customersDataTable.Columns["telefone2"].Visible = false;
+                customersDataTable.Columns["message"].Visible = false;
+                customersDataTable.Columns["status"].Visible = false;
+
             };
 
             Controls.Add(customersDataTable, 0, 7);
@@ -376,9 +379,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         
         private async Task SubmitPanelSetup<Type>(string id)
         {
+
+            EngineInterpreterResponse response;
+
+
             string address = "https://tsb-api-policy-engine.herokuapp.com/cliente/";
 
-            var response = await engineInterpreter.Request<Type>($"{address}{id}", "GET", null);
+            response = await engineInterpreter.Request<Type>($"{address}{id}", "GET", null);
 
             Cliente responseBody = response.Body;
 
@@ -396,6 +403,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             submitPanel.Controls.OfType<TitleBox>().First().GoBack += (sender, e) =>
             {
+                selectedCustomer.Clear();
                 submitPanel.Dispose();
             };
 
