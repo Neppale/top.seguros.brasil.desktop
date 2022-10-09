@@ -141,15 +141,34 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 Label.Enabled = value;
             }
         }
+        
+        public bool Currency
+        {
+            set
+            {
+                if (value)
+                {
+                    input.TextChanged += currency_TextChanged;
+                    return;
+                }
+                return;
+            }
+        }
+
+        private void currency_TextChanged(object sender, EventArgs e)
+        {
+            input.Text = string.Format("{$\\d{9}.00}");
+        }
+
 
         public TsbMaskedTextBox()
         {
-            
+            input.Culture = new System.Globalization.CultureInfo("pt-BR");
             ForeColor = TsbColor.neutralGray;
             InputPanel.Height = 100;
             InputPanel.AutoSize = true;
             InputPanel.Dock = DockStyle.Bottom;
-
+            
             InputPanel.Controls.Add(input);
             InputPanel.Controls.Add(Label);
             

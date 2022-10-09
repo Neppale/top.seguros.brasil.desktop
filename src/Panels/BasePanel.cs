@@ -16,7 +16,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class BasePanel : TableLayoutPanel
     {
-        public static int? userId { get; set; }
+        public static int userId { get; set; }
         public static string? token { get; set; }
         public string? userName { get; set; }
         public string? userEmail { get; set; }

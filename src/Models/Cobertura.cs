@@ -14,7 +14,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
         public string? valor { get; set; }
         public double? taxa_indenizacao { get; set; }
         public bool? status { get; set; }
-        public string message { get; set; }
+        public string? message { get; set; }
 
         public Cobertura(string nome, string descricao, string valor, double taxaIndenizacao, bool status)
         {

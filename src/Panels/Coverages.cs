@@ -206,7 +206,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                     nome: nameField.Text,
                     descricao: descriptionField.Text,
                     valor: priceField.Text,
-                    taxaIndenizacao: double.Parse(rateField.Text),
+                    taxaIndenizacao: int.Parse(rateField.Text),
                     status: true
                 );
 
@@ -348,7 +348,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                     nome: nameField.Text,
                     descricao: descriptionField.Text,
                     valor: priceField.Text,
-                    taxaIndenizacao: double.Parse(rateField.Text),
+                    taxaIndenizacao: int.Parse(rateField.Text),
                     status: true
                 );
 
