@@ -44,9 +44,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             {
                 policiesDataTable.Columns["id_apolice"].HeaderText = "ID";
                 policiesDataTable.Columns["nome"].HeaderText = "Nome";
-                //policiesDataTable.Columns["email"].HeaderText = "Email";
-                //policiesDataTable.Columns["tipo"].HeaderText = "Tipo";
-
+                policiesDataTable.Columns["status"].HeaderText = "Status";
+                policiesDataTable.Columns["veiculo"].HeaderText = "Veiculo";
+                policiesDataTable.Columns["tipo"].HeaderText = "Tipo de Cobertura";
 
                 policiesDataTable.Columns["data_inicio"].Visible = false;
                 policiesDataTable.Columns["data_fim"].Visible = false;

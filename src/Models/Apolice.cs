@@ -4,6 +4,8 @@
     {
         public int? id_apolice { get; set; }
         public string? nome { get; set; }
+        public string? tipo { get; set; }
+        public string? veiculo { get; set; }
         public string? data_inicio { get; set; }
         public string? data_fim { get; set; }
         public string? premio { get; set; }
