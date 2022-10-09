@@ -268,6 +268,33 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
                     FindForm().Controls.Add(CoveragesPage);
                     CoveragesPage.BringToFront();
                     return;
+                    
+                }
+
+                return;
+
+            }
+
+            if (this.name == "Solicitações de apólice")
+            {
+
+                foreach (Control control in this.FindForm().Controls)
+                {
+                    if (control is appBar || control is SideNav)
+                    {
+                        continue;
+                    }
+
+                    control.Dispose();
+                }
+
+
+                if (this.FindForm().Controls.OfType<Policies>().Count() == 0)
+                {
+                    Policies CoveragesPage = new Policies("Solicitações de apólice", "Gerenciamento de apólices.");
+                    FindForm().Controls.Add(CoveragesPage);
+                    CoveragesPage.BringToFront();
+                    return;
 
 
                 }

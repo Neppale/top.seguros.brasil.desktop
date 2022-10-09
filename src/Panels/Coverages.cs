@@ -249,7 +249,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 titleText = $"Editar Cobertura {responseBody.nome}",
                 subtitleText = "Cadastre um novo usuário. ",
                 Margin = new Padding(32),
-
             };
 
             submitPanel.Controls.Add(titlebox, 0, 1);

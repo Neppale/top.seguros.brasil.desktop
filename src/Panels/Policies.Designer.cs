@@ -1,6 +1,6 @@
 ﻿namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
-    partial class Apolices
+    partial class Policies
     {
         /// <summary>
         /// Variável de designer necessária.
