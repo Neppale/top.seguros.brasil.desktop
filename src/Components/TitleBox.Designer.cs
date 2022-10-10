@@ -79,8 +79,7 @@
             this.subTitle.Location = new System.Drawing.Point(0, 32);
             this.subTitle.Margin = new System.Windows.Forms.Padding(0);
             this.subTitle.Name = "subTitle";
-            this.subTitle.Padding = new System.Windows.Forms.Padding(29, 0, 0, 0);
-            this.subTitle.Size = new System.Drawing.Size(90, 19);
+            this.subTitle.Size = new System.Drawing.Size(61, 19);
             this.subTitle.TabIndex = 2;
             this.subTitle.Text = "subTitle";
             this.subTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

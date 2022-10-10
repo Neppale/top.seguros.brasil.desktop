@@ -150,11 +150,27 @@ namespace Top_Seguros_Brasil_Desktop
         }
     }
 
+
+
+
     public partial class ButtonTsbTertiary : Panel
     {
         TsbFont tsbFont = new TsbFont();
         Panel button = new Panel();
         Label buttonText = new Label();
+
+
+        public event EventHandler Click
+        {
+            add
+            {
+                buttonText.Click += value;
+            }
+            remove
+            {
+                buttonText.Click -= value;
+            }
+        }
 
 
         public new string Text

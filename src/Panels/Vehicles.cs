@@ -82,6 +82,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 vehiclesDataTable.Columns["modelo"].HeaderText = "Modelo";
                 vehiclesDataTable.Columns["placa"].HeaderText = "Placa";
 
+                vehiclesDataTable.Columns["editar"].Visible = false;
+                vehiclesDataTable.Columns["deletar"].Visible = false;
                 vehiclesDataTable.Columns["ano"].Visible = false;
                 vehiclesDataTable.Columns["renavam"].Visible = false;
                 vehiclesDataTable.Columns["uso"].Visible = false;
@@ -92,7 +94,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             Controls.Add(vehiclesDataTable, 0, 7);
             SetColumnSpan(vehiclesDataTable, 3);
         }
-        
         
         private async Task SubmitPanelSetup<Type>(string id)
         {
