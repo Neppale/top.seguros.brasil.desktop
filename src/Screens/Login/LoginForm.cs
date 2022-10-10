@@ -52,7 +52,6 @@ namespace Top_Seguros_Brasil_Desktop
             var response = await engineInterpreter.Request<UserLoginResponse>("https://tsb-api-policy-engine.herokuapp.com/usuario/login", "POST", data);
             UserLoginResponse responseBody = response.Body;
 
-
             if (response.StatusCode != 200) return;
 
             ManagementStage managementStage = new ManagementStage(responseBody.user.nome_completo, responseBody.user.tipo, responseBody.token);

@@ -8,8 +8,8 @@
         public string? veiculo { get; set; }
         public string? data_inicio { get; set; }
         public string? data_fim { get; set; }
-        public int? premio { get; set; }
-        public int? indenizacao { get; set; }
+        public double? premio { get; set; }
+        public double? indenizacao { get; set; }
         public int? id_cobertura { get; set; }
         public int? id_usuario { get; set; }
         public int? id_cliente { get; set; }
@@ -18,7 +18,7 @@
         public string? status { get; set; }
 
 
-        public Apolice(string dataInicio, string dataFim, int premio, int indenizacao, int idCobertura, int idUsuario, int idCliente, int idVeiculo, string status)
+        public Apolice(string dataInicio, string dataFim, double premio, double indenizacao, int idCobertura, int idUsuario, int idCliente, int idVeiculo, string status)
         {
             this.data_inicio = dataInicio;
             this.data_fim = dataFim;

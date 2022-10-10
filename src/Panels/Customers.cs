@@ -1,7 +1,9 @@
 ﻿using MaterialSkin.Controls;
+using Newtonsoft.Json;
 using System.Collections;
 using System.ComponentModel;
 using System.Net;
+using System.Text;
 using Top_Seguros_Brasil_Desktop.src.Components;
 using Top_Seguros_Brasil_Desktop.src.font;
 using Top_Seguros_Brasil_Desktop.src.Models;
@@ -12,6 +14,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
     public partial class Customers : BasePanel
     {
         private static readonly HttpClient client = new HttpClient();
+        private static int selectedItemId;
         public static ArrayList selectedCustomer = new ArrayList();
         TsbDataTable customersDataTable = new TsbDataTable();
         EngineInterpreter engineInterpreter = new EngineInterpreter(token);
@@ -92,7 +95,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             SetColumnSpan(customersDataTable, 3);
         }
         
-        private void SubmitPanelSetup()
+        private void SubmitCustomerPanelSetup()
         {
             SubmitPanel submitPanel = new SubmitPanel();
             TitleBox titlebox = new TitleBox
@@ -345,6 +348,37 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
             submitPanel.Controls.Add(continueSubmit, 2, 8);
+            
+            continueSubmit.Click += async (sender, e) =>
+            {
+                Cliente customer = new Cliente
+                (
+                    nomeCompleto: nameField.Text,
+                    email: emailField.Text,
+                    senha: "Senha123-",
+                    cpf: cpfField.Text,
+                    cnh: cnhField.Text,
+                    cep: cepField.Text,
+                    dataNascimento: dateBirthField.Text,
+                    telefone1: tel1Field.Text,
+                    telefone2: tel2Field.Text,
+                    status: true
+                );
+
+                var json = JsonConvert.SerializeObject(customer);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await engineInterpreter.Request<CustomerInsertResponse>("https://tsb-api-policy-engine.herokuapp.com/cliente/", "POST", data);
+
+                CustomerInsertResponse responseBody = response.Body;
+
+                SubmitVehiclePanelSetup(responseBody.client.id_cliente.ToString());
+
+                submitPanel.Dispose();
+
+                
+            };
+
 
             ButtonTsbTertiary cancelSubmit = new ButtonTsbTertiary
             {
@@ -375,6 +409,589 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             submitPanel.Visible = true;
 
             return;
+        }
+
+        public async void SubmitVehiclePanelSetup(string id)
+        {
+            SubmitPanel submitPanel = new SubmitPanel();
+
+            TitleBox titlebox = new TitleBox
+            {
+                Parent = submitPanel,
+                titleText = "Cadastrar Veículo",
+                subtitleText = "Cadastre um novo veículo. ",
+                Margin = new Padding(32),
+            };
+            submitPanel.Controls.Add(titlebox, 0, 1);
+
+            submitPanel.Controls.OfType<TitleBox>().First().GoBack += (sender, e) =>
+            {
+                submitPanel.Dispose();
+            };
+
+            var engineInterpreter = new EngineInterpreter(token);
+
+            var brandsResponse = await engineInterpreter.Request<IEnumerable<Marca>>("https://tsb-api-policy-engine.herokuapp.com/fipe/marcas", "GET", null);
+            IEnumerable<Marca> brandsBody = brandsResponse.Body;
+
+            TsbComboBox brandField = new TsbComboBox
+            {
+                LabelText = "Marca",
+                HintText = "Marca veículo",
+                Dock = DockStyle.Top,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+
+            foreach (Marca brand in brandsBody)
+            {
+                brandField.Items.Add(brand.nome);
+            }
+            submitPanel.Controls.Add(brandField, 1, 1);
+
+            TsbComboBox modelField = new TsbComboBox
+            {
+                LabelText = "Modelo",
+                HintText = "Modelo do veículo",
+                Dock = DockStyle.Top,
+                Enabled = false,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(modelField, 2, 1);
+
+
+            brandField.SelectedValueChanged += async (sender, e) =>
+            {
+
+                modelField.Enabled = true;
+
+                modelField.Items.Clear();
+
+                var selectedBrand = brandsBody.Where(brand => brand.nome == brandField.SelectedItem.ToString()).First();
+                var models = await engineInterpreter.Request<IEnumerable<Modelo>>($"https://tsb-api-policy-engine.herokuapp.com/fipe/marcas/{selectedBrand.codigo}/modelos", "GET", null);
+
+                IEnumerable<Modelo> modelsBody = models.Body;
+
+                foreach (Modelo model in modelsBody)
+                {
+                    modelField.Items.Add(model.nome);
+                }
+
+                modelField.SelectedItem = modelField.Items[0];
+
+            };
+
+            TsbComboBox yearField = new TsbComboBox
+            {
+                LabelText = "Ano",
+                HintText = "Ano do veículo",
+                Dock = DockStyle.Top,
+                Enabled = false,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(yearField, 1, 2);
+
+
+            modelField.SelectedValueChanged += async (sender, e) =>
+            {
+
+                yearField.Enabled = true;
+                yearField.Items.Clear();
+                var selectedBrand = brandsBody.Where(brand => brand.nome == brandField.SelectedItem.ToString()).First();
+                var models = await engineInterpreter.Request<IEnumerable<Modelo>>($"https://tsb-api-policy-engine.herokuapp.com/fipe/marcas/{selectedBrand.codigo}/modelos", "GET", null);
+
+                IEnumerable<Modelo> modelsBody = models.Body;
+
+                var selectedModel = modelsBody.Where(model => model.nome == modelField.SelectedItem.ToString()).First();
+
+                var yearsResponse = await engineInterpreter.Request<IEnumerable<Ano>>($"https://tsb-api-policy-engine.herokuapp.com/fipe/marcas/{selectedBrand.codigo}/modelos/{selectedModel.codigo}/anos", "GET", null);
+                IEnumerable<Ano> yearsBody = yearsResponse.Body;
+
+                foreach (Ano year in yearsBody)
+                {
+                    yearField.Items.Add(year.nome);
+                }
+
+                yearField.SelectedItem = yearField.Items[0];
+
+            };
+
+            TsbMaskedTextBox plateField = new TsbMaskedTextBox
+            {
+                LabelText = "Placa do veículo",
+                Mask = "AAA-0000",
+                HintText = "AAA0000",
+                Dock = DockStyle.Top,
+                Enabled = false,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(plateField, 2, 2);
+
+            yearField.SelectedValueChanged += (sender, e) =>
+            {
+                plateField.Enabled = true;
+            };
+
+
+            TsbInput renavamField = new TsbInput
+            {
+                LabelText = "RENAVAM",
+                HintText = "RENAVAM do veículo",
+                MaxLength = 11,
+                Dock = DockStyle.Top,
+                Enabled = false,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+
+            submitPanel.Controls.Add(renavamField, 1, 3);
+
+            MaterialCheckBox checkBox = new MaterialCheckBox
+            {
+                Text = "Sinistrado",
+                Dock = DockStyle.Fill,
+                Enabled = false,
+                Anchor = (AnchorStyles.Left | AnchorStyles.Bottom),
+                Location = new Point(0, 0),
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(checkBox, 2, 3);
+
+            TsbInput usageField = new TsbInput
+            {
+                LabelText = "Uso do veículo",
+                HintText = "Ex: Trabalho",
+                Dock = DockStyle.Top,
+                Enabled = false,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(usageField, 1, 4);
+            this.SetColumnSpan(usageField, 2);
+
+
+            plateField.TextChanged += (sender, e) => {
+                if (plateField.Text.Length == plateField.Mask.Length)
+                {
+                    renavamField.Enabled = true;
+                    usageField.Enabled = true;
+                    checkBox.Enabled = true;
+                }
+            };
+
+            ButtonTsbSecondary submitButton = new ButtonTsbSecondary
+            {
+                Text = "CADASTRAR VEÍCULO SEM APÓLICE",
+                Dock = DockStyle.Top,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(submitButton, 1, 5);
+            this.SetColumnSpan(submitButton, 2);
+
+            submitButton.Click += async (sender, e) =>
+            {
+                Veiculo vehicle = new Veiculo
+                (
+                    marca: brandField.SelectedItem.ToString(),
+                    modelo: modelField.SelectedItem.ToString(),
+                    ano: yearField.SelectedItem.ToString(),
+                    renavam: renavamField.Text,
+                    placa: plateField.Text,
+                    uso: usageField.Text,
+                    sinistrado: checkBox.Checked,
+                    idCliente: int.Parse(id)
+                );
+
+                var json = JsonConvert.SerializeObject(vehicle);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await engineInterpreter.Request<VehicleInsertResponse>("https://tsb-api-policy-engine.herokuapp.com/veiculo/", "POST", data);
+
+                VehicleInsertResponse responseBody = response.Body;
+
+                submitPanel.Dispose();
+
+            };
+
+
+
+            TitleBox titleboxContinue = new TitleBox
+            {
+                Parent = submitPanel,
+                GoBackable = false,
+                titleText = "Continuar Cadastrando",
+                subtitleText = "",
+                Margin = new Padding
+                {
+                    Top = 48,
+                    Bottom = 48,
+                    Left = 32,
+                    Right = 32
+                }
+
+            };
+
+            Panel divider = new Panel();
+            divider.Height = 1;
+            divider.BackColor = TsbColor.neutralWhite;
+            divider.Dock = DockStyle.Top;
+            submitPanel.Controls.Add(divider, 0, 6);
+            submitPanel.SetColumnSpan(divider, 3);
+
+            submitPanel.Controls.Add(titleboxContinue, 0, 7);
+
+            Label or = new Label
+            {
+                Text = "ou",
+                TextAlign = ContentAlignment.MiddleCenter,
+                ForeColor = TsbColor.neutralGray,
+                Font = new Font(TsbFont.TsbFonts.Families[0], 10, FontStyle.Bold),
+                Dock = DockStyle.Top,
+                Margin = new Padding
+                {
+                    Top = 48,
+                    Bottom = 48,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.SetColumnSpan(or, 2);
+            submitPanel.Controls.Add(or, 1, 7);
+
+            ButtonTsbPrimary continueSubmit = new ButtonTsbPrimary
+            {
+                Text = "CADASTRAR APÓLICE",
+                Dock = DockStyle.Top,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(continueSubmit, 2, 8);
+
+            continueSubmit.Click += async (sender, e) =>
+            {
+                Veiculo vehicle = new Veiculo
+                (
+                    marca: brandField.SelectedItem.ToString(),
+                    modelo: modelField.SelectedItem.ToString(),
+                    ano: yearField.SelectedItem.ToString(),
+                    renavam: renavamField.Text,
+                    placa: plateField.Text,
+                    uso: usageField.Text,
+                    sinistrado: checkBox.Checked,
+                    idCliente: int.Parse(id)
+
+                );
+
+                var vehicleJson = JsonConvert.SerializeObject(vehicle);
+                var vehicleData = new StringContent(vehicleJson, Encoding.UTF8, "application/json");
+
+                var vehicleResponse = await engineInterpreter.Request<VehicleInsertResponse>("https://tsb-api-policy-engine.herokuapp.com/veiculo/", "POST", vehicleData);
+
+                VehicleInsertResponse responseBody = vehicleResponse.Body;
+
+                SubmitPolicyPanelSetup(responseBody.vehicle.id_cliente.ToString(), responseBody.vehicle.id_veiculo.ToString());
+
+                submitPanel.Dispose();
+
+            };
+
+
+            ButtonTsbTertiary cancelSubmit = new ButtonTsbTertiary
+            {
+                Text = "CANCELAR",
+                Dock = DockStyle.Top,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(cancelSubmit, 1, 8);
+
+
+            if (Controls.OfType<SubmitPanel>().Count() != 0)
+            {
+                return;
+            }
+
+
+            FindForm().Controls.Add(submitPanel);
+            submitPanel.BringToFront();
+            submitPanel.Show();
+            submitPanel.Visible = true;
+
+            return;
+
+        }
+
+        private async void SubmitPolicyPanelSetup(string idCliente, string idVeiculo)
+        {
+            SubmitPanel submitPanel = new SubmitPanel();
+            TitleBox titlebox = new TitleBox
+            {
+                Parent = submitPanel,
+                titleText = "Cadastro de apólice",
+                subtitleText = "Dados gerais da apólice do veículo.",
+                Margin = new Padding(32),
+
+            };
+            submitPanel.Controls.Add(titlebox, 0, 1);
+
+            submitPanel.Controls.OfType<TitleBox>().First().GoBack += (sender, e) =>
+            {
+                submitPanel.Dispose();
+            };
+
+            TsbMaskedTextBox rewardField = new TsbMaskedTextBox
+            {
+                LabelText = "Prêmio",
+                ForeColor = TsbColor.neutralGray,
+                Dock = DockStyle.Top,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(rewardField, 1, 1);
+
+            TsbMaskedTextBox indemnField = new TsbMaskedTextBox
+            {
+                LabelText = "Indenização",
+                ForeColor = TsbColor.neutralGray,
+                Dock = DockStyle.Top,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(indemnField, 2, 1);
+
+            var engineInterpreter = new EngineInterpreter(token);
+            var coverages = await engineInterpreter.Request<IEnumerable<Cobertura>>("https://tsb-api-policy-engine.herokuapp.com/cobertura/", "GET", null);
+
+            IEnumerable<Cobertura> coveragesList = coverages.Body;
+
+
+            TsbComboBox coverageField = new TsbComboBox
+            {
+                LabelText = "Cobertura",
+                HintText = "Tipo de cobertura",
+                Dock = DockStyle.Top,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            foreach (Cobertura coverage in coveragesList)
+            {
+                coverageField.Items.Add(coverage.nome + " - " + coverage.valor + "/mês");
+            }
+            submitPanel.Controls.Add(coverageField, 1, 2);
+            this.SetColumnSpan(coverageField, 2);
+
+
+            TsbInput descriptionField = new TsbInput
+            {
+                LabelText = "Descrição da cobertura",
+                HintText = $"",
+                MaxLength = 11,
+                Dock = DockStyle.Top,
+                Enabled = false,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+
+
+
+            coverageField.SelectedValueChanged += async (sender, e) =>
+            {
+
+                string itemNameSplited = coverageField.SelectedItem.ToString().Split()[0];
+
+                var selectedCoverage = coveragesList.Where(brand => brand.nome == itemNameSplited);
+
+                selectedItemId = coveragesList.First().id_cobertura;
+
+                descriptionField.Text = selectedCoverage.First().descricao;
+
+            };
+            submitPanel.Controls.Add(descriptionField, 1, 3);
+            this.SetColumnSpan(descriptionField, 2);
+
+            DateTime dateTime = DateTime.Now;
+
+            TsbMaskedTextBox startDateField = new TsbMaskedTextBox
+            {
+                LabelText = "Data de Início",
+                Mask = "00/00/0000",
+                HintText = dateTime.Day.ToString() + dateTime.Month.ToString() + dateTime.Year.ToString(),
+                ForeColor = TsbColor.neutralGray,
+                Dock = DockStyle.Top,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(startDateField, 1, 4);
+
+            TsbMaskedTextBox endDateField = new TsbMaskedTextBox
+            {
+                LabelText = "Data de Fim",
+                Mask = "00/00/0000",
+                HintText = dateTime.Day.ToString() + dateTime.Month.ToString() + dateTime.Year.ToString(),
+                ForeColor = TsbColor.neutralGray,
+                Dock = DockStyle.Top,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(endDateField, 2, 4);
+
+            ButtonTsbPrimary continueSubmit = new ButtonTsbPrimary
+            {
+                Text = "CADASTRAR APÓLICE",
+                Dock = DockStyle.Top,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(continueSubmit, 2, 8);
+
+
+            continueSubmit.Click += async (sender, e) =>
+            {
+                Apolice policy = new Apolice
+                (
+                    dataInicio: startDateField.Text,
+                    dataFim: endDateField.Text,
+                    premio: int.Parse(rewardField.Text),
+                    indenizacao: int.Parse(indemnField.Text),
+                    idCobertura: selectedItemId,
+                    idUsuario: userId,
+                    idCliente: int.Parse(idCliente),
+                    idVeiculo: int.Parse(idVeiculo),
+                    status: "Em análise"
+                );
+
+                var policyJson = JsonConvert.SerializeObject(policy);
+                var policyData = new StringContent(policyJson, Encoding.UTF8, "application/json");
+
+                var policyResponse = await engineInterpreter.Request<PolicyInsertResponse>("https://tsb-api-policy-engine.herokuapp.com/apolice/", "POST", policyData);
+
+                PolicyInsertResponse responseBody = policyResponse.Body;
+
+                MessageBox.Show(responseBody.message);
+
+                submitPanel.Dispose();
+            };
+
+
+
+            ButtonTsbTertiary cancelSubmit = new ButtonTsbTertiary
+            {
+                Text = "CANCELAR",
+                Dock = DockStyle.Top,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+            submitPanel.Controls.Add(cancelSubmit, 1, 8);
+
+
+            if (Controls.OfType<SubmitPanel>().Count() != 0)
+            {
+                return;
+            }
+
+
+            FindForm().Controls.Add(submitPanel);
+            submitPanel.BringToFront();
+            submitPanel.Show();
+            submitPanel.Visible = true;
+
+            return;
+
         }
         
         private async Task SubmitPanelSetup<Type>(string id)
@@ -616,10 +1233,19 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         protected async Task PostCustomer(Cliente customerData, EventHandler? e)
         {
-            await customersDataTable.Post<CustomerInsertResponse>(customerData);
+            EngineInterpreter engineInterpreter = new EngineInterpreter(token);
+
+            var json = JsonConvert.SerializeObject(customerData);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await engineInterpreter.Request<CustomerInsertResponse>("https://tsb-api-policy-engine.herokuapp.com/cliente/", "POST", data);
+
+            CustomerInsertResponse responseBody = response.Body;
+
             Controls.Remove(customersDataTable);
             GetCustomers();
         }
+
 
         public Customers(IContainer container)
         {
@@ -630,13 +1256,27 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         private void PutButton_Click(object? sender, EventArgs? e)
         {
-            SubmitPanelSetup();
+            SubmitCustomerPanelSetup();
         }
     }
 }
 
 public class CustomerInsertResponse
 {
-    public Cliente? cliente { get; set; }
+    public Cliente? client { get; set; }
     public string? message { get; set; }
+}
+
+public class VehicleInsertResponse
+{
+    public string? message { get; set; }
+    public Veiculo? vehicle { get; set; }
+    
+}
+
+public class PolicyInsertResponse
+{
+    public Apolice? policy { get; set; }
+    public string? message { get; set; }
+
 }

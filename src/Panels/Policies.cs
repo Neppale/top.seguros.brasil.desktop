@@ -29,13 +29,25 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         public Policies(string pageTitle, string subtitle)
         {
-            ButtonTsbPrimary putButton = new ButtonTsbPrimary();
-            this.Controls.Add(putButton, 2, 9);
 
-            putButton.Dock = DockStyle.Top;
-            putButton.Margin = new Padding(32);
-            putButton.Text = "Adicionar Apolice";
-            putButton.Click += PutButton_Click;
+            this.policiesDataTable.CellClick += async (sender, e) =>
+            {
+
+                if (e.RowIndex < 0)
+                {
+                    return;
+                }
+
+                if (e.ColumnIndex == policiesDataTable.Columns["Editar"].Index && e.RowIndex >= 0)
+                {
+                    for (int i = 0; i < policiesDataTable.Columns.Count; i++)
+                    {
+                        selectedPolicy.Add(policiesDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                    }
+                    await SubmitPanelSetup<Apolice>(selectedPolicy[0].ToString());
+                }
+
+            };
 
             InitializeComponent();
 
@@ -281,6 +293,81 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         }
 
+        private async Task SubmitPanelSetup<Type>(string id)
+        {
+            EngineInterpreterResponse response;
+
+            string address = $"https://tsb-api-policy-engine.herokuapp.com/apolice/{id}";
+
+            response = await engineInterpreter.Request<Type>(address, "GET", null);
+
+            PolicyRequestResponse requestResponse = response.Body;
+
+            SubmitPanel submitPanel = new SubmitPanel();
+            TitleBox titlebox = new TitleBox
+            {
+                Parent = submitPanel,
+                titleText = "Solicitações de apólice",
+                subtitleText = "Gerenciamento de solicitações de apólice.",
+                Margin = new Padding(32),
+
+            };
+            submitPanel.Controls.Add(titlebox, 0, 1);
+
+            Panel divider = new Panel();
+            divider.Height = 1;
+            divider.BackColor = TsbColor.neutralWhite;
+            divider.Dock = DockStyle.Top;
+            submitPanel.Controls.Add(divider, 0, 6);
+            submitPanel.SetColumnSpan(divider, 3);
+
+            TitleBox customerDataTitle = new TitleBox
+            {
+                Parent = submitPanel,
+                titleText = "Dados do cliente",
+                subtitleText = "Dados gerais sobre o cliente",
+                Margin = new Padding(32),
+
+            };
+            submitPanel.Controls.Add(customerDataTitle, 0, 2);
+
+            TitleBox nameField = new TitleBox
+            {
+                Parent = submitPanel,
+                titleText = "Nome completo",
+                FontSize = 16,
+                subtitleText = requestResponse.cliente.nome_completo,
+                Margin = new Padding(32),
+
+            };
+            submitPanel.Controls.Add(nameField, 1, 2);
+
+            TitleBox birthDateField = new TitleBox
+            {
+                Parent = submitPanel,
+                titleText = "Data de nascimento",
+                FontSize = 16,
+                subtitleText = requestResponse.cliente.data_nascimento,
+                Margin = new Padding(32),
+
+            };
+            submitPanel.Controls.Add(birthDateField, 2, 2);
+
+            if (Controls.OfType<SubmitPanel>().Count() != 0)
+            {
+                return;
+            }
+
+
+            FindForm().Controls.Add(submitPanel);
+            submitPanel.BringToFront();
+            submitPanel.Show();
+            submitPanel.Visible = true;
+
+            return;
+
+        }
+
         protected async Task PostPolicy(Apolice policyData, EventHandler? e)
         {
             var engineInterpreter = new EngineInterpreter(token);
@@ -295,10 +382,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             GetPolicies();
         }
 
-        private void PutButton_Click(object? sender, EventArgs? e)
-        {
-            SubmitPanelSetup("1", "1");
-        }
 
         public Policies(IContainer container)
         {
@@ -306,5 +389,17 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             InitializeComponent();
         }
+    }   
+    
+    public class PolicyRequestResponse
+    {
+        public int indenizacao { get; set; }
+        public Cobertura cobertura { get; set; }
+        public Usuario usuario { get; set; }
+        public Cliente cliente { get; set; }
+        public Veiculo veiculo { get; set; }
+        public string status { get; set; }
+        public string? message { get; set; }
     }
+    
 }

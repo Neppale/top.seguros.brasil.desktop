@@ -16,6 +16,17 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
         }
 
+        public int FontSize
+        {
+
+            set
+            {
+
+                title.Font = new Font(TsbFont.TsbFonts.Families[0], value, FontStyle.Bold);
+                
+            }
+        }
+
         public string subtitleText
         {
             get
