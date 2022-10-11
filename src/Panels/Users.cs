@@ -14,7 +14,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
     {
 
         private static readonly HttpClient client = new HttpClient();
-        public static string deleteMessage;
         public ArrayList selectedUser = new ArrayList();
         TsbDataTable usersDataTable = new TsbDataTable();
         EngineInterpreter engineInterpreter = new EngineInterpreter(token);
@@ -24,9 +23,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         }
 
-        public Users(string pageTitle, string subTitle)
+        public Users(string pageTitle, string subtitle)
         {
-            ButtonTsb putButton = new ButtonTsb();
+            ButtonTsbPrimary putButton = new ButtonTsbPrimary();
             this.Controls.Add(putButton, 2, 9);
 
             MaterialSingleLineTextField userSearchBox = new MaterialSingleLineTextField
@@ -36,11 +35,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 Dock = DockStyle.Top,
                 Margin = new Padding(32),
-                BackgroundImage = searchIconPath,
-                BackgroundImageLayout = ImageLayout.Zoom,
-
-
             };
+            
             this.usersDataTable.CellClick += async (sender, e) =>
             {
                 
@@ -55,24 +51,22 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                     {
                         selectedUser.Add(usersDataTable.SelectedRows[0].Cells[i].Value.ToString());
                     }
-                    //string selectedId = usersDataTable.SelectedRows[0].Cells[1].Value.ToString();
-
                     await SubmitPanelSetup(selectedUser);
                 }
                 
             };
 
-            this.Controls.Add(userSearchBox, 0, 5); ;
+            this.Controls.Add(userSearchBox, 0, 5);
             putButton.Dock = DockStyle.Top;
             putButton.Margin = new Padding(32);
-            putButton.changeButtonText("Adicionar Usuário");
+            putButton.Text = "Adicionar Usuário";
             putButton.Click += PutButton_Click;
 
-            SubTitle(subTitle);
+            SubTitle(subtitle);
             Title(pageTitle);
             InitializeComponent();
 
-            Get();
+            GetUsers();
         }
 
         private void SubmitPanelSetup()
@@ -88,7 +82,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
 
 
-            submitPanel.Controls.Add(titlebox, 0, 0);
+            submitPanel.Controls.Add(titlebox, 0, 1);
 
 
             submitPanel.Controls.OfType<TitleBox>().First().GoBack += (sender, e) =>
@@ -97,83 +91,88 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
 
 
-            MaterialSingleLineTextField nameField = new MaterialSingleLineTextField
+            TsbInput nameField = new TsbInput
             {
-                Hint = "Nome Completo",
+                LabelText = "Nome completo",
+                HintText = "Nome Completo do usuário aqui",
                 ForeColor = TsbColor.neutralGray,
-                Dock = DockStyle.Bottom,
+                Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
             };
 
-            submitPanel.Controls.Add(nameField, 1, 0); ;
+            submitPanel.Controls.Add(nameField, 1, 1); ;
 
 
-            MaterialSingleLineTextField emailField = new MaterialSingleLineTextField
+            TsbInput emailField = new TsbInput
             {
-                Hint = "Email",
+                LabelText = "Email",
+                HintText = "Email do usuário aqui",
                 ForeColor = TsbColor.neutralGray,
-                Dock = DockStyle.Bottom,
+                Dock = DockStyle.Top,
+                Width = 331,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
             };
 
-            submitPanel.Controls.Add(emailField, 2, 0);
+            submitPanel.Controls.Add(emailField, 2, 1);
 
 
             TsbComboBox userTypeField = new TsbComboBox
             {
-                Text = "Tipo de usuário",
+                LabelText = "Tipo",
+                HintText = "Tipo de usuário",
                 Items = { "Administrador", "Corretor" },
                 ForeColor = TsbColor.neutralGray,
-                Dock = DockStyle.Bottom,
+                Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
             };
 
-            submitPanel.Controls.Add(userTypeField, 1, 1);
+            submitPanel.Controls.Add(userTypeField, 1, 2);
 
 
-            MaterialSingleLineTextField passwordField = new MaterialSingleLineTextField
+            TsbInput passwordField = new TsbInput
             {
-                Hint = "Senha",
+                LabelText = "Senha",
+                HintText = "Senha do usuário",
                 ForeColor = TsbColor.neutralGray,
-                Dock = DockStyle.Bottom,
+                Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
             };
 
-            submitPanel.Controls.Add(passwordField, 2, 1); ;
+            submitPanel.Controls.Add(passwordField, 2, 2); ;
 
 
-            ButtonTsb submitButton = new ButtonTsb
+            ButtonTsbPrimary submitButton = new ButtonTsbPrimary
             {
                 Text = "Cadastrar Usuário",
                 Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
@@ -182,11 +181,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             submitButton.Click += async (sender, e) =>
             {
                 Usuario usuario = new Usuario(nomeCompleto: nameField.Text, email: emailField.Text, tipo: userTypeField.Text, senha: passwordField.Text, status: true);
-                await Post(usuario, null);
+                await PostUser(usuario, null);
             };
 
 
-            submitPanel.Controls.Add(submitButton, 3, 2);
+            submitPanel.Controls.Add(submitButton, 3, 3);
 
 
             if (Controls.OfType<SubmitPanel>().Count() != 0)
@@ -215,7 +214,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
 
 
-            submitPanel.Controls.Add(titlebox, 0, 0);
+            submitPanel.Controls.Add(titlebox, 0, 1);
 
 
             submitPanel.Controls.OfType<TitleBox>().First().GoBack += (sender, e) =>
@@ -239,7 +238,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
 
-            submitPanel.Controls.Add(nameField, 1, 0); ;
+            submitPanel.Controls.Add(nameField, 1, 1); ;
 
 
             MaterialSingleLineTextField emailField = new MaterialSingleLineTextField
@@ -256,11 +255,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
 
-            submitPanel.Controls.Add(emailField, 2, 0);
+            submitPanel.Controls.Add(emailField, 2, 1);
 
 
             TsbComboBox userTypeField = new TsbComboBox
             {
+                LabelText = "Tipo",
+                HintText = "Tipo de usuário",
                 Text = arrayList[3].ToString(),
                 Items = { "Administrador", "Corretor" },
                 ForeColor = TsbColor.neutralGray,
@@ -274,7 +275,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
 
-            submitPanel.Controls.Add(userTypeField, 1, 1);
+            submitPanel.Controls.Add(userTypeField, 1, 2);
 
 
             MaterialSingleLineTextField passwordField = new MaterialSingleLineTextField
@@ -293,10 +294,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
 
-            submitPanel.Controls.Add(passwordField, 2, 1); ;
+            submitPanel.Controls.Add(passwordField, 2, 2); ;
 
 
-            ButtonTsb submitButton = new ButtonTsb
+            ButtonTsbPrimary submitButton = new ButtonTsbPrimary
             {
                 Text = "Editar Usuário",
                 Dock = DockStyle.Top,
@@ -312,11 +313,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             submitButton.Click += async (sender, e) =>
             {
                 Usuario usuario = new Usuario(nomeCompleto: nameField.Text, email: emailField.Text, tipo: userTypeField.Text, senha: "Senha123-", status: true);
-                await Put(usuario, selectedUser[0].ToString());
+                await PutUser(usuario, selectedUser[0].ToString());
             };
 
 
-            submitPanel.Controls.Add(submitButton, 3, 2);
+            submitPanel.Controls.Add(submitButton, 3, 3);
 
 
             if (Controls.OfType<SubmitPanel>().Count() != 0)
@@ -338,7 +339,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             SubmitPanelSetup();
         }
 
-        protected async void Get()
+        protected async void GetUsers()
         {
 
             await usersDataTable.Get<Usuario>("https://tsb-api-policy-engine.herokuapp.com/usuario/");
@@ -357,17 +358,17 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             SetColumnSpan(usersDataTable, 3);
         }
 
-        protected async Task Post(Usuario userData, EventHandler? e)
+        protected async Task PostUser(Usuario userData, EventHandler? e)
         {
 
             await usersDataTable.Post<UserInsertResponse>(userData);
 
             Controls.Remove(usersDataTable);
 
-            Get();
+            GetUsers();
         }
         
-        protected async Task Put(Usuario userData, string id)
+        protected async Task PutUser(Usuario userData, string id)
         {
             await usersDataTable.Put<Usuario>(userData, id);
         }

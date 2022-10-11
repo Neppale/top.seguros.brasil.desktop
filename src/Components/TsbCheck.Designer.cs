@@ -1,6 +1,6 @@
-﻿namespace Top_Seguros_Brasil_Desktop.src.Panels
+﻿namespace Top_Seguros_Brasil_Desktop.src.Components
 {
-    partial class Apolices
+    partial class TsbCheck
     {
         /// <summary>
         /// Variável de designer necessária.

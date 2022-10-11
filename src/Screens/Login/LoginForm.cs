@@ -35,7 +35,7 @@ namespace Top_Seguros_Brasil_Desktop
             emailInput.Location = new System.Drawing.Point(555, 584);
             passwordInput.Location = new System.Drawing.Point(555, 672);
             illustrationLogin.Location = new System.Drawing.Point(592, 280);
-            buttonLogin.changeButtonText("Entrar");
+            buttonLogin.Text = "ENTRAR";
             buttonLogin.Enabled = false;
         }
         
@@ -52,14 +52,14 @@ namespace Top_Seguros_Brasil_Desktop
             var response = await engineInterpreter.Request<UserLoginResponse>("https://tsb-api-policy-engine.herokuapp.com/usuario/login", "POST", data);
             UserLoginResponse responseBody = response.Body;
 
-
             if (response.StatusCode != 200) return;
 
             ManagementStage managementStage = new ManagementStage(responseBody.user.nome_completo, responseBody.user.tipo, responseBody.token);
 
 
-            BasePanel basePanel = new BasePanel(responseBody.user.nome_completo, responseBody.user.tipo);
+            BasePanel basePanel = new BasePanel(responseBody.user.nome_completo, responseBody.user.tipo, responseBody.user.id_usuario, responseBody.user.email);
             BasePanel.token = responseBody.token;
+            BasePanel.userId = responseBody.user.id_usuario;
 
 
 

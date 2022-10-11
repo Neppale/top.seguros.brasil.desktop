@@ -16,9 +16,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class BasePanel : TableLayoutPanel
     {
-
+        public static int userId { get; set; }
         public static string? token { get; set; }
         public string? userName { get; set; }
+        public string? userEmail { get; set; }
         public string? userType { get; set; }
 
         public Label pageTitleLabel = new Label();
@@ -113,10 +114,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             
         }
 
-        public BasePanel(string name, string type)
+        public BasePanel(string name, string type, int id, string email)
         {
             this.userName = name;
             this.userType = type;
+            this.userEmail = email;
             InitializeComponent();
         }
 

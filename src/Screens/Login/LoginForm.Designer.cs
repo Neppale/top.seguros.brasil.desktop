@@ -33,7 +33,7 @@
             this.passwordInput = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.emailInput = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
-            this.buttonLogin = new Top_Seguros_Brasil_Desktop.ButtonTsb(this.components);
+            this.buttonLogin = new Top_Seguros_Brasil_Desktop.ButtonTsbPrimary(this.components);
             this.illustrationLogin = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.illustrationLogin)).BeginInit();
@@ -140,7 +140,7 @@
         private MaterialSkin.Controls.MaterialSingleLineTextField passwordInput;
         private MaterialSkin.Controls.MaterialSingleLineTextField emailInput;
         private PictureBox pictureBoxLogo;
-        private ButtonTsb buttonLogin;
+        private ButtonTsbPrimary buttonLogin;
         private PictureBox illustrationLogin;
     }
 }

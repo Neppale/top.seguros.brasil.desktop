@@ -35,11 +35,28 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             this.AutoSize = true;
             this.Dock = DockStyle.Fill;
             this.ColumnCount = 3;
+
+            Panel divider = new Panel();
+
+            divider.Height = 1;
+            divider.BackColor = TsbColor.neutralWhite;
+            divider.Dock = DockStyle.Top;
+            this.Controls.Add(divider, 0, 0);
+            this.SetColumnSpan(divider, 3);
+
             this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
             this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
             this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
-
-        
+            
+            this.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            this.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            this.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            this.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            this.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            this.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            this.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            this.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            this.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
 
             InitializeComponent();
