@@ -784,8 +784,21 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 await using var s = await client.GetStreamAsync(uri);
 
-                await using var file = File.Create($"{requestResponse.cliente.nome_completo}-apolice.pdf");
-                await s.CopyToAsync(file);
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
+                saveFileDialog.FilterIndex = 1;
+                saveFileDialog.RestoreDirectory = true;
+                saveFileDialog.FileName = requestResponse.cliente.nome_completo + "-apolice.pdf";
+
+                
+
+                if(saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    await using var file = File.Create(saveFileDialog.FileName);
+                    await s.CopyToAsync(file);
+
+                    await using var donwloadedFile = File.Open(saveFileDialog.FileName, FileMode.Open);
+                }
 
 
             };
