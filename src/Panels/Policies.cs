@@ -19,13 +19,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Policies : BasePanel
     {
-
         private static readonly HttpClient client = new HttpClient();
         private static int selectedItemId;
         public ArrayList selectedPolicy = new ArrayList();
         TsbDataTable policiesDataTable = new TsbDataTable();
         EngineInterpreter engineInterpreter = new EngineInterpreter(token);
-
+            
         public Policies()
         {
             
@@ -790,17 +789,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 saveFileDialog.RestoreDirectory = true;
                 saveFileDialog.FileName = requestResponse.cliente.nome_completo + "-apolice.pdf";
 
-                
-
                 if(saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     await using var file = File.Create(saveFileDialog.FileName);
                     await s.CopyToAsync(file);
-
-                    await using var donwloadedFile = File.Open(saveFileDialog.FileName, FileMode.Open);
                 }
-
-
             };
             
 
@@ -940,7 +933,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             GetPolicies();
         }
 
-
         public Policies(IContainer container)
         {
             container.Add(this);
@@ -968,7 +960,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
     }
     
-
     public class PolicyToGenerate
     {
         public int id_cliente { get; set; }
