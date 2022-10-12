@@ -777,22 +777,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             submitButton.Click += async (sender, e) =>
             {
 
-                PolicyToGenerate policy = new PolicyToGenerate {
-                    id_cliente = requestResponse.cliente.id_cliente,
-                    id_cobertura = requestResponse.cobertura.id_cobertura,
-                    id_veiculo = requestResponse.veiculo.id_veiculo,
-                };
-
-                var json = JsonConvert.SerializeObject(policy);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-
-                EngineInterpreter engineInterpreter = new EngineInterpreter(token);
-                var policyCreateResponse = await engineInterpreter.Request<EnrichedPolicy>("https://tsb-api-policy-engine.herokuapp.com/apolice/gerar/", "POST", data);
-
-                EnrichedPolicy enriched = policyCreateResponse.Body;
-
-                MessageBox.Show(enriched.message);
-
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
