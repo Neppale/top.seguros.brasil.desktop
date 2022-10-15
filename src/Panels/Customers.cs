@@ -20,6 +20,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         public Apolice policyDetails;
         TsbDataTable customersDataTable = new TsbDataTable();
         EngineInterpreter engineInterpreter = new EngineInterpreter(token);
+        
         public Customers()
         {
         }
@@ -527,7 +528,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 yearField.Enabled = true;
                 yearField.Items.Clear();
+                
                 var selectedBrand = brandsBody.Where(brand => brand.nome == brandField.SelectedItem.ToString()).First();
+                
                 var models = await engineInterpreter.Request<IEnumerable<Modelo>>($"https://tsb-api-policy-engine.herokuapp.com/fipe/marcas/{selectedBrand.codigo}/modelos", "GET", null);
 
                 IEnumerable<Modelo> modelsBody = models.Body;
@@ -1894,8 +1897,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             Controls.Remove(customersDataTable);
             GetCustomers();
         }
-
-        
 
         public Customers(IContainer container)
         {

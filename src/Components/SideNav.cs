@@ -207,7 +207,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
                 if (this.FindForm().Controls.OfType<Incidents>().Count() == 0)
                 {
-                    Incidents IncidentsPage = new Incidents();
+                    Incidents IncidentsPage = new Incidents("Ocorrências", "Gerenciamento de Ocorrências");
                     FindForm().Controls.Add(IncidentsPage);
                     IncidentsPage.BringToFront();
                     return;

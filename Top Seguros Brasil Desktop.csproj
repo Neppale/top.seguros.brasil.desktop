@@ -13,6 +13,8 @@
     <PackageReference Include="MaterialSkin.Updated" Version="0.2.2" />
     <PackageReference Include="Microsoft.Build.Framework" Version="17.3.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="RestSharp" Version="108.0.2" />
+    <PackageReference Include="Uno.UI" Version="4.5.14" />
   </ItemGroup>
 
   <ItemGroup>
