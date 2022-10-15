@@ -19,13 +19,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Policies : BasePanel
     {
-
         private static readonly HttpClient client = new HttpClient();
         private static int selectedItemId;
         public ArrayList selectedPolicy = new ArrayList();
         TsbDataTable policiesDataTable = new TsbDataTable();
         EngineInterpreter engineInterpreter = new EngineInterpreter(token);
-
+            
         public Policies()
         {
             
@@ -777,22 +776,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             submitButton.Click += async (sender, e) =>
             {
 
-                PolicyToGenerate policy = new PolicyToGenerate {
-                    id_cliente = requestResponse.cliente.id_cliente,
-                    id_cobertura = requestResponse.cobertura.id_cobertura,
-                    id_veiculo = requestResponse.veiculo.id_veiculo,
-                };
-
-                var json = JsonConvert.SerializeObject(policy);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-
-                EngineInterpreter engineInterpreter = new EngineInterpreter(token);
-                var policyCreateResponse = await engineInterpreter.Request<EnrichedPolicy>("https://tsb-api-policy-engine.herokuapp.com/apolice/gerar/", "POST", data);
-
-                EnrichedPolicy enriched = policyCreateResponse.Body;
-
-                MessageBox.Show(enriched.message);
-
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -800,10 +783,17 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 await using var s = await client.GetStreamAsync(uri);
 
-                await using var file = File.Create($"{requestResponse.cliente.nome_completo}-apolice.pdf");
-                await s.CopyToAsync(file);
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
+                saveFileDialog.FilterIndex = 1;
+                saveFileDialog.RestoreDirectory = true;
+                saveFileDialog.FileName = requestResponse.cliente.nome_completo + "-apolice.pdf";
 
-
+                if(saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    await using var file = File.Create(saveFileDialog.FileName);
+                    await s.CopyToAsync(file);
+                }
             };
             
 
@@ -943,7 +933,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             GetPolicies();
         }
 
-
         public Policies(IContainer container)
         {
             container.Add(this);
@@ -971,7 +960,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
     }
     
-
     public class PolicyToGenerate
     {
         public int id_cliente { get; set; }

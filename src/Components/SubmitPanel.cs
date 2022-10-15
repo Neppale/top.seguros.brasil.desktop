@@ -13,7 +13,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 {
     public partial class SubmitPanel : TableLayoutPanel
     {
-
+        
         public SubmitPanel() 
         {
             this.Size = new Size(1173, 909);

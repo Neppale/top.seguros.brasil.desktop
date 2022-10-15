@@ -126,6 +126,18 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
         }
 
+        public event EventHandler Dropdown
+        {
+            add
+            {
+                input.DropDown += value;
+            }
+            remove
+            {
+                input.DropDown -= value;
+            }
+        }
+
         public event EventHandler SelectedValueChanged
         {
             add
@@ -159,8 +171,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             InputPanel.Height = 100;
             InputPanel.AutoSize = true;
             InputPanel.Dock = DockStyle.Bottom;
-            
 
+            
+            input.AutoCompleteMode = AutoCompleteMode.Append;
             InputPanel.Controls.Add(input);
             InputPanel.Controls.Add(Label);
             Controls.Add(InputPanel);

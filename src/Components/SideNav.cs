@@ -207,7 +207,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
                 if (this.FindForm().Controls.OfType<Incidents>().Count() == 0)
                 {
-                    Incidents IncidentsPage = new Incidents();
+                    Incidents IncidentsPage = new Incidents("Ocorrências", "Gerenciamento de Ocorrências");
                     FindForm().Controls.Add(IncidentsPage);
                     IncidentsPage.BringToFront();
                     return;
@@ -294,6 +294,34 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
                     Policies CoveragesPage = new Policies("Solicitações de apólice", "Gerenciamento de apólices.");
                     FindForm().Controls.Add(CoveragesPage);
                     CoveragesPage.BringToFront();
+                    return;
+
+
+                }
+
+                return;
+
+            }
+
+            if (this.name == "Terceirizados")
+            {
+
+                foreach (Control control in this.FindForm().Controls)
+                {
+                    if (control is appBar || control is SideNav)
+                    {
+                        continue;
+                    }
+
+                    control.Dispose();
+                }
+
+
+                if (this.FindForm().Controls.OfType<Policies>().Count() == 0)
+                {
+                    Outsourced OutsourcedPage = new Outsourced("Terceirizados", "Gerenciamento de serviços terceirizados.");
+                    FindForm().Controls.Add(OutsourcedPage);
+                    OutsourcedPage.BringToFront();
                     return;
 
 
