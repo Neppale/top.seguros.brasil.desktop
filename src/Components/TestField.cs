@@ -4,37 +4,37 @@
     {
         public TestField()
         {
-
-            this.Controls.Add(new TsbInput
+            this.Controls.Add(new ButtonTsbPrimary 
             {
-                Location = new Point(0, 50),
-                HintText = "Email do usuário aqui",
-                LabelText = "Email",
-                ForeColor = TsbColor.neutralGray,
-                Dock = DockStyle.Top
+                Text = "Primario",
+                Location = new Point(10, 10)
             });
 
-
-            this.Controls.Add(new TsbInput
+            this.Controls.Add(new ButtonTsbSecondary
             {
-                Location = new Point(0, 50),
-                HintText = "Nome completo do usuário aqui",
-                LabelText = "Nome completo",
-                Dock = DockStyle.Top
+                Text = "Secundário",
+                Location = new Point(10, 80)
             });
 
-            this.Controls.Add(new TsbComboBox
+            this.Controls.Add(new ButtonTsbTertiary
             {
-                Location = new Point(0, 50),
-                HintText = "Itens",
-                LabelText = "Teste combobox",
-                
-                Dock = DockStyle.Top
+                Text = "Terciário",
+                Location = new Point(10, 160)
             });
-            InitializeComponent();
+
         }
 
         private void TestField_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tsbSearchBox1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
         {
 
         }

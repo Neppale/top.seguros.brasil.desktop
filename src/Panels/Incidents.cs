@@ -30,6 +30,8 @@ using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
 using System.Windows.Markup;
 using Windows.Security.Authentication.Identity.Core;
+using System.Data;
+using System.Text.Json.Nodes;
 
 namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
@@ -46,7 +48,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             InitializeComponent();
         }
 
-
         public Incidents(string pageTitle, string subtitle)
         {
             ButtonTsbPrimary putButton = new ButtonTsbPrimary();
@@ -59,6 +60,29 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 Dock = DockStyle.Top,
                 Margin = new Padding(32),
             };
+
+            ButtonTsbPrimary nextPage = new ButtonTsbPrimary
+            {
+                Text = "Próxima página",
+                Dock = DockStyle.Top,
+                Margin = new Padding(32),
+            };
+
+            this.Controls.Add(nextPage, 1, 9);
+
+            int pageNumber = 0;
+            
+            nextPage.Click += async (sender, e) =>
+            {
+                pageNumber++;
+                await incidentsDataTable.ChangeToPage<Ocorrencia>(pageNumber);
+            };
+
+            customerSearchBox.TextChanged += (sender, e) =>
+            {
+                //incidentsDataTable.SearchData("Nome", customerSearchBox.Text);
+            };
+            
 
             this.incidentsDataTable.CellClick += async (sender, e) =>
             {
@@ -84,9 +108,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             putButton.Margin = new Padding(32);
             putButton.Text = "ADICIONAR OCORRÊNCIA";
             putButton.Click += PutButton_Click;
-
-
-
             
 
             SubTitle(subtitle);
@@ -96,7 +117,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             GetIncidents();
         }
 
-        
         private async void SubmitPanelSetup()
         {
             var customers = await engineInterpreter.Request<IEnumerable<Cliente>>("https://tsb-api-policy-engine.herokuapp.com/cliente/", "GET", null);
@@ -1070,16 +1090,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 incidentsDataTable.Columns["editar"].Visible = false;
                 incidentsDataTable.Columns["id_terceirizado"].Visible = false;
 
-                DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
-                btn.HeaderText = "Detalhes";
-                btn.Text = "Detalhes";
-                btn.Name = "Detalhes";
-                btn.FlatStyle = FlatStyle.Flat;
-                btn.UseColumnTextForButtonValue = true;
-                incidentsDataTable.Columns.Add(btn);
-
-
             };
+
+            
 
             Controls.Add(incidentsDataTable, 0, 7);
             SetColumnSpan(incidentsDataTable, 3);
@@ -1104,5 +1117,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         public Ocorrencia incident { get; set; }
     }
 
-
+    public class IncidentDataResponse
+    { 
+        public IEnumerable<Ocorrencia[]> data { get; init; }
+        public int totalPages { get; set; }
+    
+    }
 }

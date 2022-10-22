@@ -10,7 +10,86 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\logo\tsb-logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\titleBox\arrow_back_ios_black_24dp.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\vehicles.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\users.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\task_FILL0_wght400_GRAD0_opsz48 1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\support_agent_FILL0_wght400_GRAD0_opsz48 1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\policys.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\outsourced.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\orange.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\incident.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\health_and_safety_FILL0_wght400_GRAD0_opsz48 1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\group_add_FILL0_wght400_GRAD0_opsz48 1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\engineering_FILL0_wght400_GRAD0_opsz48 1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\directions_car_FILL0_wght400_GRAD0_opsz48 1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\customer.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\covery.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\nav\campaign_FILL0_wght400_GRAD0_opsz48 1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\appbar\userIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0-windows\src\img\icon\appbar\notification.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialSkin.Updated" Version="0.2.2" />
+    <PackageReference Include="MetroFramework" Version="1.2.0.3" />
+    <PackageReference Include="MetroFramework.Design" Version="1.2.0.3" />
+    <PackageReference Include="MetroFramework.Fonts" Version="1.2.0.3" />
     <PackageReference Include="Microsoft.Build.Framework" Version="17.3.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="RestSharp" Version="108.0.2" />

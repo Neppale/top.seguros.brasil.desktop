@@ -32,6 +32,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         public Policies(string pageTitle, string subtitle)
         {
+          
 
             this.policiesDataTable.CellClick += async (sender, e) =>
             {
@@ -84,14 +85,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 policiesDataTable.Columns["id_cliente"].Visible = false;
                 policiesDataTable.Columns["id_veiculo"].Visible = false;
                 policiesDataTable.Columns["message"].Visible = false;
-
-                DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
-                btn.HeaderText = "Detalhes";
-                btn.Text = "Detalhes";
-                btn.Name = "Detalhes";
-                btn.FlatStyle = FlatStyle.Flat;
-                btn.UseColumnTextForButtonValue = true;
-                policiesDataTable.Columns.Add(btn);
+                //policiesDataTable.Columns["Detalhes"].Visible = false;
             };
 
             Controls.Add(policiesDataTable, 0, 7);

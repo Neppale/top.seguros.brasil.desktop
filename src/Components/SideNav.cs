@@ -89,11 +89,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             divider.BackColor = TsbColor.neutralWhite;
             divider.Dock = DockStyle.Right;
             this.Controls.Add(divider);
+
             divider.BringToFront();
-
-
-
+            
         }
+
 
         public SideNav(IContainer container)
         {
@@ -101,7 +101,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             InitializeComponent();
         }
 
-        
 
     }
 
@@ -133,13 +132,14 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
         }
 
-
         protected override void OnMouseHover(EventArgs e)
         {
             this.Cursor = Cursors.Hand;
             base.OnMouseHover(e);
         }
 
+
+        
 
         protected void OnClickItem(object sender, EventArgs e)
         {
@@ -166,7 +166,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
                 return;
             }
-            
+
             if (this.name == "Clientes")
             {
                 foreach (Control control in this.FindForm().Controls)
@@ -193,7 +193,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
             if (this.name == "Ocorrências")
             {
-                //dispose all controls except SideNav and appbar
                 foreach (Control control in this.FindForm().Controls)
                 {
                     if (control is appBar || control is SideNav)
@@ -218,7 +217,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
                 return;
 
             }
-
 
             if (this.name == "Veículos")
             {
@@ -332,8 +330,5 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             }
 
         }
-
-        
-
     }
 }

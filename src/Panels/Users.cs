@@ -12,7 +12,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Users : BasePanel
     {
-
         private static readonly HttpClient client = new HttpClient();
         public ArrayList selectedUser = new ArrayList();
         TsbDataTable usersDataTable = new TsbDataTable();

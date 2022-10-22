@@ -8,44 +8,52 @@ using System.Threading.Tasks;
 using System.Drawing;
 using Top_Seguros_Brasil_Desktop.src.Components;
 using Top_Seguros_Brasil_Desktop.src.font;
+using MaterialSkin;
+using RestSharp;
 
 namespace Top_Seguros_Brasil_Desktop
 {
     public partial class ButtonTsbPrimary : Button
     {
         
-        
         public ButtonTsbPrimary()
         {
-            InitializeComponent();
-            this.BackColor = TsbColor.primary;
-            this.FlatStyle = FlatStyle.Flat;
-            this.ForeColor = TsbColor.neutralWhite;
-            this.Size = new Size(331, 56);
-            this.Location = new Point(555, 760);
-        }
-
-        protected override void OnVisibleChanged(EventArgs e)
-        {
             
-        }
-        
-        protected override void OnEnabledChanged(EventArgs e)
-        {
-            if(Enabled == false)
+            this.ForeColor = TsbColor.neutralWhite;
+            this.BackColor = TsbColor.primary;
+            this.Font = MaterialSkinManager.Instance.ROBOTO_MEDIUM_10;
+            this.Size = new Size(331, 56);
+            this.FlatStyle = FlatStyle.Flat;
+            this.FlatAppearance.BorderSize = 0;
+
+            //this.TextChanged += (sender, e) =>
+            //{
+            //    this.Text += this.Text.ToUpper();
+            //};
+
+            this.MouseEnter += (sender, e ) =>
             {
                 this.BackColor = TsbColor.primaryDarkest;
-                this.ForeColor = Color.FromArgb(255, 129, 129);
-            }
-            base.OnEnabledChanged(e);
+            };
+            
+            this.MouseLeave += (sender, e) =>
+            {
+                this.BackColor = TsbColor.primary;
+            };
+
+            this.EnabledChanged += (sender, e) =>
+            {
+                this.BackColor = TsbColor.primaryLightest;
+                this.ForeColor = TsbColor.primaryLight;
+            };
+
+            InitializeComponent();
+            
         }
 
         public ButtonTsbPrimary(IContainer container)
         {
-
-            this.Text = "funcionou?";
             container.Add(this);
-
             InitializeComponent();
         }
     }
@@ -150,9 +158,6 @@ namespace Top_Seguros_Brasil_Desktop
         }
     }
 
-
-
-
     public partial class ButtonTsbTertiary : Panel
     {
         TsbFont tsbFont = new TsbFont();
@@ -249,6 +254,5 @@ namespace Top_Seguros_Brasil_Desktop
             InitializeComponent();
         }
     }
-
 
 }

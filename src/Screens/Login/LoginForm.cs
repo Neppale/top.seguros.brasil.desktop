@@ -61,8 +61,9 @@ namespace Top_Seguros_Brasil_Desktop
             BasePanel.token = responseBody.token;
             BasePanel.userId = responseBody.user.id_usuario;
 
+            Home homePage = new Home("Usuários", "Gerenciamento de Usuários");
 
-
+            managementStage.Controls.Add(homePage);
             managementStage.Show();
             this.Hide();
 

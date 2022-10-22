@@ -16,6 +16,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
         public string? placa { get; set; }
         public string? renavam { get; set; }
         public bool? sinistrado { get; set; }
+        public string? dono { get; set; }
         public int id_cliente { get; set; }
         
 

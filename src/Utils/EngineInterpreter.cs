@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace Top_Seguros_Brasil_Desktop.Utils
 {
@@ -56,7 +57,10 @@ namespace Top_Seguros_Brasil_Desktop.Utils
                 var statusCode = (int)response.StatusCode;
                 return new EngineInterpreterResponse(statusCode, convertedBody);
             }
-            catch (Exception) { throw new EngineInterpreterException("Houve um erro ao realizar a desserialização do objeto."); }
+            catch (Exception) 
+            {
+                throw new EngineInterpreterException("Houve um erro ao realizar a desserialização do objeto."); 
+            }
         }
     }
 

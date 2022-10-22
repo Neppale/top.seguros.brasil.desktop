@@ -85,7 +85,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 outsourcedDataTable.Columns["funcao"].HeaderText = "Função";
                 outsourcedDataTable.Columns["cnpj"].HeaderText = "CNPJ";
                 outsourcedDataTable.Columns["valor"].HeaderText = "Valor";
+                
                 outsourcedDataTable.Columns["status"].Visible = false;
+                outsourcedDataTable.Columns["Detalhes"].Visible = false;
             };
 
             Controls.Add(outsourcedDataTable, 0, 7);
@@ -404,7 +406,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             return;
         }
-
 
         protected async Task PutOutsourced(Terceirizado terceirizadoData, string id)
         {

@@ -87,9 +87,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 coveragesDataTable.Columns["descricao"].HeaderText = "Descricao";
                 coveragesDataTable.Columns["valor"].HeaderText = "Valor";
                 coveragesDataTable.Columns["taxa_indenizacao"].HeaderText = "Taxa Indenizacao";
-
+                
                 coveragesDataTable.Columns["status"].Visible = false;
                 coveragesDataTable.Columns["message"].Visible = false;
+                coveragesDataTable.Columns["Detalhes"].Visible = false;
             };
 
             Controls.Add(coveragesDataTable, 0, 7);

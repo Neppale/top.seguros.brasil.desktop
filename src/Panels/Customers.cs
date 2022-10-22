@@ -93,16 +93,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 customersDataTable.Columns["status"].Visible = false;
                 customersDataTable.Columns["deletar"].Visible = false;
                 customersDataTable.Columns["editar"].Visible = false;
-
-                DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
-                btn.HeaderText = "Detalhes";
-                btn.Text = "Detalhes";
-                btn.Name = "Detalhes";
-                btn.FlatStyle = FlatStyle.Flat;
-                btn.UseColumnTextForButtonValue = true;
-                customersDataTable.Columns.Add(btn);
-
-
             };
 
             Controls.Add(customersDataTable, 0, 7);

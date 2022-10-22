@@ -1,4 +1,6 @@
 ﻿using MaterialSkin.Controls;
+using RestSharp;
+using RestSharp.Authenticators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,13 +32,61 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         public Vehicles(string pageTitle, string subtitle)
         {
 
-            MaterialSingleLineTextField customerSearchBox = new MaterialSingleLineTextField
+            TsbInput searchBox = new TsbInput
             {
-                Hint = "🔎 | Buscar cliente: ",
-                SelectionStart = 6,
-                Dock = DockStyle.Top,
-                Margin = new Padding(32),
+                LabelText = "Buscar veículo",
+                HintText = "Busque por placa ou dono",
+                Dock = DockStyle.Bottom,
+                Margin = new Padding {
+                    Top = 0,
+                    Bottom = 8,
+                    Left = 32,
+                    Right = 8
+                },
             };
+            this.Controls.Add(searchBox, 0, 5);
+            this.SetRowSpan(searchBox, 2);
+
+            PictureBox searchButton = new PictureBox
+            {
+                Image = Properties.Resources.search_black_24dp,
+                SizeMode  = PictureBoxSizeMode.CenterImage,
+                Dock = DockStyle.Left,
+                Width = 40,
+                Height = searchBox.Height,
+                Cursor = Cursors.Hand,
+                Padding = new Padding
+                {
+                    Top = 32,
+                    Bottom = 0,
+                    Left = 8,
+                    Right = 8
+                },
+            };
+            this.Controls.Add(searchButton, 0, 5);
+            searchButton.BringToFront();
+
+            ButtonTsbTertiary continueSubmit = new ButtonTsbTertiary
+            {
+                Text = "Buscar",
+                Dock = DockStyle.Left,
+                Width = 60,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 0,
+                    Left = 0,
+                    Right = 8
+                }
+            };
+
+            
+            searchButton.Click += async (sender, e) =>
+            {
+                await vehiclesDataTable.SearchData<Veiculo>(searchBox.Text);
+            };
+            
+
 
             this.vehiclesDataTable.CellClick += async (sender, e) =>
             {
@@ -57,8 +107,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             };
 
-            this.Controls.Add(customerSearchBox, 0, 5);
             
+
             SubTitle(subtitle);
             Title(pageTitle);
             InitializeComponent();
@@ -81,6 +131,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 vehiclesDataTable.Columns["marca"].HeaderText = "Marca";
                 vehiclesDataTable.Columns["modelo"].HeaderText = "Modelo";
                 vehiclesDataTable.Columns["placa"].HeaderText = "Placa";
+                vehiclesDataTable.Columns["dono"].HeaderText = "Dono";
 
                 vehiclesDataTable.Columns["editar"].Visible = false;
                 vehiclesDataTable.Columns["deletar"].Visible = false;
