@@ -80,12 +80,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
 
-            
-            searchButton.Click += async (sender, e) =>
-            {
-                await vehiclesDataTable.SearchData<Veiculo>(searchBox.Text);
-            };
-            
+
 
 
             this.vehiclesDataTable.CellClick += async (sender, e) =>

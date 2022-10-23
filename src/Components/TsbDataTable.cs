@@ -1,47 +1,155 @@
-﻿using MaterialSkin;
-using MaterialSkin.Controls;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
-using System.Data.Common;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using System.Text;
 using Top_Seguros_Brasil_Desktop.Properties;
-using Top_Seguros_Brasil_Desktop.src.Models;
 using Top_Seguros_Brasil_Desktop.src.Panels;
 using Top_Seguros_Brasil_Desktop.Utils;
 
 namespace Top_Seguros_Brasil_Desktop.src.Components
 {
-    public partial class TsbDataTable : DataGridView
+    public partial class TsbDataTable : TableLayoutPanel
     {
 
         private string address { get; set; }
 
         public static ArrayList selectedRowValues = new ArrayList();
         public static string? selectedId { get; set; }
-
         public static bool tableCreated { get; set; }
 
         public DataTable dataTable = new DataTable();
+
+        public DataGridView dataGridView = new DataGridView();
+
+
+        public event DataGridViewBindingCompleteEventHandler DataBindingComplete
+        {
+            add
+            {
+                dataGridView.DataBindingComplete += value;
+            }
+            remove
+            {
+                dataGridView.DataBindingComplete -= value;
+            }
+        }
+
+        public DataGridViewColumnCollection Columns
+        {
+            get
+            {
+                return dataGridView.Columns;
+            }
+        }
+
+        public DataGridViewSelectedRowCollection SelectedRows
+        {
+            get
+            {
+                return dataGridView.SelectedRows;
+            }
+        }
+
+        public TsbPaginationRow paginationRow = new TsbPaginationRow
+        {
+            Dock = DockStyle.Top
+        };
+
+        public TsbSearchBox searchBox = new TsbSearchBox
+        {
+            Margin = new Padding(16, 0, 0, 0)
+        };
+
+        public event DataGridViewCellEventHandler CellClick
+        {
+            add
+            {
+                dataGridView.CellClick += value;
+            }
+            remove
+            {
+                dataGridView.CellClick -= value;
+            }
+
+        }
 
         public BindingSource bindingSource = new BindingSource();
 
         EngineInterpreter engineInterpreter = new EngineInterpreter(BasePanel.token);
         private readonly PrivateFontCollection privateFontCollection = new PrivateFontCollection();
 
+        public new string Text
+        {
+            get
+            {
+                return searchBox.Text;
+            }
+            set
+            {
+                searchBox.Text = value;
+            }
+        }
+
+        public event EventHandler SearchClick
+        {
+            add
+            {
+                searchBox.SearchClick += value;
+            }
+            remove
+            {
+                searchBox.SearchClick -= value;
+
+            }
+        }
+
         public TsbDataTable()
         {
+            this.AutoSize = true;
+            this.Dock = DockStyle.Top;
+            this.BackColor = TsbColor.surface;
+            this.Padding = new Padding(1, 0, 1, 0);
+            this.Margin = new Padding(32, 0, 32, 0);
 
+            this.Paint += (sender, e) =>
+            {
+                Rectangle borderRectangle = this.ClientRectangle;
+                ControlPaint.DrawBorder(e.Graphics, borderRectangle,
+                    TsbColor.neutralWhite, ButtonBorderStyle.Solid);
+
+            };
+
+            searchBox.SearchClick += async (sender, e) =>
+            {
+                await SearchData<JObject>(searchBox.Text);
+            };
+
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 16));
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 72 + 16));
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 336));
+            this.RowStyles.Add(new RowStyle(SizeType.Absolute, 56));
+
+
+            this.Controls.Add(paginationRow, 0, 3);
+
+            this.Controls.Add(searchBox, 0, 1);
+
+            this.Controls.Add(dataGridView, 0, 2);
+
+
+
+            InitializeComponent();
         }
 
         public TsbDataTable(string adress, Type type)
         {
             SetupDataTable();
             this.address = adress;
+
         }
 
         public async Task Get<Type>(string address)
@@ -70,7 +178,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
             await LoadData(dataTable);
 
-            
+
         }
 
         public async Task Post<Type>(object body)
@@ -102,7 +210,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             else if (response.Body == null) MessageBox.Show("Erro ao atualizar!");
             else MessageBox.Show("Erro ao atualizar! " + response.Body.message);
         }
-        
+
         public async Task Delete<Type>(string id)
         {
             var response = await engineInterpreter.Request<Type>($"{this.address}{id}", "DELETE", null);
@@ -111,7 +219,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             else if (response.Body == null) MessageBox.Show("Erro ao deletar!");
             else MessageBox.Show("Erro ao deletar! " + response.Body.message);
         }
-        
+
         public TsbDataTable(IContainer container)
         {
             container.Add(this);
@@ -130,50 +238,91 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         public async Task LoadData(DataTable source)
         {
             bindingSource.DataSource = source;
-            DataSource = bindingSource;
+            dataGridView.DataSource = bindingSource;
+            
+            dataGridView.DataBindingComplete += (sender, e) =>
+            {
+
+                foreach (DataGridViewColumn column in dataGridView.Columns)
+                {
+
+                    if (column.HeaderText.Contains("id"))
+                    {
+                        column.HeaderText = column.HeaderText.Split("_")[0];
+                        column.HeaderText = column.HeaderText.ToUpper();
+                    }
+
+                    if (column.HeaderText.Contains("_"))
+                    {
+                        column.HeaderText = column.HeaderText.Replace("_", " ");
+                    }
+
+                    if (!string.IsNullOrEmpty(column.HeaderText))
+                    {
+                        column.HeaderText = column.HeaderText.Substring(0, 1).ToUpper() + column.HeaderText.Substring(1);
+                    }
+                }
+            };
+
             SetupDataTable();
             InitializeComponent();
-            this.EndEdit();
+            dataGridView.EndEdit();
+
             this.Refresh();
         }
-        
+
         public void ActionColumnSetup()
         {
 
             DataGridViewButtonColumn edit = new DataGridViewButtonColumn();
+
             edit.Name = "Editar";
-            edit.HeaderText = "Editar";
-            edit.Text = "Editar";
+            edit.HeaderText = "";
+            edit.Text = "✏ Editar";
             edit.UseColumnTextForButtonValue = true;
             edit.FlatStyle = FlatStyle.Flat;
-            edit.DefaultCellStyle.ForeColor = TsbColor.neutralGray;
-            edit.DefaultCellStyle.Font = new Font(this.Font, FontStyle.Bold);
+            edit.DefaultCellStyle.ForeColor = TsbColor.neutral;
+            edit.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            //edit.DefaultCellStyle.Font = new Font(dataGridView.Font, FontStyle.Bold);
+            edit.Width = 150;
+            edit.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
 
             DataGridViewButtonColumn delete = new DataGridViewButtonColumn();
             delete.Name = "Deletar";
-            delete.HeaderText = "Deletar";
-            delete.Text = "Deletar";
+            delete.HeaderText = "";
+            delete.Text = "🗑 Deletar";
             delete.FlatStyle = FlatStyle.Flat;
-            delete.DefaultCellStyle.ForeColor = TsbColor.neutralGray;
-            delete.DefaultCellStyle.Font = new Font(this.Font, FontStyle.Bold);
+            delete.DefaultCellStyle.ForeColor = TsbColor.neutral;
+            delete.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            //delete.DefaultCellStyle.Font = new Font(dataGridView.Font, FontStyle.Bold);
             delete.UseColumnTextForButtonValue = true;
+            delete.Width = 150;
+            delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+
+
+
 
             DataGridViewButtonColumn details = new DataGridViewButtonColumn();
-            details.HeaderText = "Detalhes";
-            details.Text = "Detalhes";
+            details.HeaderText = "";
+            details.Text = "📝 Detalhes";
             details.Name = "Detalhes";
             details.FlatStyle = FlatStyle.Flat;
             details.UseColumnTextForButtonValue = true;
+            details.DefaultCellStyle.ForeColor = TsbColor.neutral;
+            details.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            //details.DefaultCellStyle.Font = new Font(dataGridView.Font, FontStyle.Bold);
+            details.Width = 150;
+            details.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
 
 
-            DataBindingComplete += (sender, e) =>
+            dataGridView.DataBindingComplete += (sender, e) =>
             {
-                if (Columns.Contains("Editar") && Columns.Contains("Deletar") && Columns.Contains("Detalhes")) ActionButtonsSetup();
+                if (dataGridView.Columns.Contains("Editar") && dataGridView.Columns.Contains("Deletar") && dataGridView.Columns.Contains("Detalhes")) ActionButtonsSetup();
                 else
                 {
-                    this.Columns.Add(details);
-                    this.Columns.Add(edit);
-                    this.Columns.Add(delete);
+                    dataGridView.Columns.Add(details);
+                    dataGridView.Columns.Add(edit);
+                    dataGridView.Columns.Add(delete);
                     ActionButtonsSetup();
                 }
             };
@@ -182,11 +331,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         }
         public void ActionButtonsSetup()
         {
-            if (Columns.Contains("Editar") && Columns.Contains("Deletar"))
+            if (dataGridView.Columns.Contains("Editar") && dataGridView.Columns.Contains("Deletar"))
             {
-                Columns["Editar"].DisplayIndex = this.Columns.Count - 1;
-                Columns["Deletar"].DisplayIndex = this.Columns.Count - 1;
-                CellClick += new DataGridViewCellEventHandler(DeleteButton_Click);
+                dataGridView.Columns["Editar"].DisplayIndex = dataGridView.Columns.Count - 1;
+                dataGridView.Columns["Deletar"].DisplayIndex = dataGridView.Columns.Count - 1;
+                dataGridView.CellClick += new DataGridViewCellEventHandler(DeleteButton_Click);
             }
             else
             {
@@ -194,26 +343,41 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
         }
 
-        
         public async Task SearchData<Type>(string value)
         {
-
+            
             DataTable dataTable = new DataTable();
 
-            var response = await engineInterpreter.Request<IEnumerable<Type>>($"{address}?search={value}", "GET", null);
+            var response = await engineInterpreter.Request<IEnumerable<JObject>>($"{address}?search={value}", "GET", null);
             IEnumerable<Type> responseBody = response.Body;
 
-
+            
             if (responseBody.Count() != 0)
             {
-                string[] properties = responseBody.First().GetType().GetProperties().Select(x => x.Name).ToArray();
+                string[] properties = {""};
+                string[] values = {""};
+
+                IEnumerable<JObject> o = (IEnumerable<JObject>)responseBody;
+
+                foreach (JObject j in o)
+                {
+                    properties = j.Properties().Select(p => p.Name).ToArray();
+                    values = j.Properties().Select(p => p.Value.ToString()).ToArray();
+                }
+                
                 try
                 {
                     foreach (var property in properties) dataTable.Columns.Add(property);
-                    foreach (var item in responseBody)
+
+                    for (int i = 0; i < values.Length; i++)
                     {
                         DataRow row = dataTable.NewRow();
-                        foreach (var property in properties) row[property] = item.GetType().GetProperty(property).GetValue(item);
+                        for (int j = 0; j < properties.Length; j++)
+                        {
+                            row[j] = values[i];
+                            i++;
+                        }
+                        i--;
                         dataTable.Rows.Add(row);
                     }
 
@@ -225,15 +389,15 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
                 await LoadData(dataTable);
 
-                this.Refresh();
+                dataGridView.Refresh();
             }
             else
             {
-                MessageBox.Show("Não há mais registros!");
+                MessageBox.Show($"Nenhum resultado encontrado para {value}");
             }
 
         }
-        
+
         public async Task ChangeToPage<Type>(int page)
         {
             DataTable dataTable = new DataTable();
@@ -263,7 +427,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
                 await LoadData(dataTable);
 
-                this.Refresh();
+                dataGridView.Refresh();
             }
             else
             {
@@ -272,44 +436,104 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
         }
 
+        public void RemoveColumns(string[] columns)
+        {
+            
+            foreach (string column in columns)
+            {
+                if (dataGridView.Columns.Contains(column))
+                {
+                    dataGridView.Columns.Remove(column);
+                }
+            }
+            
+        }
+
         public void SetupDataTable()
         {
-            this.ColumnHeadersDefaultCellStyle.BackColor = TsbColor.secondary;
-            this.ColumnHeadersDefaultCellStyle.ForeColor = TsbColor.neutralGray;
-            this.ColumnHeadersDefaultCellStyle.Font = new Font(LoadFont(Resources.Roboto_Black), 10);
+            dataGridView.ColumnHeadersDefaultCellStyle.BackColor = TsbColor.surface;
+            dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = TsbColor.neutral;
+            dataGridView.ColumnHeadersDefaultCellStyle.SelectionForeColor = TsbColor.neutral;
+            dataGridView.ColumnHeadersDefaultCellStyle.SelectionBackColor = TsbColor.surface;
 
-            this.DefaultCellStyle.ForeColor = TsbColor.neutralGray;
-            this.DefaultCellStyle.Font = new Font(LoadFont(Resources.Roboto_Light), 10);
 
-            this.Name = "Tabela padrão";
-            this.Anchor = (AnchorStyles.Top | AnchorStyles.Left);
-            this.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            this.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            this.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            this.GridColor = TsbColor.neutralWhite;
-            this.RowHeadersVisible = false;
-            this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            this.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            this.AllowUserToResizeColumns = false;
-            this.AllowUserToResizeRows = false;
-            this.ColumnHeadersHeight = 52;
-            this.RowTemplate.Height = 52;
-            this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.ReadOnly = true;
-            this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            this.MultiSelect = false;
-            this.BorderStyle = BorderStyle.Fixed3D;
-            this.ForeColor = TsbColor.neutralGray;
-            this.Margin = new Padding(32);
-            this.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            this.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            this.AllowUserToAddRows = false;
-            this.BackgroundColor = TsbColor.surface;
-            this.Height = 368;
-            this.Dock = DockStyle.Top;
+            dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font(LoadFont(Resources.Roboto_Bold), 13.5F, FontStyle.Bold);
+            dataGridView.EnableHeadersVisualStyles = false;
+
+            dataGridView.DefaultCellStyle.ForeColor = TsbColor.neutralGray;
+            dataGridView.DefaultCellStyle.Font = new Font(LoadFont(Resources.Roboto_Regular), 10, FontStyle.Regular);
+            dataGridView.DefaultCellStyle.SelectionBackColor = TsbColor.surface;
+            dataGridView.DefaultCellStyle.SelectionForeColor = TsbColor.neutral;
+            dataGridView.DefaultCellStyle.Padding = new Padding(16, 0, 0, 0);
+
+
+            dataGridView.CellMouseEnter += (sender, e) =>
+            {
+
+                if (e.RowIndex >= 0)
+                {
+                    dataGridView.Rows[e.RowIndex].DefaultCellStyle.BackColor = TsbColor.neutralGrayDarker;
+                    dataGridView.Rows[e.RowIndex].DefaultCellStyle.Font = new Font(LoadFont(Resources.Roboto_Medium), 10, FontStyle.Regular);
+                }
+
+            };
+
+            dataGridView.CellMouseLeave += (sender, e) =>
+            {
+
+                if (e.RowIndex >= 0)
+                {
+                    dataGridView.Rows[e.RowIndex].DefaultCellStyle.BackColor = TsbColor.surface;
+                    dataGridView.Rows[e.RowIndex].DefaultCellStyle.Font = new Font(LoadFont(Resources.Roboto_Regular), 10, FontStyle.Regular);
+                }
+
+            };
+
+
+            dataGridView.DataBindingComplete += (sender, e) =>
+            {
+                dataGridView.ClearSelection();
+            };
+
+
+            dataGridView.Name = "Tabela padrão";
+            dataGridView.Anchor = (AnchorStyles.Top | AnchorStyles.Left);
+            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            dataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridView.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            dataGridView.GridColor = TsbColor.neutralWhite;
+            dataGridView.RowHeadersVisible = false;
+            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dataGridView.AllowUserToResizeColumns = false;
+            dataGridView.AllowUserToResizeRows = false;
+            dataGridView.ColumnHeadersHeight = 56;
+            dataGridView.RowTemplate.Height = 56;
+            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridView.ReadOnly = true;
+            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.MultiSelect = false;
+            dataGridView.BorderStyle = BorderStyle.None;
+            dataGridView.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridView.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
+            dataGridView.AllowUserToAddRows = false;
+            dataGridView.BackgroundColor = TsbColor.surface;
+            dataGridView.Height = 56 * 6;
+            dataGridView.Dock = DockStyle.Fill;
+            dataGridView.Margin = new Padding(0, 0, 0, 0);
+            dataGridView.ScrollBars = ScrollBars.None;
 
             ActionColumnSetup();
+
         }
 
         [DllImport("gdi32.dll")]
@@ -328,16 +552,16 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         private async void DeleteButton_Click(object? sender, DataGridViewCellEventArgs e)
         {
 
-            int rowIndex = this.CurrentCell.RowIndex;
+            int rowIndex = dataGridView.CurrentCell.RowIndex;
             if (e.RowIndex < 0)
             {
                 return;
             }
 
-            if (e.ColumnIndex == this.Columns["Deletar"].Index && e.RowIndex >= 0)
+            if (e.ColumnIndex == dataGridView.Columns["Deletar"].Index && e.RowIndex >= 0)
             {
 
-                selectedId = this.SelectedRows[0].Cells[0].Value.ToString();
+                selectedId = dataGridView.SelectedRows[0].Cells[0].Value.ToString();
                 if (MessageBox.Show(
                     "Deseja realmente deletar o registro " + selectedId + "?",
                     "Deletar registro",
@@ -349,10 +573,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
                     await Delete<Type>(selectedId);
 
-                    foreach (DataGridViewCell oneCell in this.SelectedCells)
+                    foreach (DataGridViewCell oneCell in dataGridView.SelectedCells)
                     {
                         if (oneCell.Selected)
-                            this.Rows.RemoveAt(oneCell.RowIndex);
+                            dataGridView.Rows.RemoveAt(oneCell.RowIndex);
                     }
                 };
             }

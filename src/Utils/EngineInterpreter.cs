@@ -62,6 +62,8 @@ namespace Top_Seguros_Brasil_Desktop.Utils
                 throw new EngineInterpreterException("Houve um erro ao realizar a desserialização do objeto."); 
             }
         }
+
+
     }
 
     public class EngineInterpreterResponse

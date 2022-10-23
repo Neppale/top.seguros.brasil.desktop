@@ -77,7 +77,7 @@ namespace Top_Seguros_Brasil_Desktop
             }   
         }
 
-        public event EventHandler Click
+        public new event EventHandler Click
         {
             add
             {
@@ -130,8 +130,6 @@ namespace Top_Seguros_Brasil_Desktop
             
             this.Controls.Add(button);
         }
-
-
 
         protected override void OnVisibleChanged(EventArgs e)
         {

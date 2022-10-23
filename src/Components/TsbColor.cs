@@ -16,6 +16,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         public static Color surface = Color.FromArgb(255, 255, 255);
         public static Color neutral = Color.FromArgb(0, 0, 0);
         public static Color neutralGray = Color.FromArgb(132, 132, 132);
+        public static Color neutralGrayDarker = Color.FromArgb(233, 233, 233);
         public static Color neutralWhite = Color.FromArgb(235, 235, 235);
         
         public static Color primaryLightest = Color.FromArgb(255, 181, 174);
