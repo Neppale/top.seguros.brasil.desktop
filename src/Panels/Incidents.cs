@@ -75,7 +75,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             nextPage.Click += async (sender, e) =>
             {
                 pageNumber++;
-                await incidentsDataTable.ChangeToPage<Ocorrencia>(pageNumber);
+                //await incidentsDataTable.ChangeToPage<Ocorrencia>(pageNumber);
             };
 
             customerSearchBox.TextChanged += (sender, e) =>

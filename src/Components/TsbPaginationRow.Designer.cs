@@ -92,8 +92,8 @@
 
         #endregion
 
-        private PictureBox previousButton;
-        private PictureBox nextButton;
-        private MaterialSkin.Controls.MaterialLabel pageNumber;
+        public PictureBox previousButton;
+        public PictureBox nextButton;
+        public MaterialSkin.Controls.MaterialLabel pageNumber;
     }
 }

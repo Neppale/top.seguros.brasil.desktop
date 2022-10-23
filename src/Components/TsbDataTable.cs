@@ -21,10 +21,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         public static string? selectedId { get; set; }
         public static bool tableCreated { get; set; }
 
+        public int maxPages { get; set; }
+
         public DataTable dataTable = new DataTable();
 
         public DataGridView dataGridView = new DataGridView();
-
 
         public event DataGridViewBindingCompleteEventHandler DataBindingComplete
         {
@@ -128,10 +129,38 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 await SearchData<JObject>(searchBox.Text);
             };
 
+            
+
             this.RowStyles.Add(new RowStyle(SizeType.Absolute, 16));
             this.RowStyles.Add(new RowStyle(SizeType.Absolute, 72 + 16));
             this.RowStyles.Add(new RowStyle(SizeType.Absolute, 336));
             this.RowStyles.Add(new RowStyle(SizeType.Absolute, 56));
+
+            int currentPage = 1;
+
+            paginationRow.PageNumberText = "Página: 1";
+            paginationRow.PreviousEnabled = false;
+
+            paginationRow.nextButton.Click += async (sender, e) =>
+            {
+                currentPage++;
+                await ChangeToPage<JObject>(currentPage, "next");
+                
+                paginationRow.PreviousEnabled = true;
+                paginationRow.PageNumberText = "Página: " + currentPage.ToString();
+            };
+
+            paginationRow.previousButton.Click += async (sender, e) =>
+            {
+                currentPage--;
+
+                await ChangeToPage<JObject>(currentPage, "previous");
+                paginationRow.PageNumberText = "Página: " + currentPage.ToString();
+                if(currentPage < maxPages)
+                {
+                    paginationRow.NextEnabled = true;
+                }
+            };
 
 
             this.Controls.Add(paginationRow, 0, 3);
@@ -180,7 +209,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
 
         }
-
+        
         public async Task Post<Type>(object body)
         {
 
@@ -398,24 +427,39 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
         }
 
-        public async Task ChangeToPage<Type>(int page)
+        public async Task ChangeToPage<Type>(int page, string direction)
         {
             DataTable dataTable = new DataTable();
 
             var response = await engineInterpreter.Request<IEnumerable<Type>>($"{address}?pageNumber={page}", "GET", null);
+            
             IEnumerable<Type> responseBody = response.Body;
 
 
             if (responseBody.Count() != 0)
             {
-                string[] properties = responseBody.First().GetType().GetProperties().Select(x => x.Name).ToArray();
+                string[] properties = { "" };
+                string[] values = { "" };
+
+                IEnumerable<JObject> objectsList = (IEnumerable<JObject>)responseBody;
+
+                foreach (JObject j in objectsList)
+                {
+                    properties = j.Properties().Select(p => p.Name).ToArray();
+                }
+
                 try
                 {
+
                     foreach (var property in properties) dataTable.Columns.Add(property);
-                    foreach (var item in responseBody)
+
+                    foreach (var item in objectsList)
                     {
                         DataRow row = dataTable.NewRow();
-                        foreach (var property in properties) row[property] = item.GetType().GetProperty(property).GetValue(item);
+                        for (int i = 0; i < properties.Length; i++)
+                        {
+                            row[i] = item[properties[i]];
+                        }
                         dataTable.Rows.Add(row);
                     }
 
@@ -424,14 +468,57 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 {
                     Console.WriteLine(ex);
                 }
-
+                
                 await LoadData(dataTable);
 
                 dataGridView.Refresh();
+
+
+                if (direction == "next")
+                {
+                    page++;
+                    var nextPageResponse = await engineInterpreter.Request<IEnumerable<Type>>($"{address}?pageNumber={page}", "GET", null);
+                    IEnumerable<Type> nextBody = nextPageResponse.Body;
+
+                    if (nextBody.Count() == 0)
+                    {
+                        paginationRow.PageNumberText = page.ToString();
+                        paginationRow.NextEnabled = false;
+                        maxPages = page;
+                        return;
+                    }
+
+                }
+
+                if (direction == "previous")
+                {
+                    page--;
+                    var previousPageResponse = await engineInterpreter.Request<IEnumerable<Type>>($"{address}?pageNumber={page}", "GET", null);
+                    IEnumerable<Type> previousBody = previousPageResponse.Body;
+
+
+                    if (page == 0)
+                    {
+                        paginationRow.PageNumberText = page.ToString();
+                        paginationRow.PreviousEnabled = false;
+                        paginationRow.NextEnabled = true;
+                        
+                        return;
+                    }
+
+
+                    if (previousBody.Count() == 0)
+                    {
+                        paginationRow.PageNumberText = page.ToString();
+                        paginationRow.PreviousEnabled = false;
+                        return;
+                    }
+                }
+
             }
             else
             {
-                MessageBox.Show("Não há mais registros!");
+                MessageBox.Show($"Nenhum resultado encontrado para esse registro");
             }
 
         }
