@@ -32,15 +32,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             ButtonTsbPrimary putButton = new ButtonTsbPrimary();
             this.Controls.Add(putButton, 2, 9);
 
-            MaterialSingleLineTextField userSearchBox = new MaterialSingleLineTextField
-            {
-                Hint = "🔎 | Buscar terceirizado: ",
-                SelectionStart = 6,
-
-                Dock = DockStyle.Top,
-                Margin = new Padding(32),
-            };
-
             this.outsourcedDataTable.CellClick += async (sender, e) =>
             {
 
@@ -51,16 +42,27 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 if (e.ColumnIndex == outsourcedDataTable.Columns["Editar"].Index && e.RowIndex >= 0)
                 {
-                    for (int i = 0; i < outsourcedDataTable.Columns.Count; i++)
+
+                    if (outsourcedDataTable.Columns["Editar"].Index == 1)
                     {
-                        selectedOutsourced.Add(outsourcedDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                        selectedOutsourced.Add(outsourcedDataTable.SelectedRows[0].Cells[3].Value.ToString());
+                        await SubmitPanelSetup(selectedOutsourced[0].ToString());
+                        return;
                     }
-                    await SubmitPanelSetup(selectedOutsourced[0].ToString());
+                    else
+                    {
+                        for (int i = 0; i < outsourcedDataTable.Columns.Count; i++)
+                        {
+                            selectedOutsourced.Add(outsourcedDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                        }
+                        await SubmitPanelSetup(selectedOutsourced[0].ToString());
+                        return;
+                    }
+
                 }
 
             };
 
-            this.Controls.Add(userSearchBox, 0, 5);
             putButton.Dock = DockStyle.Top;
             putButton.Margin = new Padding(32);
             putButton.Text = "ADICIONAR TERCEIRIZADO";
@@ -80,18 +82,24 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             outsourcedDataTable.DataBindingComplete += (sender, e) =>
             {
-                outsourcedDataTable.Columns["id_terceirizado"].HeaderText = "ID";
-                outsourcedDataTable.Columns["nome"].HeaderText = "Nome";
-                outsourcedDataTable.Columns["funcao"].HeaderText = "Função";
-                outsourcedDataTable.Columns["cnpj"].HeaderText = "CNPJ";
-                outsourcedDataTable.Columns["valor"].HeaderText = "Valor";
+                //outsourcedDataTable.Columns["id_terceirizado"].HeaderText = "ID";
+                //outsourcedDataTable.Columns["nome"].HeaderText = "Nome";
+                //outsourcedDataTable.Columns["funcao"].HeaderText = "Função";
+                //outsourcedDataTable.Columns["cnpj"].HeaderText = "CNPJ";
+                //outsourcedDataTable.Columns["valor"].HeaderText = "Valor";
                 
-                outsourcedDataTable.Columns["status"].Visible = false;
-                outsourcedDataTable.Columns["Detalhes"].Visible = false;
+                //outsourcedDataTable.Columns["status"].Visible = false;
+                //outsourcedDataTable.Columns["Detalhes"].Visible = false;
+
+
+                string[] columns = { "status", "detalhes"};
+
+                outsourcedDataTable.RemoveColumns(columns);
             };
 
-            Controls.Add(outsourcedDataTable, 0, 7);
+            Controls.Add(outsourcedDataTable, 0, 5);
             SetColumnSpan(outsourcedDataTable, 3);
+            SetRowSpan(outsourcedDataTable, 4);
         }
 
         private void SubmitPanelSetup()
@@ -110,6 +118,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             submitPanel.Controls.OfType<TitleBox>().First().GoBack += (sender, e) =>
             {
+                selectedOutsourced.Clear();
                 submitPanel.Dispose();
             };
 
@@ -270,6 +279,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             submitPanel.Controls.OfType<TitleBox>().First().GoBack += (sender, e) =>
             {
+                selectedOutsourced.Clear();
                 submitPanel.Dispose();
             };
 

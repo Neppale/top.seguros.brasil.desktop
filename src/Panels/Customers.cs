@@ -30,14 +30,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             ButtonTsbPrimary putButton = new ButtonTsbPrimary();
             this.Controls.Add(putButton, 2, 9);
 
-            MaterialSingleLineTextField customerSearchBox = new MaterialSingleLineTextField
-            {
-                Hint = "🔎 | Buscar cliente: ",
-                SelectionStart = 6,
-                Dock = DockStyle.Top,
-                Margin = new Padding(32),
-            };
-
             this.customersDataTable.CellClick += async (sender, e) =>
             {
 
@@ -47,17 +39,28 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
 
                 if (e.ColumnIndex == customersDataTable.Columns["Detalhes"].Index && e.RowIndex >= 0)
-                {                    
-                    for (int i = 0; i < customersDataTable.Columns.Count; i++)
+                {
+
+                    if (customersDataTable.Columns["Detalhes"].Index == 0)
                     {
-                        selectedCustomer.Add(customersDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                        selectedCustomer.Add(customersDataTable.SelectedRows[0].Cells[3].Value.ToString());
+                        await SubmitPanelSetup<Cliente>(selectedCustomer[0].ToString());
+                        return;
                     }
-                    await SubmitPanelSetup<Cliente>(selectedCustomer[0].ToString());
+                    else
+                    {
+                        for (int i = 0; i < customersDataTable.Columns.Count; i++)
+                        {
+                            selectedCustomer.Add(customersDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                        }
+                        await SubmitPanelSetup<Cliente>(selectedCustomer[0].ToString());
+                        return;
+                    }
+
                 }
 
             };
 
-            this.Controls.Add(customerSearchBox, 0, 5);
             putButton.Dock = DockStyle.Top;
             putButton.Margin = new Padding(32);
             putButton.Text = "Adicionar Cliente";
@@ -77,26 +80,16 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             customersDataTable.DataBindingComplete += (sender, e) =>
             {
-                customersDataTable.Columns["id_cliente"].HeaderText = "ID";
-                customersDataTable.Columns["nome_completo"].HeaderText = "Nome";
-                customersDataTable.Columns["email"].HeaderText = "Email";
-                customersDataTable.Columns["cpf"].HeaderText = "CPF";
-                customersDataTable.Columns["telefone1"].HeaderText = "Telefone 1";
-                customersDataTable.Columns["Status"].HeaderText = "Status";
+              
+                string[] columns = { "senha", "cnh", "cep", "data_nascimento", "telefone 2", "message", "status", "deletar", "editar" };
 
-                customersDataTable.Columns["senha"].Visible = false;
-                customersDataTable.Columns["cnh"].Visible = false;
-                customersDataTable.Columns["cep"].Visible = false;
-                customersDataTable.Columns["data_nascimento"].Visible = false;
-                customersDataTable.Columns["telefone2"].Visible = false;
-                customersDataTable.Columns["message"].Visible = false;
-                customersDataTable.Columns["status"].Visible = false;
-                customersDataTable.Columns["deletar"].Visible = false;
-                customersDataTable.Columns["editar"].Visible = false;
+                customersDataTable.RemoveColumns(columns);
+
             };
 
-            Controls.Add(customersDataTable, 0, 7);
+            Controls.Add(customersDataTable, 0, 5);
             SetColumnSpan(customersDataTable, 3);
+            SetRowSpan(customersDataTable, 4);
         }
         
         private void SubmitCustomerPanelSetup()

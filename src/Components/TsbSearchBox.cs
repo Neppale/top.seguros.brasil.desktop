@@ -31,6 +31,18 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
         }
 
+        public new event KeyPressEventHandler KeyPress
+        {
+            add
+            {
+                this.textBox1.KeyPress += value;
+            }
+            remove
+            {
+                this.textBox1.KeyPress -= value;
+            }
+        }
+
         public event EventHandler SearchClick
         {
             add

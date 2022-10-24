@@ -170,7 +170,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             submitButton.Click += async (sender, e) =>
             {
-                Usuario usuario = new Usuario(nomeCompleto: nameField.Text, email: emailField.Text, tipo: userTypeField.Text, senha: passwordField.Text, status: true);
+                Usuario usuario = new Usuario(nomeCompleto: nameField.Text, email: emailField.Text, tipo: userTypeField.SelectedItem.ToString(), senha: passwordField.Text, status: true);
                 await PostUser(usuario, null);
             };
 
@@ -336,7 +336,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             usersDataTable.DataBindingComplete += (sender, e) =>
             {
-                string[] columns = { "Senha", "Status" };
+                string[] columns = { "Senha", "Status", "Detalhes" };
                 usersDataTable.RemoveColumns(columns);
             };
             

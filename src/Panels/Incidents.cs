@@ -53,37 +53,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             ButtonTsbPrimary putButton = new ButtonTsbPrimary();
             this.Controls.Add(putButton, 2, 9);
 
-            MaterialSingleLineTextField customerSearchBox = new MaterialSingleLineTextField
-            {
-                Hint = "🔎 | Buscar ocorrência: ",
-                SelectionStart = 6,
-                Dock = DockStyle.Top,
-                Margin = new Padding(32),
-            };
-
-            ButtonTsbPrimary nextPage = new ButtonTsbPrimary
-            {
-                Text = "Próxima página",
-                Dock = DockStyle.Top,
-                Margin = new Padding(32),
-            };
-
-            this.Controls.Add(nextPage, 1, 9);
-
-            int pageNumber = 0;
-            
-            nextPage.Click += async (sender, e) =>
-            {
-                pageNumber++;
-                //await incidentsDataTable.ChangeToPage<Ocorrencia>(pageNumber);
-            };
-
-            customerSearchBox.TextChanged += (sender, e) =>
-            {
-                //incidentsDataTable.SearchData("Nome", customerSearchBox.Text);
-            };
-            
-
             this.incidentsDataTable.CellClick += async (sender, e) =>
             {
 
@@ -94,16 +63,27 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 if (e.ColumnIndex == incidentsDataTable.Columns["Detalhes"].Index && e.RowIndex >= 0)
                 {
-                    for (int i = 0; i < incidentsDataTable.Columns.Count; i++)
+
+                    if (incidentsDataTable.Columns["Detalhes"].Index == 0)
                     {
-                        selectedIncident.Add(incidentsDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                        selectedIncident.Add(incidentsDataTable.SelectedRows[0].Cells[3].Value.ToString());
+                        await SubmitPanelSetup<Ocorrencia>(selectedIncident[0].ToString());
+                        return;
                     }
-                    await SubmitPanelSetup<Ocorrencia>(selectedIncident[0].ToString());
+                    else
+                    {
+                        for (int i = 0; i < incidentsDataTable.Columns.Count; i++)
+                        {
+                            selectedIncident.Add(incidentsDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                        }
+                        await SubmitPanelSetup<Ocorrencia>(selectedIncident[0].ToString());
+                        return;
+                    }
+
                 }
 
             };
 
-            this.Controls.Add(customerSearchBox, 0, 5);
             putButton.Dock = DockStyle.Top;
             putButton.Margin = new Padding(32);
             putButton.Text = "ADICIONAR OCORRÊNCIA";
@@ -670,35 +650,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
 
 
-            //nameField.SelectedValueChanged += async (sender, e) => {
-
-            //    vehicleField.Items.Clear();
-            //    int id_cliente = 0;
-
-            //    string customerAddress = $"https://tsb-api-policy-engine.herokuapp.com/cliente/";
-            //    var customer = await engineInterpreter.Request<IEnumerable<Cliente>>(customerAddress, "GET", null);
-            //    IEnumerable<Cliente> customerBody = customer.Body;
-
-
-            //    foreach (Cliente c in customerBody)
-            //    {
-            //        if (c.nome_completo == nameField.HintText)
-            //        {
-            //            id_cliente = c.id_cliente;
-            //        }
-            //    }
-
-            //    string vehicleAddress = $"https://tsb-api-policy-engine.herokuapp.com/veiculo/cliente/{id_cliente}";
-            //    var vehicle = await engineInterpreter.Request<IEnumerable<Veiculo>>(vehicleAddress, "GET", null);
-            //    IEnumerable<Veiculo> vehicleBody = vehicle.Body;
-
-            //    foreach (Veiculo v in vehicleBody)
-            //    {
-            //        vehicleField.Items.Add($"{v.marca} - {v.modelo} - {v.ano} | {v.placa}");
-            //    }
-
-            //    vehicleField.SelectedItem = vehicleField.Items[0];
-            //};
+            
 
 
 
@@ -775,18 +727,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 
 
-                //if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                //{
-                //    var client = new RestClient($"https://tsb-api-policy-engine.herokuapp.com/ocorrencia/documento/{incident.id_ocorrencia}")
-                //    {
-                //        Authenticator = new JwtAuthenticator(token),
-                //    };
-
-                //    var fileBytes = client.DownloadData(new RestRequest(saveFileDialog.FileName, Method.Get));
-
-                //    fileBytes.
-                //    File.WriteAllBytes(saveFileDialog.FileName, fileBytes);
-                //}
+       
             };
 
 
@@ -827,11 +768,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             
 
-
-            //foreach (Cliente customer in customersBody)
-            //{
-            //    nameField.Items.Add(customer.nome_completo);
-            //}
 
 
             TsbComboBox countyField = new TsbComboBox
@@ -1074,28 +1010,15 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             incidentsDataTable.DataBindingComplete += (sender, e) =>
             {
-                incidentsDataTable.Columns["id_ocorrencia"].HeaderText = "ID";
-                incidentsDataTable.Columns["nome"].HeaderText = "Nome";
-                incidentsDataTable.Columns["tipo"].HeaderText = "Tipo";
-                incidentsDataTable.Columns["data"].HeaderText = "Data";
-                incidentsDataTable.Columns["status"].HeaderText = "Status";
-
-                incidentsDataTable.Columns["local"].Visible = false;
-                incidentsDataTable.Columns["uf"].Visible = false;
-                incidentsDataTable.Columns["municipio"].Visible = false;
-                incidentsDataTable.Columns["descricao"].Visible = false;
-                incidentsDataTable.Columns["id_veiculo"].Visible = false;
-                incidentsDataTable.Columns["id_cliente"].Visible = false;
-                incidentsDataTable.Columns["deletar"].Visible = false;
-                incidentsDataTable.Columns["editar"].Visible = false;
-                incidentsDataTable.Columns["id_terceirizado"].Visible = false;
-
+                string[] columns = { "local", "uf", "municipio", "descricao", "id_veiculo", "id_cliente", "deletar", "editar", "id_terceirizado" };
+                incidentsDataTable.RemoveColumns(columns);
             };
 
             
 
-            Controls.Add(incidentsDataTable, 0, 7);
+            Controls.Add(incidentsDataTable, 0, 5);
             SetColumnSpan(incidentsDataTable, 3);
+            SetRowSpan(incidentsDataTable, 4);
         }
 
         private void PutButton_Click(object? sender, EventArgs? e)

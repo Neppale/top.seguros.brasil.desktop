@@ -108,6 +108,26 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
         }
 
+        public event KeyPressEventHandler KeyPress
+        {
+            add
+            {
+                searchBox.KeyPress += value;
+            }
+            remove
+            {
+                searchBox.KeyPress -= value;
+            }
+        }
+
+        public DataGridViewRowCollection Rows
+        {
+            get
+            {
+                return dataGridView.Rows;
+            }
+        }
+
         public TsbDataTable()
         {
             this.AutoSize = true;
@@ -129,7 +149,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 await SearchData<JObject>(searchBox.Text);
             };
 
-            
+            searchBox.KeyPress += async (sender, e) =>
+            {
+                if (e.KeyChar == (char)13)
+                {
+                    await SearchData<JObject>(searchBox.Text);
+                }
+            };
 
             this.RowStyles.Add(new RowStyle(SizeType.Absolute, 16));
             this.RowStyles.Add(new RowStyle(SizeType.Absolute, 72 + 16));
@@ -269,17 +295,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             bindingSource.DataSource = source;
             dataGridView.DataSource = bindingSource;
             
-            dataGridView.DataBindingComplete += (sender, e) =>
+            dataGridView.DataBindingComplete += async (sender, e) =>
             {
 
                 foreach (DataGridViewColumn column in dataGridView.Columns)
                 {
-
-                    if (column.HeaderText.Contains("id"))
-                    {
-                        column.HeaderText = column.HeaderText.Split("_")[0];
-                        column.HeaderText = column.HeaderText.ToUpper();
-                    }
 
                     if (column.HeaderText.Contains("_"))
                     {
@@ -291,6 +311,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                         column.HeaderText = column.HeaderText.Substring(0, 1).ToUpper() + column.HeaderText.Substring(1);
                     }
                 }
+
+                ActionColumnSetup();
+                
+                ActionButtonsSetup();
+
             };
 
             SetupDataTable();
@@ -300,7 +325,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             this.Refresh();
         }
 
-        public void ActionColumnSetup()
+        public async Task ActionColumnSetup()
         {
 
             DataGridViewButtonColumn edit = new DataGridViewButtonColumn();
@@ -356,14 +381,18 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 }
             };
 
-
+            return; 
         }
-        public void ActionButtonsSetup()
+        public async Task ActionButtonsSetup()
         {
-            if (dataGridView.Columns.Contains("Editar") && dataGridView.Columns.Contains("Deletar"))
+            
+            if (dataGridView.Columns.Contains("Editar") && dataGridView.Columns.Contains("Deletar") && dataGridView.Columns.Contains("Detalhes"))
             {
+                dataGridView.Columns["Detalhes"].DisplayIndex = dataGridView.Columns.Count - 1;
                 dataGridView.Columns["Editar"].DisplayIndex = dataGridView.Columns.Count - 1;
                 dataGridView.Columns["Deletar"].DisplayIndex = dataGridView.Columns.Count - 1;
+                
+
                 dataGridView.CellClick += new DataGridViewCellEventHandler(DeleteButton_Click);
             }
             else
@@ -391,22 +420,20 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 foreach (JObject j in o)
                 {
                     properties = j.Properties().Select(p => p.Name).ToArray();
-                    values = j.Properties().Select(p => p.Value.ToString()).ToArray();
                 }
-                
+
                 try
                 {
+
                     foreach (var property in properties) dataTable.Columns.Add(property);
 
-                    for (int i = 0; i < values.Length; i++)
+                    foreach (var item in o)
                     {
                         DataRow row = dataTable.NewRow();
-                        for (int j = 0; j < properties.Length; j++)
+                        for (int i = 0; i < properties.Length; i++)
                         {
-                            row[j] = values[i];
-                            i++;
+                            row[i] = item[properties[i]];
                         }
-                        i--;
                         dataTable.Rows.Add(row);
                     }
 
@@ -474,6 +501,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 dataGridView.Refresh();
 
 
+                
+
+
                 if (direction == "next")
                 {
                     page++;
@@ -530,7 +560,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             {
                 if (dataGridView.Columns.Contains(column))
                 {
-                    dataGridView.Columns.Remove(column);
+                    dataGridView.Columns[column].Visible = false;
                 }
             }
             
@@ -549,7 +579,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             dataGridView.DefaultCellStyle.ForeColor = TsbColor.neutralGray;
             dataGridView.DefaultCellStyle.Font = new Font(LoadFont(Resources.Roboto_Regular), 10, FontStyle.Regular);
-            dataGridView.DefaultCellStyle.SelectionBackColor = TsbColor.surface;
+            dataGridView.DefaultCellStyle.SelectionBackColor = TsbColor.neutralGrayDarker;
             dataGridView.DefaultCellStyle.SelectionForeColor = TsbColor.neutral;
             dataGridView.DefaultCellStyle.Padding = new Padding(16, 0, 0, 0);
 
@@ -648,7 +678,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             if (e.ColumnIndex == dataGridView.Columns["Deletar"].Index && e.RowIndex >= 0)
             {
 
-                selectedId = dataGridView.SelectedRows[0].Cells[0].Value.ToString();
+                //select the first value of the selected row 
+
+                selectedId = dataGridView.Rows[rowIndex].Cells[0].Value.ToString();
+
+                //selectedId = dataGridView.Rows[rowIndex].Cells.Cast<DataGridViewCell>().First(c => c.OwningColumn.HeaderText.ToLower().Contains("id")).Value.ToString();
+
                 if (MessageBox.Show(
                     "Deseja realmente deletar o registro " + selectedId + "?",
                     "Deletar registro",

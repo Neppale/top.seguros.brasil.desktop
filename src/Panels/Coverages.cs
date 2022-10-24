@@ -32,14 +32,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             ButtonTsbPrimary putButton = new ButtonTsbPrimary();
             this.Controls.Add(putButton, 2, 9);
 
-            MaterialSingleLineTextField customerSearchBox = new MaterialSingleLineTextField
-            {
-                Hint = "🔎 | Buscar cobertura: ",
-                SelectionStart = 6,
-                Dock = DockStyle.Top,
-                Margin = new Padding(32),
-            };
-
             this.coveragesDataTable.CellClick += async (sender, e) =>
             {
 
@@ -50,21 +42,32 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 if (e.ColumnIndex == coveragesDataTable.Columns["Editar"].Index && e.RowIndex >= 0)
                 {
-                    for (int i = 0; i < coveragesDataTable.Columns.Count; i++)
+
+                    if (coveragesDataTable.Columns["Editar"].Index == 0)
                     {
-                        selectedCoverage.Add(coveragesDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                        selectedCoverage.Add(coveragesDataTable.SelectedRows[0].Cells[3].Value.ToString());
+                        await SubmitPanelSetup<Cobertura>(selectedCoverage[0].ToString());
+                        return;
                     }
-                    await SubmitPanelSetup<Cobertura>(selectedCoverage[0].ToString());
+                    else
+                    {
+                        for (int i = 0; i < coveragesDataTable.Columns.Count; i++)
+                        {
+                            selectedCoverage.Add(coveragesDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                        }
+                        await SubmitPanelSetup<Cobertura>(selectedCoverage[0].ToString());
+                        return;
+                    }
+
                 }
 
             };
 
-            this.Controls.Add(customerSearchBox, 0, 5);
             putButton.Dock = DockStyle.Top;
             putButton.Margin = new Padding(32);
             putButton.Text = "Adicionar Usuário";
             putButton.Click += PutButton_Click;
-
+            
 
             SubTitle(subtitle);
             Title(pageTitle);
@@ -82,19 +85,15 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             coveragesDataTable.DataBindingComplete += (sender, e) =>
             {
-                coveragesDataTable.Columns["id_cobertura"].HeaderText = "ID";
-                coveragesDataTable.Columns["nome"].HeaderText = "Nome";
-                coveragesDataTable.Columns["descricao"].HeaderText = "Descricao";
-                coveragesDataTable.Columns["valor"].HeaderText = "Valor";
-                coveragesDataTable.Columns["taxa_indenizacao"].HeaderText = "Taxa Indenizacao";
-                
-                coveragesDataTable.Columns["status"].Visible = false;
-                coveragesDataTable.Columns["message"].Visible = false;
-                coveragesDataTable.Columns["Detalhes"].Visible = false;
+
+                string[] columns = { "status", "message", "Detalhes" };
+
+                coveragesDataTable.RemoveColumns(columns);
             };
 
-            Controls.Add(coveragesDataTable, 0, 7);
+            Controls.Add(coveragesDataTable, 0, 5);
             SetColumnSpan(coveragesDataTable, 3);
+            SetRowSpan(coveragesDataTable, 4);
         }
 
         private void SubmitPanelSetup()
@@ -115,6 +114,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             submitPanel.Controls.OfType<TitleBox>().First().GoBack += (sender, e) =>
             {
+                selectedCoverage.Clear();
                 submitPanel.Dispose();
             };
 
@@ -257,6 +257,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             submitPanel.Controls.OfType<TitleBox>().First().GoBack += (sender, e) =>
             {
+                selectedCoverage.Clear();
                 submitPanel.Dispose();
             };
 

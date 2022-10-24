@@ -23,5 +23,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         public static Color primaryLight = Color.FromArgb(255, 207, 207);
         public static Color primary = Color.FromArgb(244, 84, 70);
         public static Color primaryDarkest = Color.FromArgb(176, 47, 35);
+
+        public static Color wating = Color.FromArgb(70, 129, 244);
+        public static Color success = Color.FromArgb(1, 144, 130);
+        public static Color error = Color.FromArgb(255, 0, 0);
     }
 }
