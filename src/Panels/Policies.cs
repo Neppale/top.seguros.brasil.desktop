@@ -43,14 +43,27 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 if (e.ColumnIndex == policiesDataTable.Columns["Detalhes"].Index && e.RowIndex >= 0)
                 {
-                    for (int i = 0; i < policiesDataTable.Columns.Count; i++)
+
+                    if (policiesDataTable.Columns["Detalhes"].Index == 0)
                     {
-                        selectedPolicy.Add(policiesDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                        selectedPolicy.Add(policiesDataTable.SelectedRows[0].Cells[3].Value.ToString());
+                        await SubmitPanelSetup<Apolice>(selectedPolicy[0].ToString());
+                        return;
                     }
-                    await SubmitPanelSetup<Apolice>(selectedPolicy[0].ToString());
+                    else
+                    {
+                        for (int i = 0; i < policiesDataTable.Columns.Count; i++)
+                        {
+                            selectedPolicy.Add(policiesDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                        }
+                        await SubmitPanelSetup<Apolice>(selectedPolicy[0].ToString());
+                        return;
+                    }
+                    
                 }
 
             };
+
 
             InitializeComponent();
 
@@ -65,36 +78,41 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             await policiesDataTable.Get<Apolice>($"https://tsb-api-policy-engine.herokuapp.com/apolice/usuario/{userId}");
 
+
             policiesDataTable.DataBindingComplete += (sender, e) =>
             {
-                policiesDataTable.Columns["id_apolice"].HeaderText = "ID";
-                policiesDataTable.Columns["nome"].HeaderText = "Nome";
-                policiesDataTable.Columns["status"].HeaderText = "Status";
-                policiesDataTable.Columns["veiculo"].HeaderText = "Veiculo";
-                policiesDataTable.Columns["tipo"].HeaderText = "Tipo de Cobertura";
+                string[] columns = { "data_inicio", "data_fim", "premio", "indenizacao", "id_cobertura", "id_usuario", "id_cliente", "id_veiculo", "message", "Deletar", "Editar" };
+                policiesDataTable.RemoveColumns(columns);
 
-                policiesDataTable.Columns["deletar"].Visible = false;
-                policiesDataTable.Columns["editar"].Visible = false;
-                policiesDataTable.Columns["data_inicio"].Visible = false;
-                policiesDataTable.Columns["data_fim"].Visible = false;
-                policiesDataTable.Columns["premio"].Visible = false;
-                policiesDataTable.Columns["indenizacao"].Visible = false;
-                policiesDataTable.Columns["id_cobertura"].Visible = false;
-                policiesDataTable.Columns["id_usuario"].Visible = false;
-                policiesDataTable.Columns["id_cliente"].Visible = false;
-                policiesDataTable.Columns["id_veiculo"].Visible = false;
-                policiesDataTable.Columns["message"].Visible = false;
+                foreach (DataGridViewRow row in policiesDataTable.Rows)
+                {
+                    if (row.Cells["status"].Value.ToString() == "Ativa")
+                    {
+                        row.Cells["status"].Style.ForeColor = TsbColor.success;
+                    }
+                    
+                    if(row.Cells["status"].Value.ToString() == "Em Análise")
+                    {
+                        row.Cells["status"].Value = "Aguardando análise";
+                        row.Cells["status"].Style.ForeColor = TsbColor.wating;
+                    }
 
-                DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
-                btn.HeaderText = "Detalhes";
-                btn.Text = "Detalhes";
-                btn.Name = "Detalhes";
-                btn.FlatStyle = FlatStyle.Flat;
-                btn.UseColumnTextForButtonValue = true;
-                policiesDataTable.Columns.Add(btn);
+                    if (row.Cells["status"].Value.ToString() == "Aguardando análise")
+                    {
+                        row.Cells["status"].Style.ForeColor = TsbColor.wating;
+                    }
+
+                    if (row.Cells["status"].Value.ToString() == "Rejeitada")
+                    {
+                        row.Cells["status"].Style.ForeColor = TsbColor.error;
+                    }
+
+
+                }
+
             };
-
-            Controls.Add(policiesDataTable, 0, 7);
+            
+            Controls.Add(policiesDataTable, 0, 5);
             SetColumnSpan(policiesDataTable, 3);
         }
 

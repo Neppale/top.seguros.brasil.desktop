@@ -41,6 +41,7 @@ namespace Top_Seguros_Brasil_Desktop
         
         private async void buttonLogin_Click(object sender, EventArgs e)
         {
+
             emailInput.Text = "jonathan.santos@topseguros.br";
             passwordInput.Text = "Senha123-";
 
@@ -56,13 +57,13 @@ namespace Top_Seguros_Brasil_Desktop
 
             ManagementStage managementStage = new ManagementStage(responseBody.user.nome_completo, responseBody.user.tipo, responseBody.token);
 
-
             BasePanel basePanel = new BasePanel(responseBody.user.nome_completo, responseBody.user.tipo, responseBody.user.id_usuario, responseBody.user.email);
             BasePanel.token = responseBody.token;
             BasePanel.userId = responseBody.user.id_usuario;
 
+            Home homePage = new Home("Usuários", "Gerenciamento de Usuários");
 
-
+            managementStage.Controls.Add(homePage);
             managementStage.Show();
             this.Hide();
 

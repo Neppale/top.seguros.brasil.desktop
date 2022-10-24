@@ -1,4 +1,6 @@
 ﻿using MaterialSkin.Controls;
+using RestSharp;
+using RestSharp.Authenticators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,13 +32,23 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         public Vehicles(string pageTitle, string subtitle)
         {
 
-            MaterialSingleLineTextField customerSearchBox = new MaterialSingleLineTextField
+
+            ButtonTsbTertiary continueSubmit = new ButtonTsbTertiary
             {
-                Hint = "🔎 | Buscar cliente: ",
-                SelectionStart = 6,
-                Dock = DockStyle.Top,
-                Margin = new Padding(32),
+                Text = "Buscar",
+                Dock = DockStyle.Left,
+                Width = 60,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 0,
+                    Left = 0,
+                    Right = 8
+                }
             };
+
+
+
 
             this.vehiclesDataTable.CellClick += async (sender, e) =>
             {
@@ -46,19 +58,31 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                     return;
                 }
 
-                if (e.ColumnIndex == vehiclesDataTable.Columns["Editar"].Index && e.RowIndex >= 0)
+                if (e.ColumnIndex == vehiclesDataTable.Columns["Detalhes"].Index && e.RowIndex >= 0)
                 {
-                    for (int i = 0; i < vehiclesDataTable.Columns.Count; i++)
+
+                    if (vehiclesDataTable.Columns["Detalhes"].Index == 0)
                     {
-                        selectedVehicle.Add(vehiclesDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                        selectedVehicle.Add(vehiclesDataTable.SelectedRows[0].Cells[3].Value.ToString());
+                        await SubmitPanelSetup<Veiculo>(selectedVehicle[0].ToString());
+                        return;
                     }
-                    await SubmitPanelSetup<Veiculo>(selectedVehicle[0].ToString());
+                    else
+                    {
+                        for (int i = 0; i < vehiclesDataTable.Columns.Count; i++)
+                        {
+                            selectedVehicle.Add(vehiclesDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                        }
+                        await SubmitPanelSetup<Veiculo>(selectedVehicle[0].ToString());
+                        return;
+                    }
+
                 }
 
             };
 
-            this.Controls.Add(customerSearchBox, 0, 5);
             
+
             SubTitle(subtitle);
             Title(pageTitle);
             InitializeComponent();
@@ -77,22 +101,29 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             vehiclesDataTable.DataBindingComplete += (sender, e) =>
             {
-                vehiclesDataTable.Columns["id_veiculo"].HeaderText = "ID";
-                vehiclesDataTable.Columns["marca"].HeaderText = "Marca";
-                vehiclesDataTable.Columns["modelo"].HeaderText = "Modelo";
-                vehiclesDataTable.Columns["placa"].HeaderText = "Placa";
+                //vehiclesDataTable.Columns["id_veiculo"].HeaderText = "ID";
+                //vehiclesDataTable.Columns["marca"].HeaderText = "Marca";
+                //vehiclesDataTable.Columns["modelo"].HeaderText = "Modelo";
+                //vehiclesDataTable.Columns["placa"].HeaderText = "Placa";
+                //vehiclesDataTable.Columns["dono"].HeaderText = "Dono";
 
-                vehiclesDataTable.Columns["editar"].Visible = false;
-                vehiclesDataTable.Columns["deletar"].Visible = false;
-                vehiclesDataTable.Columns["ano"].Visible = false;
-                vehiclesDataTable.Columns["renavam"].Visible = false;
-                vehiclesDataTable.Columns["uso"].Visible = false;
-                vehiclesDataTable.Columns["sinistrado"].Visible = false;
-                vehiclesDataTable.Columns["id_cliente"].Visible = false;
+                //vehiclesDataTable.Columns["editar"].Visible = false;
+                //vehiclesDataTable.Columns["deletar"].Visible = false;
+                //vehiclesDataTable.Columns["ano"].Visible = false;
+                //vehiclesDataTable.Columns["renavam"].Visible = false;
+                //vehiclesDataTable.Columns["uso"].Visible = false;
+                //vehiclesDataTable.Columns["sinistrado"].Visible = false;
+                //vehiclesDataTable.Columns["id_cliente"].Visible = false;
+
+                string[] columns = { "editar", "deletar", "ano", "renavam", "uso", "sinistrado", "id_cliente" };
+
+                vehiclesDataTable.RemoveColumns(columns);
+
             };
 
-            Controls.Add(vehiclesDataTable, 0, 7);
+            Controls.Add(vehiclesDataTable, 0, 5);
             SetColumnSpan(vehiclesDataTable, 3);
+            SetRowSpan(vehiclesDataTable, 4);
         }
         
         private async Task SubmitPanelSetup<Type>(string id)
@@ -119,6 +150,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             submitPanel.Controls.OfType<TitleBox>().First().GoBack += (sender, e) =>
             {
+                selectedVehicle.Clear();
                 submitPanel.Dispose();
             };
 

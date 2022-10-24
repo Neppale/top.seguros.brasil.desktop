@@ -7,12 +7,12 @@ using System.Text;
 using Top_Seguros_Brasil_Desktop.src.Components;
 using Top_Seguros_Brasil_Desktop.src.Models;
 using Top_Seguros_Brasil_Desktop.Utils;
+using Windows.UI.Xaml.Controls;
 
 namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Users : BasePanel
     {
-
         private static readonly HttpClient client = new HttpClient();
         public ArrayList selectedUser = new ArrayList();
         TsbDataTable usersDataTable = new TsbDataTable();
@@ -28,18 +28,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             ButtonTsbPrimary putButton = new ButtonTsbPrimary();
             this.Controls.Add(putButton, 2, 9);
 
-            MaterialSingleLineTextField userSearchBox = new MaterialSingleLineTextField
-            {
-                Hint = "🔎 | Buscar usuário: ",
-                SelectionStart = 6,
-
-                Dock = DockStyle.Top,
-                Margin = new Padding(32),
-            };
-            
             this.usersDataTable.CellClick += async (sender, e) =>
             {
-                
+
                 if (e.RowIndex < 0)
                 {
                     return;
@@ -53,10 +44,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                     }
                     await SubmitPanelSetup(selectedUser);
                 }
-                
+
             };
 
-            this.Controls.Add(userSearchBox, 0, 5);
             putButton.Dock = DockStyle.Top;
             putButton.Margin = new Padding(32);
             putButton.Text = "Adicionar Usuário";
@@ -180,7 +170,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             submitButton.Click += async (sender, e) =>
             {
-                Usuario usuario = new Usuario(nomeCompleto: nameField.Text, email: emailField.Text, tipo: userTypeField.Text, senha: passwordField.Text, status: true);
+                Usuario usuario = new Usuario(nomeCompleto: nameField.Text, email: emailField.Text, tipo: userTypeField.SelectedItem.ToString(), senha: passwordField.Text, status: true);
                 await PostUser(usuario, null);
             };
 
@@ -346,16 +336,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             usersDataTable.DataBindingComplete += (sender, e) =>
             {
-                usersDataTable.Columns["id_usuario"].HeaderText = "ID";
-                usersDataTable.Columns["nome_completo"].HeaderText = "Nome";
-                usersDataTable.Columns["email"].HeaderText = "Email";
-                usersDataTable.Columns["tipo"].HeaderText = "Tipo";
-                usersDataTable.Columns["senha"].Visible = false;
-                usersDataTable.Columns["status"].Visible = false;
+                string[] columns = { "Senha", "Status", "Detalhes" };
+                usersDataTable.RemoveColumns(columns);
             };
-
-            Controls.Add(usersDataTable, 0, 7);
+            
+            Controls.Add(usersDataTable, 0, 5);
             SetColumnSpan(usersDataTable, 3);
+            SetRowSpan(usersDataTable, 4);
         }
 
         protected async Task PostUser(Usuario userData, EventHandler? e)
