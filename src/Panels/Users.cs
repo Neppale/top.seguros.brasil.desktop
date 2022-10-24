@@ -199,11 +199,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             {
                 Parent = submitPanel,
                 titleText = "Editar Usuário",
+                subtitleText = "",
                 Margin = new Padding(32),
 
             };
-
-
             submitPanel.Controls.Add(titlebox, 0, 1);
 
 
@@ -214,15 +213,16 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
 
 
-            MaterialSingleLineTextField nameField = new MaterialSingleLineTextField
+            TsbInput nameField = new TsbInput
             {
+                LabelText = "Nome completo",
                 Text = arrayList[1].ToString(),
                 ForeColor = TsbColor.neutralGray,
-                Dock = DockStyle.Bottom,
+                Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
@@ -231,15 +231,16 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             submitPanel.Controls.Add(nameField, 1, 1); ;
 
 
-            MaterialSingleLineTextField emailField = new MaterialSingleLineTextField
+            TsbInput emailField = new TsbInput
             {
+                LabelText = "Email",
                 Text = arrayList[2].ToString(),
                 ForeColor = TsbColor.neutralGray,
-                Dock = DockStyle.Bottom,
+                Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
@@ -255,11 +256,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 Text = arrayList[3].ToString(),
                 Items = { "Administrador", "Corretor" },
                 ForeColor = TsbColor.neutralGray,
-                Dock = DockStyle.Bottom,
+                Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
@@ -268,17 +269,17 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             submitPanel.Controls.Add(userTypeField, 1, 2);
 
 
-            MaterialSingleLineTextField passwordField = new MaterialSingleLineTextField
+            TsbInput passwordField = new TsbInput
             {
-                Text = "Senha",
+                LabelText = "Senha",
+                Text = "*******",
                 ForeColor = TsbColor.neutralGray,
-                Dock = DockStyle.Bottom,
-                PasswordChar = '*',
                 Enabled = false,
+                Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
@@ -293,8 +294,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 52,
-                    Bottom = 32,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
