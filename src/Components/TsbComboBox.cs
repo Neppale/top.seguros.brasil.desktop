@@ -32,8 +32,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             AutoSize = true
         };
 
-        
-
         Panel InputPanel = new Panel
         {
             AutoSize = true

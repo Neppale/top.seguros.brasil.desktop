@@ -449,7 +449,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             SubmitPanelSetup();
         }
 
-
         public Outsourced(IContainer container)
         {
             container.Add(this);

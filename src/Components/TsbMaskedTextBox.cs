@@ -177,7 +177,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             input.Text = string.Format("{$\\d{9}.00}");
         }
 
-
         public TsbMaskedTextBox()
         {
             input.Culture = new System.Globalization.CultureInfo("pt-BR");
@@ -225,7 +224,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             InitializeComponent();
         }
         
-
         public TsbMaskedTextBox(IContainer container)
         {
             container.Add(this);
