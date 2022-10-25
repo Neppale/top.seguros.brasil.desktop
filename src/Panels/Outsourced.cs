@@ -164,6 +164,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             {
                 LabelText = "Telefone",
                 Mask = "(99) 99999-9999",
+                HintText = "(99) 99999-9999",
+                NewValue = true,
                 ForeColor = TsbColor.neutralGray,
                 Dock = DockStyle.Top,
                 Margin = new Padding
@@ -180,6 +182,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             {
                 LabelText = "CNPJ",
                 Mask = "99,999,999/9999-99",
+                HintText = "99.999.999/9999-99",
+                NewValue = true,
                 ForeColor = TsbColor.neutralGray,
                 Dock = DockStyle.Top,
                 Margin = new Padding
@@ -444,7 +448,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         {
             SubmitPanelSetup();
         }
-
 
         public Outsourced(IContainer container)
         {

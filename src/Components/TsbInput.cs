@@ -80,6 +80,17 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
         }
 
+        public new event EventHandler TextChanged
+        {
+            add
+            {
+                input.TextChanged += value;
+            }
+            remove
+            {
+                input.TextChanged -= value;
+            }
+        }
 
         public string LabelText
         {
@@ -115,6 +126,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             InputPanel.Controls.Add(input);
             InputPanel.Controls.Add(Label);
             Controls.Add(InputPanel);
+
 
             InitializeComponent();
         }

@@ -329,6 +329,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
             submitPanel.Controls.Add(rateField, 2, 2);
 
+            
 
             ButtonTsbPrimary submitButton = new ButtonTsbPrimary
             {
@@ -343,14 +344,16 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
 
+
+
             submitButton.Click += async (sender, e) =>
             {
                 Cobertura cobertura = new Cobertura
                 (
                     nome: nameField.Text,
                     descricao: descriptionField.Text,
-                    valor: priceField.Text,
-                    taxaIndenizacao: int.Parse(rateField.Text),
+                    valor: priceField.Text.Replace(",", "."),
+                    taxaIndenizacao: double.Parse(rateField.Text),
                     status: true
                 );
 

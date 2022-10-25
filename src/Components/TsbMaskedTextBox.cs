@@ -55,6 +55,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
             set
             {
+                input.ForeColor = TsbColor.neutral;
                 input.Text = value;
             }
         }
@@ -92,6 +93,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
             set
             {
+                input.ForeColor = TsbColor.neutralGray;
                 input.Text = value;
             }
         }
@@ -155,11 +157,25 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
         }
 
+        public bool NewValue
+        {
+            set
+            {
+                if (value)
+                {
+                    input.Click += (sender, e) =>
+                    {
+                        input.Text = "";
+                        input.Select(0, 0);
+                    };
+                }
+            }
+        }
+
         private void currency_TextChanged(object sender, EventArgs e)
         {
             input.Text = string.Format("{$\\d{9}.00}");
         }
-
 
         public TsbMaskedTextBox()
         {
@@ -180,21 +196,26 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             input.Click += (sender, e) =>
             {
-                input.Select(0, 0);
+
+                if (!input.MaskFull)
+                {
+                    input.Select(0, 0);
+                    input.ForeColor = TsbColor.neutral;
+                    input.Text = "";
+                }
+
                 divider.Height = 2;
                 divider.BackColor = Color.FromArgb(222, 0, 0, 0);
             };
 
             input.LostFocus += (sender, e) =>
             {
-
                 divider.Height = 1;
                 divider.BackColor = Color.FromArgb(66, 0, 0, 0);
             };
 
             input.Enter += (sender, e) =>
             {
-                input.Text = "";
                 input.ForeColor = Color.FromArgb(222, 0, 0, 0);
             };
 
@@ -202,8 +223,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             InitializeComponent();
         }
-
-
+        
         public TsbMaskedTextBox(IContainer container)
         {
             container.Add(this);
