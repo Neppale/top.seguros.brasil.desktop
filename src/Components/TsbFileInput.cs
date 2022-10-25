@@ -31,6 +31,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             this.Cursor = Cursors.Hand;
 
             InitializeComponent();
-        }        
+        }
     }
 }

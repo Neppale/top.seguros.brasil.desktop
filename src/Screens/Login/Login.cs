@@ -72,8 +72,9 @@ namespace Top_Seguros_Brasil_Desktop
                 {
                     //textBox1.Text = await response.Content.ReadAsStringAsync();
                 }
-                
-            }catch(Exception x)
+
+            }
+            catch (Exception x)
             {
                 MessageBox.Show(x.Message);
             }

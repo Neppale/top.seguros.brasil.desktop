@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Top_Seguros_Brasil_Desktop.src.font
 {
-    internal class TsbFont 
+    internal class TsbFont
     {
 
         public static PrivateFontCollection TsbFonts = new PrivateFontCollection();
 
-        
-        
+
+
         public TsbFont()
         {
             TsbFonts.AddFontFile("src\\font\\Roboto-Black.ttf");

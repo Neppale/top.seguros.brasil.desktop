@@ -15,8 +15,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
     {
         TsbFont tsbFont = new TsbFont();
 
-        Label Label = new Label{
-            
+        Label Label = new Label
+        {
+
             Font = new Font(TsbFont.TsbFonts.Families[0], 12, FontStyle.Bold),
             ForeColor = TsbColor.neutral,
             AutoSize = true,
@@ -33,8 +34,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             BackColor = Color.Purple,
             AutoSize = true
         };
-        
-        Panel InputPanel = new Panel 
+
+        Panel InputPanel = new Panel
         {
             AutoSize = true
         };
@@ -47,9 +48,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
             set
             {
-                
+
                 input.Text = value;
-                
+
             }
         }
 
@@ -75,14 +76,14 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             set
             {
                 input.MaxLength = value;
-            }             
-            
+            }
+
         }
-        
+
 
         public string LabelText
         {
-            get 
+            get
             {
                 return Label.Text;
             }
@@ -103,14 +104,14 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 input.Hint = value;
             }
         }
-        
-        public TsbInput() 
+
+        public TsbInput()
         {
             ForeColor = TsbColor.neutralGray;
             InputPanel.Height = 100;
             InputPanel.AutoSize = true;
             InputPanel.Dock = DockStyle.Bottom;
-            
+
             InputPanel.Controls.Add(input);
             InputPanel.Controls.Add(Label);
             Controls.Add(InputPanel);
@@ -118,7 +119,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             InitializeComponent();
         }
 
-        
+
 
         public TsbInput(IContainer container)
         {

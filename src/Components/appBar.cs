@@ -20,24 +20,24 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
         public appBar(string currentUserName, string currentUserType)
         {
-            
+
             this.Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right);
             this.Dock = DockStyle.Top;
             this.Height = 115;
-            
+
 
             string[] nameAka = currentUserName.Split();
 
             if (currentUserName != null)
             {
                 userName.Text = nameAka[0] + " " + nameAka[1];
-            } 
+            }
             else
             {
                 userName.Text = "John Due";
             }
 
-            if(currentUserType != null)
+            if (currentUserType != null)
             {
                 userType.Text = currentUserType;
             }
@@ -55,12 +55,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             userType.Location = new Point(0, 52);
             userName.ForeColor = TsbColor.secondaryDarkest;
             userType.ForeColor = TsbColor.neutralGray;
-            
+
             userIcon.Dock = DockStyle.Right;
             userIcon.Image = new Bitmap(Directory.GetCurrentDirectory() + "\\src\\img\\icon\\appbar\\userIcon.png");
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.Size = new Size(50, 50);
-            
+
             notificationIcon.Dock = DockStyle.Right;
             notificationIcon.Image = new Bitmap(Directory.GetCurrentDirectory() + "\\src\\img\\icon\\appbar\\notification.png");
             notificationIcon.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -74,7 +74,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             this.Controls.Add(notificationIcon);
             this.Controls.Add(userIcon);
-            this.Controls.Add(userBox);            
+            this.Controls.Add(userBox);
 
             this.SendToBack();
             this.SendToBack();

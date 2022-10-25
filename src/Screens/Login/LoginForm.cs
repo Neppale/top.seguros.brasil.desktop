@@ -38,7 +38,7 @@ namespace Top_Seguros_Brasil_Desktop
             buttonLogin.Text = "ENTRAR";
             buttonLogin.Enabled = false;
         }
-        
+
         private async void buttonLogin_Click(object sender, EventArgs e)
         {
 

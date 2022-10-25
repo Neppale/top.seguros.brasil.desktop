@@ -14,7 +14,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
         public string tipo { get; set; }
         public string senha { get; set; }
         public bool? status { get; set; }
-        
+
         public Usuario()
         {
 
@@ -25,7 +25,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
             this.nome_completo = nomeCompleto;
             this.email = email;
             this.tipo = tipo;
-            this.senha = senha; 
+            this.senha = senha;
         }
 
         public Usuario(string nomeCompleto, string email, string senha, string tipo, bool status)
@@ -39,6 +39,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
         }
     }
 
-    
+
 
 }

@@ -20,7 +20,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
         public string? tipo { get; set; }
         public string? data { get; set; }
         public string? status { get; set; }
-         
+
         public Ocorrencia(string? data, string? local, string? uf, string? municipio, string? descricao, int? id_veiculo, int? id_cliente, string? tipo, string? status)
         {
             this.data = data;

@@ -81,7 +81,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             };
 
-            
+
 
             SubTitle(subtitle);
             Title(pageTitle);
@@ -101,19 +101,19 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             vehiclesDataTable.DataBindingComplete += (sender, e) =>
             {
-                //vehiclesDataTable.Columns["id_veiculo"].HeaderText = "ID";
-                //vehiclesDataTable.Columns["marca"].HeaderText = "Marca";
-                //vehiclesDataTable.Columns["modelo"].HeaderText = "Modelo";
-                //vehiclesDataTable.Columns["placa"].HeaderText = "Placa";
-                //vehiclesDataTable.Columns["dono"].HeaderText = "Dono";
+          //vehiclesDataTable.Columns["id_veiculo"].HeaderText = "ID";
+          //vehiclesDataTable.Columns["marca"].HeaderText = "Marca";
+          //vehiclesDataTable.Columns["modelo"].HeaderText = "Modelo";
+          //vehiclesDataTable.Columns["placa"].HeaderText = "Placa";
+          //vehiclesDataTable.Columns["dono"].HeaderText = "Dono";
 
-                //vehiclesDataTable.Columns["editar"].Visible = false;
-                //vehiclesDataTable.Columns["deletar"].Visible = false;
-                //vehiclesDataTable.Columns["ano"].Visible = false;
-                //vehiclesDataTable.Columns["renavam"].Visible = false;
-                //vehiclesDataTable.Columns["uso"].Visible = false;
-                //vehiclesDataTable.Columns["sinistrado"].Visible = false;
-                //vehiclesDataTable.Columns["id_cliente"].Visible = false;
+          //vehiclesDataTable.Columns["editar"].Visible = false;
+          //vehiclesDataTable.Columns["deletar"].Visible = false;
+          //vehiclesDataTable.Columns["ano"].Visible = false;
+          //vehiclesDataTable.Columns["renavam"].Visible = false;
+          //vehiclesDataTable.Columns["uso"].Visible = false;
+          //vehiclesDataTable.Columns["sinistrado"].Visible = false;
+          //vehiclesDataTable.Columns["id_cliente"].Visible = false;
 
                 string[] columns = { "editar", "deletar", "ano", "renavam", "uso", "sinistrado", "id_cliente" };
 
@@ -125,7 +125,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             SetColumnSpan(vehiclesDataTable, 3);
             SetRowSpan(vehiclesDataTable, 4);
         }
-        
+
         private async Task SubmitPanelSetup<Type>(string id)
         {
             EngineInterpreterResponse response;
@@ -136,7 +136,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             response = await engineInterpreter.Request<Type>($"{address}{id}", "GET", null);
             Veiculo vehicleBody = response.Body;
 
-            
+
             SubmitPanel submitPanel = new SubmitPanel();
 
             TitleBox titlebox = new TitleBox
@@ -177,15 +177,67 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 brandField.Items.Add(brand.nome);
             }
             submitPanel.Controls.Add(brandField, 1, 1);
-            
-            
-            
+
+            // on click to brand field, model field should be enabled
+            brandField.Click += async (sender, e) =>
+            {
+                var modelsResponse = await engineInterpreter.Request<IEnumerable<Modelo>>($"https://tsb-api-policy-engine.herokuapp.com/fipe/marcas/{brandField.Text}/modelos", "GET", null);
+                IEnumerable<Modelo> modelsBody = modelsResponse.Body;
+
+                TsbComboBox modelField = new TsbComboBox
+                {
+                    LabelText = "Modelo",
+                    HintText = $"{vehicleBody.modelo}",
+                    Dock = DockStyle.Top,
+                    Margin = new Padding
+                    {
+                        Top = 0,
+                        Bottom = 24,
+                        Left = 32,
+                        Right = 32
+                    }
+                };
+
+                foreach (Modelo model in modelsBody)
+                {
+                    modelField.Items.Add(model.nome);
+                }
+                submitPanel.Controls.Add(modelField, 1, 2);
+
+          // on click to model field, year field should be enabled
+                modelField.Click += async (sender, e) =>
+          {
+                  var yearsResponse = await engineInterpreter.Request<IEnumerable<Ano>>($"https://tsb-api-policy-engine.herokuapp.com/fipe/marcas/{brandField.Text}/modelos/{modelField.Text}/anos", "GET", null);
+                  IEnumerable<Ano> yearsBody = yearsResponse.Body;
+
+                  TsbComboBox yearField = new TsbComboBox
+                  {
+                      LabelText = "Ano",
+                      HintText = $"{vehicleBody.ano}",
+                      Dock = DockStyle.Top,
+                      Margin = new Padding
+                      {
+                          Top = 0,
+                          Bottom = 24,
+                          Left = 32,
+                          Right = 32
+                      }
+                  };
+
+                  foreach (Ano year in yearsBody)
+                  {
+                      yearField.Items.Add(year.nome);
+                  }
+                  submitPanel.Controls.Add(yearField, 1, 3);
+              };
+            };
+
             TsbComboBox modelField = new TsbComboBox
             {
                 LabelText = "Modelo",
                 HintText = $"{vehicleBody.modelo}",
                 Dock = DockStyle.Top,
-                Enabled = true,
+                Enabled = false,
                 Margin = new Padding
                 {
                     Top = 0,
@@ -222,7 +274,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 LabelText = "Ano",
                 HintText = $"{vehicleBody.ano}",
                 Dock = DockStyle.Top,
-                Enabled = true,
+                Enabled = false,
                 Margin = new Padding
                 {
                     Top = 0,
@@ -264,7 +316,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 Mask = "AAA-0000",
                 HintText = $"{vehicleBody.placa}",
                 Dock = DockStyle.Top,
-                Enabled = true,
+                Enabled = false,
                 Margin = new Padding
                 {
                     Top = 0,
@@ -287,7 +339,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 Text = $"{vehicleBody.renavam}",
                 MaxLength = 11,
                 Dock = DockStyle.Top,
-                Enabled = true,
+                Enabled = false,
                 Margin = new Padding
                 {
                     Top = 0,
@@ -335,7 +387,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             this.SetColumnSpan(usageField, 2);
 
 
-            plateField.TextChanged += (sender, e) => {
+            plateField.TextChanged += (sender, e) =>
+            {
                 if (plateField.Text.Length == plateField.Mask.Length)
                 {
                     renavamField.Enabled = true;
@@ -397,7 +450,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             return;
         }
-        
+
         protected async Task PutVehicle(Veiculo vehicleData, string id)
         {
             await vehiclesDataTable.Put<Veiculo>(vehicleData, id);

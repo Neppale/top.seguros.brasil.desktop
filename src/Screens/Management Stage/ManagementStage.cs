@@ -26,10 +26,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Management_Stage
             dataGridView1.Hide();
             this.Controls.Add(new appBar(userName, userType));
             this.Controls.Add(new SideNav());
-            
-            
-            
+
+
+
         }
-        
+
     }
 }

@@ -29,7 +29,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
         {
             InitializeComponent();
 
-           
+
 
             this.Width = 267;
             this.Height = 1024;
@@ -42,14 +42,14 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             logoBox.Location = new Point(0, 32);
             logoBox.Width = this.Width;
             this.Controls.Add(logoBox);
-            
+
 
             panel = new Panel();
             panel.Width = this.Width;
             panel.Parent = this;
             panel.Location = new Point(0, 380);
             panel.Height = 500;
-            
+
 
 
             MenuItem user = new MenuItem("Usuários", Directory.GetCurrentDirectory() + "\\src\\img\\icon\\nav\\users.png");
@@ -91,7 +91,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             this.Controls.Add(divider);
 
             divider.BringToFront();
-            
+
         }
 
 
@@ -112,7 +112,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
         public MenuItem(string name, string img)
         {
             TsbFont tsbFont = new TsbFont();
-            
+
             this.name = name;
             this.Height = 50;
             this.ForeColor = TsbColor.neutralGray;
@@ -127,7 +127,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             this.Image = bitmap;
             this.TextImageRelation = TextImageRelation.ImageBeforeText;
             this.ImageAlign = ContentAlignment.MiddleLeft;
-            
+
             this.Click += new EventHandler(OnClickItem);
 
         }
@@ -139,7 +139,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
         }
 
 
-        
+
 
         protected void OnClickItem(object sender, EventArgs e)
         {
@@ -183,7 +183,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
                 {
                     Customers customersPage = new Customers("Clientes", "Gerenciamento de Clientes");
                     FindForm().Controls.Add(customersPage);
-                    customersPage.BringToFront();                    
+                    customersPage.BringToFront();
                     return;
                 }
 
@@ -220,7 +220,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 
             if (this.name == "Veículos")
             {
-                
+
                 foreach (Control control in this.FindForm().Controls)
                 {
                     if (control is appBar || control is SideNav)
@@ -266,7 +266,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
                     FindForm().Controls.Add(CoveragesPage);
                     CoveragesPage.BringToFront();
                     return;
-                    
+
                 }
 
                 return;

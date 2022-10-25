@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace Top_Seguros_Brasil_Desktop.Utils
 {
-    public class EngineInterpreter 
+    public class EngineInterpreter
     {
         public HttpClient httpClient { get; set; }
 
@@ -19,7 +19,7 @@ namespace Top_Seguros_Brasil_Desktop.Utils
             this.httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
-        
+
         public async Task<EngineInterpreterResponse> Request<type>(string address, string method, StringContent? data)
         {
             if (string.IsNullOrEmpty(address)) throw new ArgumentException("Endereço inválido.");
@@ -57,9 +57,9 @@ namespace Top_Seguros_Brasil_Desktop.Utils
                 var statusCode = (int)response.StatusCode;
                 return new EngineInterpreterResponse(statusCode, convertedBody);
             }
-            catch (Exception) 
+            catch (Exception)
             {
-                throw new EngineInterpreterException("Houve um erro ao realizar a desserialização do objeto."); 
+                throw new EngineInterpreterException("Houve um erro ao realizar a desserialização do objeto.");
             }
         }
 
