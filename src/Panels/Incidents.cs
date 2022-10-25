@@ -88,7 +88,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             putButton.Margin = new Padding(32);
             putButton.Text = "ADICIONAR OCORRÊNCIA";
             putButton.Click += PutButton_Click;
-            
+
 
             SubTitle(subtitle);
             Title(pageTitle);
@@ -174,7 +174,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
 
 
-            nameField.SelectedValueChanged += async (sender, e) => {
+            nameField.SelectedValueChanged += async (sender, e) =>
+            {
 
                 vehicleField.Items.Clear();
                 int id_cliente = 0;
@@ -224,7 +225,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             };
             submitPanel.Controls.Add(incidentTitlebox, 0, 5);
-            
+
 
             ButtonTsbSecondary fileInput = new ButtonTsbSecondary
             {
@@ -239,13 +240,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
             submitPanel.Controls.Add(fileInput, 1, 5);
-            
+
 
             TsbComboBox typeField = new TsbComboBox
             {
                 LabelText = "Tipo de ocorrência",
                 HintText = "Acidente",
-                Items = { "Acidente", "Furto", "Roubo"},
+                Items = { "Acidente", "Furto", "Roubo" },
                 ForeColor = TsbColor.neutralGray,
                 Dock = DockStyle.Top,
                 Margin = new Padding
@@ -278,7 +279,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             string ufAddress = "https://servicodados.ibge.gov.br/api/v1/localidades/estados";
             var ufs = await engineInterpreter.Request<IEnumerable<uf>>(ufAddress, "GET", null);
-            IEnumerable <uf> ufBody = ufs.Body;
+            IEnumerable<uf> ufBody = ufs.Body;
 
 
 
@@ -313,7 +314,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             string incidentDocument = "";
 
-            fileInput.Click += async (sender, e) => {
+            fileInput.Click += async (sender, e) =>
+            {
 
                 incidentDocument = "";
                 OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -348,7 +350,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 {
                     countyField.Items.Add(county.nome);
                 }
-                
+
                 countyField.SelectedItem = countyField.Items[0];
 
             };
@@ -440,7 +442,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             continueSubmit.Click += async (sender, e) =>
             {
-                
+
                 int id_veiculo = 0;
                 int id_cliente = 0;
                 string uf = "";
@@ -505,9 +507,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 IncidentInsertReponse responseBody = response.Body;
 
 
-                if(response.StatusCode == 201)
+                if (response.StatusCode == 201)
                 {
-                
+
                     if (incidentDocument != "")
                     {
 
@@ -523,11 +525,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                     return;
 
                 }
-                
-                
+
+
             };
 
-           
+
 
 
             ButtonTsbTertiary cancelSubmit = new ButtonTsbTertiary
@@ -650,7 +652,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
 
 
-            
+
 
 
 
@@ -673,7 +675,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
             submitPanel.Controls.Add(incidentTitlebox, 0, 5);
 
-            
+
 
             ButtonTsbSecondary fileInput = new ButtonTsbSecondary
             {
@@ -697,7 +699,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 var uri = new Uri("https://tsb-api-policy-engine.herokuapp.com/ocorrencia/documento/" + incident.id_ocorrencia);
 
-                
+
 
                 try
                 {
@@ -717,7 +719,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                         await s.CopyToAsync(file);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Ocorrência não possui boletim de ocorrência cadastrado.");
                     fileInput.Enabled = false;
@@ -725,9 +727,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                     return;
                 }
 
-                
 
-       
+
+
             };
 
 
@@ -766,7 +768,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             submitPanel.Controls.Add(ufField, 1, 6);
 
 
-            
+
 
 
 
@@ -969,11 +971,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 Controls.Remove(incidentsDataTable);
                 GetIncidents();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return;
             }
-            
+
         }
 
         protected void AddDocument(string incidentDocument, string incidentId)
@@ -988,13 +990,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             request.AddHeader("file", incidentDocument.Split("\\")[incidentDocument.Split("\\").Length - 1]);
             request.AddFile("file", fileBytes, incidentDocument.Split("\\")[incidentDocument.Split("\\").Length - 1], $"image/{incidentDocument.Split(".")[1]}");
-            
+
             var response = client.Execute(request);
 
             if (response.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 MessageBox.Show("Boletim de ocorrência enviado!");
-                
+
             }
             else
             {
@@ -1014,7 +1016,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 incidentsDataTable.RemoveColumns(columns);
             };
 
-            
+
 
             Controls.Add(incidentsDataTable, 0, 5);
             SetColumnSpan(incidentsDataTable, 3);
@@ -1041,9 +1043,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
     }
 
     public class IncidentDataResponse
-    { 
+    {
         public IEnumerable<Ocorrencia[]> data { get; init; }
         public int totalPages { get; set; }
-    
+
     }
 }

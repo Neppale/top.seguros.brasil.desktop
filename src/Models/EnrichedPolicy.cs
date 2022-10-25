@@ -36,5 +36,5 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
         }
     }
 
-    
+
 }

@@ -67,7 +67,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             putButton.Margin = new Padding(32);
             putButton.Text = "Adicionar Usuário";
             putButton.Click += PutButton_Click;
-            
+
 
             SubTitle(subtitle);
             Title(pageTitle);
@@ -152,7 +152,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
             submitPanel.Controls.Add(descriptionField, 2, 1);
-            
+
 
             TsbInput priceField = new TsbInput
             {
@@ -397,7 +397,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             Controls.Remove(coveragesDataTable);
             GetCoverages();
         }
-        
+
         public Coverages(IContainer container)
         {
             container.Add(this);

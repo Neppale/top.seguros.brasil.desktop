@@ -44,7 +44,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
 
             Panel divider = new Panel();
-            
+
             divider.Height = 1;
             divider.BackColor = TsbColor.neutralWhite;
             divider.Dock = DockStyle.Top;
@@ -56,8 +56,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30));
             this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 44));
             this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 26));
-            
-            
+
+
             this.RowStyles.Add(new RowStyle(SizeType.Absolute, 31));
             this.RowStyles.Add(new RowStyle(SizeType.Absolute, 27));
             this.RowStyles.Add(new RowStyle(SizeType.Absolute, 21));
@@ -82,7 +82,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             InitializeComponent();
 
-            
+
         }
 
         public void Title(string title)
@@ -97,7 +97,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             pageTitleLabel.AutoSize = true;
             pageTitleLabel.Dock = DockStyle.Top;
             pageTitleLabel.SendToBack();
-            
+
         }
 
         public void SubTitle(string title)
@@ -111,7 +111,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             pageSubTitleLabel.AutoSize = true;
             pageSubTitleLabel.Font = new Font(TsbFont.TsbFonts.Families[3], 10);
             pageSubTitleLabel.Dock = DockStyle.Top;
-            
+
         }
 
         public BasePanel(string name, string type, int id, string email)

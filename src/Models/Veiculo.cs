@@ -18,7 +18,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
         public bool? sinistrado { get; set; }
         public string? dono { get; set; }
         public int id_cliente { get; set; }
-        
+
 
         public Veiculo(string? marca, string? modelo, string? ano, string? uso, string? placa, string? renavam, bool? sinistrado, int idCliente)
         {

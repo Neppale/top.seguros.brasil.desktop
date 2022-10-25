@@ -64,7 +64,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         {
 
         }
-        
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -74,8 +74,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         {
             textBox1.BackColor = TsbColor.surface;
             panel1.BackColor = TsbColor.surface;
-         
-            
+
+
             this.Paint += (sender, e) =>
             {
                 Rectangle borderRectangle = this.ClientRectangle;
@@ -88,7 +88,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             materialFlatButton1.BackColor = TsbColor.secondary;
             materialFlatButton1.ForeColor = TsbColor.surface;
             materialFlatButton1.Cursor = Cursors.Hand;
-         
+
         }
 
         private void materialFlatButton1_Click(object sender, EventArgs e)

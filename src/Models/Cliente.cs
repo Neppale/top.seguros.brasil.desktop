@@ -24,7 +24,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
 
         public Cliente()
         {
-            
+
         }
 
         public Cliente(string nomeCompleto, string email, string senha, string cpf, string cnh, string cep, string dataNascimento, string telefone1, string telefone2, bool status)
@@ -55,5 +55,5 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
     }
 
 
-    
+
 }

@@ -13,7 +13,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
         public string? sigla { get; set; }
 
         public regiao? regiao { get; set; }
-    
+
     }
 
     public class regiao

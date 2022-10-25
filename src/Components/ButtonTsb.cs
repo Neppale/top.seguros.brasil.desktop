@@ -15,10 +15,10 @@ namespace Top_Seguros_Brasil_Desktop
 {
     public partial class ButtonTsbPrimary : Button
     {
-        
+
         public ButtonTsbPrimary()
         {
-            
+
             this.ForeColor = TsbColor.neutralWhite;
             this.BackColor = TsbColor.primary;
             this.Font = MaterialSkinManager.Instance.ROBOTO_MEDIUM_10;
@@ -31,11 +31,11 @@ namespace Top_Seguros_Brasil_Desktop
             //    this.Text += this.Text.ToUpper();
             //};
 
-            this.MouseEnter += (sender, e ) =>
+            this.MouseEnter += (sender, e) =>
             {
                 this.BackColor = TsbColor.primaryDarkest;
             };
-            
+
             this.MouseLeave += (sender, e) =>
             {
                 this.BackColor = TsbColor.primary;
@@ -48,7 +48,7 @@ namespace Top_Seguros_Brasil_Desktop
             };
 
             InitializeComponent();
-            
+
         }
 
         public ButtonTsbPrimary(IContainer container)
@@ -64,7 +64,7 @@ namespace Top_Seguros_Brasil_Desktop
         Panel button = new Panel();
         Label buttonText = new Label();
 
-        
+
         public new string Text
         {
             get
@@ -74,7 +74,7 @@ namespace Top_Seguros_Brasil_Desktop
             set
             {
                 buttonText.Text = value;
-            }   
+            }
         }
 
         public new event EventHandler Click
@@ -91,12 +91,12 @@ namespace Top_Seguros_Brasil_Desktop
 
         public ButtonTsbSecondary()
         {
-            
+
 
             this.Height = 56;
             this.BackColor = TsbColor.neutralGray;
             this.Padding = new Padding(1, 1, 1, 1);
-                        
+
             InitializeComponent();
             button.BackColor = TsbColor.background;
             button.Dock = DockStyle.Fill;
@@ -127,7 +127,7 @@ namespace Top_Seguros_Brasil_Desktop
             };
 
             buttonText.Cursor = Cursors.Hand;
-            
+
             this.Controls.Add(button);
         }
 

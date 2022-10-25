@@ -16,7 +16,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.BaseForm
     {
         protected string token { get; set; }
         public string userName { get; set; }
-        public string userType { get; set; } 
+        public string userType { get; set; }
 
         public BaseForm()
         {
@@ -30,13 +30,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.BaseForm
             {
                 Application.Exit();
             };
-            
+
             this.MaximizeBox = true;
             InitializeComponent();
         }
         private void BaseForm_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         public BaseForm(IContainer container)

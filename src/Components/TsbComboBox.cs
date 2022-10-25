@@ -32,7 +32,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             AutoSize = true
         };
 
-        
+
 
         Panel InputPanel = new Panel
         {
@@ -62,7 +62,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
             remove
             {
-                input.Click -= value;                
+                input.Click -= value;
             }
         }
 
@@ -77,7 +77,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 input.DataSource = value;
             }
         }
-        
+
         public string LabelText
         {
             get
@@ -114,12 +114,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             }
         }
 
-        public object SelectedItem {
+        public object SelectedItem
+        {
             get
             {
                 return input.SelectedItem;
             }
-            
+
             set
             {
                 input.SelectedItem = value;
@@ -149,7 +150,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 input.SelectedValueChanged -= value;
             }
         }
-        
+
         public object SelectedComboItem
         {
             get
@@ -159,11 +160,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             set
             {
                 input.SelectedItem = value;
-                
+
             }
         }
 
-        public TsbComboBox() 
+        public TsbComboBox()
         {
             input.FlatStyle = FlatStyle.Flat;
 
@@ -172,7 +173,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             InputPanel.AutoSize = true;
             InputPanel.Dock = DockStyle.Bottom;
 
-            
+
             input.AutoCompleteMode = AutoCompleteMode.Append;
             InputPanel.Controls.Add(input);
             InputPanel.Controls.Add(Label);
