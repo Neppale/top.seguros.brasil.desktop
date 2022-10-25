@@ -4,7 +4,7 @@
     {
         public TestField()
         {
-            this.Controls.Add(new ButtonTsbPrimary 
+            this.Controls.Add(new ButtonTsbPrimary
             {
                 Text = "Primario",
                 Location = new Point(10, 10)

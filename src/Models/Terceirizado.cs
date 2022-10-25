@@ -15,7 +15,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
         public string? telefone { get; set; }
         public double? valor { get; set; }
         public bool? status { get; set; }
-        
+
         public Terceirizado(string? nome, string? funcao, string? cnpj, string? telefone, double? valor, bool? status)
         {
             this.nome = nome;
@@ -25,7 +25,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Models
             this.valor = valor;
             this.status = status;
         }
-        
+
 
     }
 }

@@ -87,12 +87,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 //outsourcedDataTable.Columns["funcao"].HeaderText = "Função";
                 //outsourcedDataTable.Columns["cnpj"].HeaderText = "CNPJ";
                 //outsourcedDataTable.Columns["valor"].HeaderText = "Valor";
-                
+
                 //outsourcedDataTable.Columns["status"].Visible = false;
                 //outsourcedDataTable.Columns["Detalhes"].Visible = false;
 
 
-                string[] columns = { "status", "detalhes"};
+                string[] columns = { "status", "detalhes" };
 
                 outsourcedDataTable.RemoveColumns(columns);
             };
@@ -430,7 +430,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         protected async Task PostOutsourced(Terceirizado outsourcedData, EventHandler? e)
         {
-            
+
 
             var engineInterpreter = new EngineInterpreter(token);
 

@@ -23,7 +23,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             {
 
                 title.Font = new Font(TsbFont.TsbFonts.Families[0], value, FontStyle.Bold);
-                
+
             }
         }
 
@@ -60,7 +60,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             set
             {
                 pictureBox1.Visible = value;
-                
+
             }
         }
 
@@ -74,9 +74,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 title.AutoSize = true;
 
 
-                
+
                 subTitle.Padding = new Padding(32, 0, 0, 0);
-                
+
                 subTitle.Font = new Font(TsbFont.TsbFonts.Families[0], 10, FontStyle.Regular);
                 subTitle.ForeColor = TsbColor.neutralGray;
                 subTitle.Width = subTitle.Width - this.Width;

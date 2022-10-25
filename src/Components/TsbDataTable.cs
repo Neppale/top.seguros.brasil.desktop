@@ -170,8 +170,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             paginationRow.nextButton.Click += async (sender, e) =>
             {
                 currentPage++;
-                await ChangeToPage<JObject>(currentPage, "next");
-                
+                await ChangeToPage<JObject>(currentPage, "next", searchBox.Text);
+
                 paginationRow.PreviousEnabled = true;
                 paginationRow.PageNumberText = "Página: " + currentPage.ToString();
             };
@@ -180,9 +180,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             {
                 currentPage--;
 
-                await ChangeToPage<JObject>(currentPage, "previous");
+                await ChangeToPage<JObject>(currentPage, "previous", searchBox.Text);
                 paginationRow.PageNumberText = "Página: " + currentPage.ToString();
-                if(currentPage < maxPages)
+                if (currentPage < maxPages)
                 {
                     paginationRow.NextEnabled = true;
                 }
@@ -235,7 +235,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
 
         }
-        
+
         public async Task Post<Type>(object body)
         {
 
@@ -294,7 +294,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         {
             bindingSource.DataSource = source;
             dataGridView.DataSource = bindingSource;
-            
+
             dataGridView.DataBindingComplete += async (sender, e) =>
             {
 
@@ -313,7 +313,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 }
 
                 ActionColumnSetup();
-                
+
                 ActionButtonsSetup();
 
             };
@@ -381,17 +381,17 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 }
             };
 
-            return; 
+            return;
         }
         public async Task ActionButtonsSetup()
         {
-            
+
             if (dataGridView.Columns.Contains("Editar") && dataGridView.Columns.Contains("Deletar") && dataGridView.Columns.Contains("Detalhes"))
             {
                 dataGridView.Columns["Detalhes"].DisplayIndex = dataGridView.Columns.Count - 1;
                 dataGridView.Columns["Editar"].DisplayIndex = dataGridView.Columns.Count - 1;
                 dataGridView.Columns["Deletar"].DisplayIndex = dataGridView.Columns.Count - 1;
-                
+
 
                 dataGridView.CellClick += new DataGridViewCellEventHandler(DeleteButton_Click);
             }
@@ -403,17 +403,17 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
         public async Task SearchData<Type>(string value)
         {
-            
+
             DataTable dataTable = new DataTable();
 
             var response = await engineInterpreter.Request<IEnumerable<JObject>>($"{address}?search={value}", "GET", null);
             IEnumerable<Type> responseBody = response.Body;
 
-            
+
             if (responseBody.Count() != 0)
             {
-                string[] properties = {""};
-                string[] values = {""};
+                string[] properties = { "" };
+                string[] values = { "" };
 
                 IEnumerable<JObject> o = (IEnumerable<JObject>)responseBody;
 
@@ -454,12 +454,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
         }
 
-        public async Task ChangeToPage<Type>(int page, string direction)
+        public async Task ChangeToPage<Type>(int page, string direction, string? search)
         {
             DataTable dataTable = new DataTable();
 
-            var response = await engineInterpreter.Request<IEnumerable<Type>>($"{address}?pageNumber={page}", "GET", null);
-            
+            var response = await engineInterpreter.Request<IEnumerable<Type>>($"{address}?pageNumber={page}&search={search}", "GET", null);
+
             IEnumerable<Type> responseBody = response.Body;
 
 
@@ -495,13 +495,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 {
                     Console.WriteLine(ex);
                 }
-                
+
                 await LoadData(dataTable);
 
                 dataGridView.Refresh();
 
 
-                
+
 
 
                 if (direction == "next")
@@ -532,7 +532,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                         paginationRow.PageNumberText = page.ToString();
                         paginationRow.PreviousEnabled = false;
                         paginationRow.NextEnabled = true;
-                        
+
                         return;
                     }
 
@@ -555,7 +555,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
         public void RemoveColumns(string[] columns)
         {
-            
+
             foreach (string column in columns)
             {
                 if (dataGridView.Columns.Contains(column))
@@ -563,7 +563,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                     dataGridView.Columns[column].Visible = false;
                 }
             }
-            
+
         }
 
         public void SetupDataTable()

@@ -13,8 +13,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 {
     public partial class SubmitPanel : TableLayoutPanel
     {
-        
-        public SubmitPanel() 
+
+        public SubmitPanel()
         {
             this.Size = new Size(1173, 909);
             this.Visible = false;
@@ -47,7 +47,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
             this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
             this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
-            
+
             this.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             this.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             this.RowStyles.Add(new RowStyle(SizeType.AutoSize));

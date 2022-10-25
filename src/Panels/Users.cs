@@ -17,7 +17,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         public ArrayList selectedUser = new ArrayList();
         TsbDataTable usersDataTable = new TsbDataTable();
         EngineInterpreter engineInterpreter = new EngineInterpreter(token);
-        
+
         public Users()
         {
 
@@ -340,7 +340,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 string[] columns = { "Senha", "Status", "Detalhes" };
                 usersDataTable.RemoveColumns(columns);
             };
-            
+
             Controls.Add(usersDataTable, 0, 5);
             SetColumnSpan(usersDataTable, 3);
             SetRowSpan(usersDataTable, 4);
@@ -355,12 +355,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             GetUsers();
         }
-        
+
         protected async Task PutUser(Usuario userData, string id)
         {
             await usersDataTable.Put<Usuario>(userData, id);
         }
-        
+
         public Users(IContainer container)
         {
             container.Add(this);

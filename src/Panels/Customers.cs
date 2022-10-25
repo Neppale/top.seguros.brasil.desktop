@@ -20,7 +20,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         public Apolice policyDetails;
         TsbDataTable customersDataTable = new TsbDataTable();
         EngineInterpreter engineInterpreter = new EngineInterpreter(token);
-        
+
         public Customers()
         {
         }
@@ -80,7 +80,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             customersDataTable.DataBindingComplete += (sender, e) =>
             {
-              
+
                 string[] columns = { "senha", "cnh", "cep", "data_nascimento", "telefone 2", "message", "status", "deletar", "editar" };
 
                 customersDataTable.RemoveColumns(columns);
@@ -91,7 +91,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             SetColumnSpan(customersDataTable, 3);
             SetRowSpan(customersDataTable, 4);
         }
-        
+
         private void SubmitCustomerPanelSetup()
         {
             SubmitPanel submitPanel = new SubmitPanel();
@@ -114,7 +114,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             TsbInput nameField = new TsbInput
             {
-                LabelText =  "Nome",
+                LabelText = "Nome",
                 HintText = "Nome Completo do cliente",
                 ForeColor = TsbColor.neutralGray,
                 Dock = DockStyle.Top,
@@ -129,7 +129,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             submitPanel.Controls.Add(nameField, 1, 1); ;
 
             DateTime dateTime = DateTime.Now;
-            
+
 
             TsbMaskedTextBox dateBirthField = new TsbMaskedTextBox
             {
@@ -147,7 +147,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
             submitPanel.Controls.Add(dateBirthField, 2, 1);
-            
+
 
             TsbMaskedTextBox cpfField = new TsbMaskedTextBox
             {
@@ -165,7 +165,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
             submitPanel.Controls.Add(cpfField, 1, 2);
-            
+
 
             TsbInput cnhField = new TsbInput
             {
@@ -218,7 +218,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
             submitPanel.Controls.Add(emailField, 2, 3);
-            
+
 
             TsbMaskedTextBox tel1Field = new TsbMaskedTextBox
             {
@@ -267,7 +267,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
             submitPanel.Controls.Add(submitButton, 2, 5);
-            
+
             submitButton.Click += async (sender, e) =>
             {
                 Cliente customer = new Cliente
@@ -286,7 +286,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 await PostCustomer(customer, null);
             };
-            
+
 
             Panel divider = new Panel();
             divider.Height = 1;
@@ -345,7 +345,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
             submitPanel.Controls.Add(continueSubmit, 2, 8);
-            
+
             continueSubmit.Click += async (sender, e) =>
             {
                 Cliente customer = new Cliente
@@ -373,7 +373,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 submitPanel.Dispose();
 
-                
+
             };
 
 
@@ -392,7 +392,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             submitPanel.Controls.Add(cancelSubmit, 1, 8);
 
 
-            
+
 
             if (Controls.OfType<SubmitPanel>().Count() != 0)
             {
@@ -511,9 +511,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 yearField.Enabled = true;
                 yearField.Items.Clear();
-                
+
                 var selectedBrand = brandsBody.Where(brand => brand.nome == brandField.SelectedItem.ToString()).First();
-                
+
                 var models = await engineInterpreter.Request<IEnumerable<Modelo>>($"https://tsb-api-policy-engine.herokuapp.com/fipe/marcas/{selectedBrand.codigo}/modelos", "GET", null);
 
                 IEnumerable<Modelo> modelsBody = models.Body;
@@ -608,7 +608,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             this.SetColumnSpan(usageField, 2);
 
 
-            plateField.TextChanged += (sender, e) => {
+            plateField.TextChanged += (sender, e) =>
+            {
                 if (plateField.Text.Length == plateField.Mask.Length)
                 {
                     renavamField.Enabled = true;
@@ -969,7 +970,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 var policyCreateResponse = await engineInterpreter.Request<EnrichedPolicy>("https://tsb-api-policy-engine.herokuapp.com/apolice/gerar/", "POST", data);
 
                 EnrichedPolicy enrichedPolicy = policyCreateResponse.Body;
-                
+
                 MessageBox.Show(responseBody.message);
                 MessageBox.Show(enrichedPolicy.message);
 
@@ -1007,7 +1008,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             return;
 
         }
-        
+
         private async void PolicyDetails(string id)
         {
             EngineInterpreterResponse response;
@@ -1628,7 +1629,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             return;
         }
-        
+
         private async Task SubmitPanelSetup<Type>(string id)
         {
 
@@ -1843,7 +1844,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             divider.Dock = DockStyle.Top;
             submitPanel.Controls.Add(divider, 0, 6);
             submitPanel.SetColumnSpan(divider, 3);
-            
+
 
             if (Controls.OfType<SubmitPanel>().Count() != 0)
             {
@@ -1905,7 +1906,7 @@ public class VehicleInsertResponse
 {
     public string? message { get; set; }
     public Veiculo? vehicle { get; set; }
-    
+
 }
 
 public class PolicyInsertResponse

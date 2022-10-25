@@ -34,7 +34,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             Font = MaterialSkinManager.Instance.ROBOTO_MEDIUM_11,
             InsertKeyMode = InsertKeyMode.Overwrite,
             HidePromptOnLeave = true,
-            BackColor = TsbColor.background, 
+            BackColor = TsbColor.background,
             Dock = DockStyle.Top,
             Margin = new Padding(4, 32, 0, 0),
             Width = 331,
@@ -42,11 +42,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         };
 
         Panel InputPanel = new Panel
-        { 
+        {
             AutoSize = true
         };
 
-        
+
         public string Text
         {
             get
@@ -71,8 +71,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 input.Mask = value;
             }
         }
-        
-            
+
+
         public string LabelText
         {
             get
@@ -135,7 +135,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             get
             {
                 return input.Enabled;
-                
+
             }
             set
             {
@@ -143,7 +143,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 Label.Enabled = value;
             }
         }
-        
+
         public bool Currency
         {
             set
@@ -184,14 +184,14 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             InputPanel.Height = 100;
             InputPanel.AutoSize = true;
             InputPanel.Dock = DockStyle.Bottom;
-            
+
             InputPanel.Controls.Add(input);
             InputPanel.Controls.Add(Label);
-            
+
             Panel divider = new Panel();
             divider.Height = 1;
             divider.BackColor = Color.FromArgb(66, 0, 0, 0);
-            divider.Dock = DockStyle.Bottom;            
+            divider.Dock = DockStyle.Bottom;
             input.Controls.Add(divider);
 
             input.Click += (sender, e) =>
@@ -220,7 +220,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             };
 
             Controls.Add(InputPanel);
-            
+
             InitializeComponent();
         }
         

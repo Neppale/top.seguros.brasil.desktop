@@ -24,10 +24,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         public ArrayList selectedPolicy = new ArrayList();
         TsbDataTable policiesDataTable = new TsbDataTable();
         EngineInterpreter engineInterpreter = new EngineInterpreter(token);
-            
+
         public Policies()
         {
-            
+
         }
 
         public Policies(string pageTitle, string subtitle)
@@ -59,7 +59,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                         await SubmitPanelSetup<Apolice>(selectedPolicy[0].ToString());
                         return;
                     }
-                    
+
                 }
 
             };
@@ -90,8 +90,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                     {
                         row.Cells["status"].Style.ForeColor = TsbColor.success;
                     }
-                    
-                    if(row.Cells["status"].Value.ToString() == "Em Análise")
+
+                    if (row.Cells["status"].Value.ToString() == "Em Análise")
                     {
                         row.Cells["status"].Value = "Aguardando análise";
                         row.Cells["status"].Style.ForeColor = TsbColor.wating;
@@ -111,7 +111,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
 
             };
-            
+
             Controls.Add(policiesDataTable, 0, 5);
             SetColumnSpan(policiesDataTable, 3);
         }
@@ -169,7 +169,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             IEnumerable<Cobertura> coveragesList = coverages.Body;
 
-            
+
             TsbComboBox coverageField = new TsbComboBox
             {
                 LabelText = "Cobertura",
@@ -190,7 +190,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             submitPanel.Controls.Add(coverageField, 1, 2);
             this.SetColumnSpan(coverageField, 2);
 
-            
+
             TsbInput descriptionField = new TsbInput
             {
                 LabelText = "Descrição da cobertura",
@@ -207,13 +207,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
             };
 
-            
+
 
             coverageField.SelectedValueChanged += async (sender, e) =>
             {
-                
+
                 string itemNameSplited = coverageField.SelectedItem.ToString().Split()[0];
-                
+
                 var selectedCoverage = coveragesList.Where(brand => brand.nome == itemNameSplited);
 
                 selectedItemId = coveragesList.First().id_cobertura;
@@ -225,7 +225,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             this.SetColumnSpan(descriptionField, 2);
 
             DateTime dateTime = DateTime.Now;
-            
+
             TsbMaskedTextBox startDateField = new TsbMaskedTextBox
             {
                 LabelText = "Data de Início",
@@ -502,7 +502,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             submitPanel.SetColumnSpan(dividerCustomer, 3);
 
 
-            
+
 
             TsbDataBox vehicleDataTitle = new TsbDataBox
             {
@@ -637,7 +637,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             submitPanel.Controls.Add(dividerVehicle, 0, 8);
             submitPanel.SetColumnSpan(dividerVehicle, 3);
 
-            
+
 
             TsbDataBox policyDataTitle = new TsbDataBox
             {
@@ -786,11 +786,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                     Right = 32
                 }
             };
-            
+
             submitPanel.Controls.Add(submitButton, 1, 12);
             submitPanel.SetColumnSpan(submitButton, 2);
-            
-            
+
+
             submitButton.Click += async (sender, e) =>
             {
 
@@ -807,13 +807,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 saveFileDialog.RestoreDirectory = true;
                 saveFileDialog.FileName = requestResponse.cliente.nome_completo + "-apolice.pdf";
 
-                if(saveFileDialog.ShowDialog() == DialogResult.OK)
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     await using var file = File.Create(saveFileDialog.FileName);
                     await s.CopyToAsync(file);
                 }
             };
-            
+
 
             if (requestResponse.status == "Em Análise")
             {
@@ -957,8 +957,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             InitializeComponent();
         }
-    }   
-    
+    }
+
     public class PolicyRequestResponse
     {
         public int id_apolice { get; set; }
@@ -973,11 +973,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         public Usuario? usuario { get; set; }
         public Cliente? cliente { get; set; }
         public Veiculo? veiculo { get; set; }
-        
+
         public string? status { get; set; }
 
     }
-    
+
     public class PolicyToGenerate
     {
         public int id_cliente { get; set; }

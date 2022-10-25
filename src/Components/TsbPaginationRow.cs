@@ -23,7 +23,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             {
                 this.pageNumber.Text = value;
             }
-            
+
         }
 
         public bool NextEnabled
@@ -47,7 +47,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             set
             {
                 previousButton.Enabled = value;
-                
+
                 if (!value)
                 {
                     previousButton.Image = Properties.Resources.disable_left_arrow;
