@@ -1,25 +1,4 @@
-﻿using MaterialSkin;
-using MaterialSkin.Controls;
-using Microsoft.VisualBasic.ApplicationServices;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml.Linq;
-using Top_Seguros_Brasil_Desktop.Properties;
-using Top_Seguros_Brasil_Desktop.src.Components;
-using Top_Seguros_Brasil_Desktop.src.font;
-using Top_Seguros_Brasil_Desktop.src.Models;
-using Top_Seguros_Brasil_Desktop.src.Panels;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-
-namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
+﻿namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 {
     public partial class SideNav : Panel
     {
@@ -35,14 +14,26 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             this.Width = 267;
             this.Height = 1024;
             this.BackColor = TsbColor.surface;
-
-            string imgPath = Directory.GetCurrentDirectory() + "\\src\\img\\logo\\tsb-logo.png";
-            PictureBox logoBox = new PictureBox();
-            logoBox.Image = new Bitmap(imgPath);
-            logoBox.SizeMode = PictureBoxSizeMode.Zoom;
-            logoBox.Location = new Point(0, 32);
-            logoBox.Width = this.Width;
-            this.Controls.Add(logoBox);
+            try
+            {
+                string imgPath = Directory.GetCurrentDirectory() + "\\src\\img\\logo\\tsb-logo.png";
+                PictureBox logoBox = new PictureBox();
+                logoBox.Image = new Bitmap(imgPath);
+                logoBox.SizeMode = PictureBoxSizeMode.Zoom;
+                logoBox.Location = new Point(0, 32);
+                logoBox.Width = this.Width;
+                this.Controls.Add(logoBox);
+            }
+            catch
+            {
+                string imgPath = "..\\..\\..\\src\\img\\logo\\tsb-logo.png";
+                PictureBox logoBox = new PictureBox();
+                logoBox.Image = new Bitmap(imgPath);
+                logoBox.SizeMode = PictureBoxSizeMode.Zoom;
+                logoBox.Location = new Point(0, 32);
+                logoBox.Width = this.Width;
+                this.Controls.Add(logoBox);
+            }
 
 
             panel = new Panel();
