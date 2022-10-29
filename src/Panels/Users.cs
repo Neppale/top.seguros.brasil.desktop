@@ -324,7 +324,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             return Task.CompletedTask;
         }
-
+        
         private void PutButton_Click(object? sender, EventArgs? e)
         {
             SubmitPanelSetup();
@@ -333,7 +333,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         protected async void GetUsers()
         {
 
-            await usersDataTable.Get<PaginatedResponse<Usuario>>("https://tsb-api-policy-engine.herokuapp.com/usuario/");
+            await usersDataTable.Get<PaginatedResponse<Usuario>>("https://tsb-api-policy-engine.herokuapp.com/usuario/", null);
 
             usersDataTable.DataBindingComplete += (sender, e) =>
             {
@@ -374,8 +374,3 @@ public class UserInsertResponse
     public string? message { get; set; }
 }
 
-public class PaginatedResponse<type>
-{
-    public type[]? data { get; set; }
-    public int? totalPages { get; set; }
-}

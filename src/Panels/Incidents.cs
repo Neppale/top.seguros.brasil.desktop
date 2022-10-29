@@ -969,13 +969,13 @@
             {
                 MessageBox.Show("Ocorreu um erro ao enviar o boletim de ocorrência! Tente novamente.");
             }
-
+            
         }
 
         protected async void GetIncidents()
         {
 
-            await incidentsDataTable.Get<PaginatedResponse<Ocorrencia>>("https://tsb-api-policy-engine.herokuapp.com/ocorrencia/");
+            await incidentsDataTable.Get<PaginatedResponse<Ocorrencia>>("https://tsb-api-policy-engine.herokuapp.com/ocorrencia/", null);
 
             incidentsDataTable.DataBindingComplete += (sender, e) =>
             {

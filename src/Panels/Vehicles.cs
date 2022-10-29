@@ -73,7 +73,7 @@
 
             GetVehicles();
 
-
+            
 
             InitializeComponent();
         }
@@ -81,7 +81,7 @@
         protected async void GetVehicles()
         {
 
-            await vehiclesDataTable.Get<PaginatedResponse<Veiculo>>("https://tsb-api-policy-engine.herokuapp.com/veiculo/");
+            await vehiclesDataTable.Get<PaginatedResponse<Veiculo>>("https://tsb-api-policy-engine.herokuapp.com/veiculo/", null);
 
             vehiclesDataTable.DataBindingComplete += (sender, e) =>
             {

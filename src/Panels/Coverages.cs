@@ -58,7 +58,7 @@
             SubTitle(subtitle);
             Title(pageTitle);
             InitializeComponent();
-
+            
             GetCoverages();
 
             InitializeComponent();
@@ -67,7 +67,7 @@
         protected async void GetCoverages()
         {
 
-            await coveragesDataTable.Get<PaginatedResponse<Cobertura>>("https://tsb-api-policy-engine.herokuapp.com/cobertura/");
+            await coveragesDataTable.Get<PaginatedResponse<Cobertura>>("https://tsb-api-policy-engine.herokuapp.com/cobertura/", null);
 
             coveragesDataTable.DataBindingComplete += (sender, e) =>
             {

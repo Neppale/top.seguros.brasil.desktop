@@ -64,12 +64,12 @@
         protected async void GetCustomers()
         {
 
-            await customersDataTable.Get<PaginatedResponse<Cliente>>("https://tsb-api-policy-engine.herokuapp.com/cliente/");
+            await customersDataTable.Get<PaginatedResponse<Cliente>>("https://tsb-api-policy-engine.herokuapp.com/cliente/", null);
 
             customersDataTable.DataBindingComplete += (sender, e) =>
             {
 
-                string[] columns = { "senha", "cnh", "cep", "data_nascimento", "telefone 2", "message", "status", "deletar", "editar" };
+                string[] columns = { "senha", "cnh", "cep", "data_nascimento", "telefone 2", "message", "status", "deletar", "editar", "type", "item" };
 
                 customersDataTable.RemoveColumns(columns);
 
@@ -78,6 +78,8 @@
             Controls.Add(customersDataTable, 0, 5);
             SetColumnSpan(customersDataTable, 3);
             SetRowSpan(customersDataTable, 4);
+            this.Refresh();
+            customersDataTable.Refresh();
         }
 
         private void SubmitCustomerPanelSetup()
@@ -1902,4 +1904,10 @@ public class PolicyInsertResponse
     public Apolice? policy { get; set; }
     public string? message { get; set; }
 
+}
+
+public class PaginatedResponse<type>
+{
+    public type[]? data { get; set; }
+    public int? totalPages { get; set; }
 }

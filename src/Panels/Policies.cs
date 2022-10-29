@@ -42,7 +42,7 @@
                         await SubmitPanelSetup<Apolice>(selectedPolicy[0].ToString());
                         return;
                     }
-
+                    
                 }
 
             };
@@ -59,7 +59,7 @@
         protected async void GetPolicies()
         {
 
-            await policiesDataTable.Get<PaginatedResponse<Apolice>>($"https://tsb-api-policy-engine.herokuapp.com/apolice/usuario/{userId}");
+            await policiesDataTable.Get<PaginatedResponse<Apolice>>($"https://tsb-api-policy-engine.herokuapp.com/apolice/usuario/{userId}", null);
 
 
             policiesDataTable.DataBindingComplete += (sender, e) =>

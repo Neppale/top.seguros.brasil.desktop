@@ -69,7 +69,7 @@
         protected async void GetOutsourced()
         {
 
-            await outsourcedDataTable.Get<PaginatedResponse<Terceirizado>>("https://tsb-api-policy-engine.herokuapp.com/terceirizado/");
+            await outsourcedDataTable.Get<PaginatedResponse<Terceirizado>>("https://tsb-api-policy-engine.herokuapp.com/terceirizado/", null);
 
             outsourcedDataTable.DataBindingComplete += (sender, e) =>
             {

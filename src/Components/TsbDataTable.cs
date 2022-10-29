@@ -151,24 +151,23 @@
             this.RowStyles.Add(new RowStyle(SizeType.Absolute, 56));
 
             int currentPage = 1;
-
-            paginationRow.PageNumberText = "Página: 1";
+            
+            //paginationRow.PageNumberText = "Página: 1";
             paginationRow.PreviousEnabled = false;
 
             paginationRow.nextButton.Click += async (sender, e) =>
             {
                 currentPage++;
-                await ChangeToPage<JObject>(currentPage, "next", searchBox.Text);
+                await Get<PaginatedResponse<dynamic>>(address, currentPage);
+                //await ChangeToPage<JObject>(currentPage, "next", searchBox.Text);
 
-                paginationRow.PreviousEnabled = true;
-                paginationRow.PageNumberText = "Página: " + currentPage.ToString();
             };
 
             paginationRow.previousButton.Click += async (sender, e) =>
             {
                 currentPage--;
 
-                await ChangeToPage<JObject>(currentPage, "previous", searchBox.Text);
+                await ChangeToPage<PaginatedResponse<object>>(currentPage, "previous", searchBox.Text);
                 paginationRow.PageNumberText = "Página: " + currentPage.ToString();
                 if (currentPage < maxPages)
                 {
@@ -195,10 +194,16 @@
 
         }
 
-        public async Task Get<type>(string address)
+        public async Task Get<type>(string address, int? page)
         {
+            dataTable.Clear();
+            dataTable.EndInit();
+            dataTable.Reset();
             this.address = address;
-            var response = await engineInterpreter.Request<type>($"{address}?pageNumber=1", "GET", null);
+            paginationRow.NextEnabled = false;
+            if (page == null) { page = 1; };
+            
+            var response = await engineInterpreter.Request<type>($"{address}?pageNumber={page}", "GET", null);
 
             IEnumerable<object> responseBody = response.Body.data;
 
@@ -208,11 +213,23 @@
 
                 try
                 {
-                    foreach (var property in properties) dataTable.Columns.Add(property);
+                    foreach (var property in properties)
+                    {
+                        if (property != "Type" && property != "Item")
+                        {
+                            dataTable.Columns.Add(property);
+                        }
+                        
+
+                    }
                     foreach (var item in responseBody)
                     {
                         DataRow row = dataTable.NewRow();
-                        foreach (var property in properties) row[property] = item.GetType().GetProperty(property).GetValue(item);
+                        foreach (var property in properties)
+                        {
+                            if (property != "Type" && property != "Item")
+                                row[property] = item.GetType().GetProperty(property).GetValue(item);
+                        }
                         dataTable.Rows.Add(row);
                     }
 
@@ -222,6 +239,12 @@
                     Console.WriteLine(e);
 
                 }
+
+                if (response.TotalPages > page)
+                {
+                    paginationRow.NextEnabled = true;
+                }
+                paginationRow.PageNumberText = $"Página: {page}/{response.TotalPages.ToString()}";
                 await LoadData(dataTable);
             }
             else
@@ -241,6 +264,7 @@
             }
 
         }
+
 
         public async Task Post<Type>(object body)
         {
@@ -408,7 +432,7 @@
                 return;
             }
         }
-
+        
         public async Task SearchData<Type>(string value)
         {
 
@@ -460,6 +484,52 @@
                 MessageBox.Show($"Nenhum resultado encontrado para {value}");
             }
 
+        }
+
+        public async Task ToPage<type>(int page)
+        {
+            this.address = address;
+            var response = await engineInterpreter.Request<type>($"{address}?pageNumber={page}", "GET", null);
+
+            IEnumerable<object> responseBody = response.Body.data;
+
+            if (responseBody.Count() != 0)
+            {
+                string[] properties = responseBody.First().GetType().GetProperties().Select(x => x.Name).ToArray();
+
+                try
+                {
+                    foreach (var property in properties) dataTable.Columns.Add(property);
+                    foreach (var item in responseBody)
+                    {
+                        DataRow row = dataTable.NewRow();
+                        foreach (var property in properties) row[property] = item.GetType().GetProperty(property).GetValue(item);
+                        dataTable.Rows.Add(row);
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+
+                }
+                await LoadData(dataTable);
+            }
+            else
+            {
+                dataTable.Columns.Add("Nenhum dado cadastrado.");
+
+                bindingSource.DataSource = dataTable;
+                dataGridView.DataSource = bindingSource;
+
+                paginationRow.NextEnabled = false;
+                paginationRow.PreviousEnabled = false;
+
+                SetupDataTable();
+                InitializeComponent();
+                dataGridView.EndEdit();
+                this.Refresh();
+            }
         }
 
         public async Task ChangeToPage<Type>(int page, string direction, string? search)
