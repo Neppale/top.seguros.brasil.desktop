@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -79,10 +80,10 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         }
 
         public BindingSource bindingSource = new BindingSource();
-
+        
         EngineInterpreter engineInterpreter = new EngineInterpreter(BasePanel.token);
+        
         private readonly PrivateFontCollection privateFontCollection = new PrivateFontCollection();
-
         public new string Text
         {
             get
@@ -214,25 +215,43 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             IEnumerable<Type> responseBody = response.Body;
 
 
-            string[] properties = responseBody.First().GetType().GetProperties().Select(x => x.Name).ToArray();
-            try
+            if(responseBody.Count() != 0)
             {
-                foreach (var property in properties) dataTable.Columns.Add(property);
-                foreach (var item in responseBody)
+                string[] properties = responseBody.First().GetType().GetProperties().Select(x => x.Name).ToArray();
+
+                try
                 {
-                    DataRow row = dataTable.NewRow();
-                    foreach (var property in properties) row[property] = item.GetType().GetProperty(property).GetValue(item);
-                    dataTable.Rows.Add(row);
+                    foreach (var property in properties) dataTable.Columns.Add(property);
+                    foreach (var item in responseBody)
+                    {
+                        DataRow row = dataTable.NewRow();
+                        foreach (var property in properties) row[property] = item.GetType().GetProperty(property).GetValue(item);
+                        dataTable.Rows.Add(row);
+                    }
+
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
 
+                }
+                await LoadData(dataTable);
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e);
+                dataTable.Columns.Add("Nenhum dado cadastrado.");
+                
+                bindingSource.DataSource = dataTable;
+                dataGridView.DataSource = bindingSource;
 
+                paginationRow.NextEnabled = false;
+                paginationRow.PreviousEnabled = false;
+                
+                SetupDataTable();
+                InitializeComponent();
+                dataGridView.EndEdit();
+                this.Refresh();
             }
-            await LoadData(dataTable);
-
 
         }
 
@@ -319,6 +338,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             };
 
             SetupDataTable();
+            ActionColumnSetup();
             InitializeComponent();
             dataGridView.EndEdit();
 
@@ -332,23 +352,23 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             edit.Name = "Editar";
             edit.HeaderText = "";
-            edit.Text = "✏ Editar";
+            edit.Text = "✏ EDITAR";
             edit.UseColumnTextForButtonValue = true;
             edit.FlatStyle = FlatStyle.Flat;
             edit.DefaultCellStyle.ForeColor = TsbColor.neutral;
             edit.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            //edit.DefaultCellStyle.Font = new Font(dataGridView.Font, FontStyle.Bold);
+            edit.DefaultCellStyle.Font = new Font(LoadFont(Resources.Roboto_Regular), 10, FontStyle.Regular);
             edit.Width = 150;
             edit.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
 
             DataGridViewButtonColumn delete = new DataGridViewButtonColumn();
             delete.Name = "Deletar";
             delete.HeaderText = "";
-            delete.Text = "🗑 Deletar";
+            delete.Text = "🗑 DELETAR";
             delete.FlatStyle = FlatStyle.Flat;
             delete.DefaultCellStyle.ForeColor = TsbColor.neutral;
             delete.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            //delete.DefaultCellStyle.Font = new Font(dataGridView.Font, FontStyle.Bold);
+            delete.DefaultCellStyle.Font = new Font(LoadFont(Resources.Roboto_Regular), 10, FontStyle.Regular);
             delete.UseColumnTextForButtonValue = true;
             delete.Width = 150;
             delete.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -359,12 +379,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             DataGridViewButtonColumn details = new DataGridViewButtonColumn();
             details.HeaderText = "";
             details.Text = "📝 Detalhes";
-            details.Name = "Detalhes";
+            details.Name = "DETALHES";
             details.FlatStyle = FlatStyle.Flat;
             details.UseColumnTextForButtonValue = true;
             details.DefaultCellStyle.ForeColor = TsbColor.neutral;
             details.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            //details.DefaultCellStyle.Font = new Font(dataGridView.Font, FontStyle.Bold);
+            details.DefaultCellStyle.Font = new Font(LoadFont(Resources.Roboto_Regular), 10, FontStyle.Regular);
             details.Width = 150;
             details.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
 
@@ -383,6 +403,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             return;
         }
+        
         public async Task ActionButtonsSetup()
         {
 
@@ -400,7 +421,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 return;
             }
         }
-
+        
         public async Task SearchData<Type>(string value)
         {
 
@@ -648,13 +669,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             dataGridView.Dock = DockStyle.Fill;
             dataGridView.Margin = new Padding(0, 0, 0, 0);
             dataGridView.ScrollBars = ScrollBars.None;
-
-            ActionColumnSetup();
-
+            
         }
 
         [DllImport("gdi32.dll")]
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pvd, [In] ref uint pcFonts);
+        
         private FontFamily LoadFont(byte[] fontResource)
         {
             int num = fontResource.Length;

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Top_Seguros_Brasil_Desktop.Properties;
 using Top_Seguros_Brasil_Desktop.src.Models;
 using Top_Seguros_Brasil_Desktop.src.Screens.Management_Stage;
 
@@ -57,12 +58,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             userType.ForeColor = TsbColor.neutralGray;
 
             userIcon.Dock = DockStyle.Right;
-            userIcon.Image = new Bitmap(Directory.GetCurrentDirectory() + "\\src\\img\\icon\\appbar\\userIcon.png");
+            userIcon.Image = Resources.userIcon;
             userIcon.SizeMode = PictureBoxSizeMode.Zoom;
             userIcon.Size = new Size(50, 50);
 
             notificationIcon.Dock = DockStyle.Right;
-            notificationIcon.Image = new Bitmap(Directory.GetCurrentDirectory() + "\\src\\img\\icon\\appbar\\notification.png");
+            notificationIcon.Image = Resources.notification;
             notificationIcon.SizeMode = PictureBoxSizeMode.CenterImage;
             notificationIcon.Size = new Size(64, 32);
 

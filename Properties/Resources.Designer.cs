@@ -103,9 +103,29 @@ namespace Top_Seguros_Brasil_Desktop.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap customer {
+        internal static System.Drawing.Bitmap covery_selected {
             get {
-                object obj = ResourceManager.GetObject("customer", resourceCulture);
+                object obj = ResourceManager.GetObject("covery_selected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap customer_selected {
+            get {
+                object obj = ResourceManager.GetObject("customer_selected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap customers {
+            get {
+                object obj = ResourceManager.GetObject("customers", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +173,19 @@ namespace Top_Seguros_Brasil_Desktop.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap incident {
+        internal static System.Drawing.Bitmap incident_selected {
             get {
-                object obj = ResourceManager.GetObject("incident", resourceCulture);
+                object obj = ResourceManager.GetObject("incident_selected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap incidents {
+            get {
+                object obj = ResourceManager.GetObject("incidents", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,16 +213,6 @@ namespace Top_Seguros_Brasil_Desktop.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap orange {
-            get {
-                object obj = ResourceManager.GetObject("orange", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap outsourced {
             get {
                 object obj = ResourceManager.GetObject("outsourced", resourceCulture);
@@ -203,9 +223,29 @@ namespace Top_Seguros_Brasil_Desktop.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap outsourced_selected {
+            get {
+                object obj = ResourceManager.GetObject("outsourced_selected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap policys {
             get {
                 object obj = ResourceManager.GetObject("policys", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap policys_selected {
+            get {
+                object obj = ResourceManager.GetObject("policys_selected", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -373,9 +413,29 @@ namespace Top_Seguros_Brasil_Desktop.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap users_selected {
+            get {
+                object obj = ResourceManager.GetObject("users_selected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap vehicles {
             get {
                 object obj = ResourceManager.GetObject("vehicles", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap vehicles_selected {
+            get {
+                object obj = ResourceManager.GetObject("vehicles_selected", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

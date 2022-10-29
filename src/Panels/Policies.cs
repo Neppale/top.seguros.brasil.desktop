@@ -84,31 +84,35 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 string[] columns = { "data_inicio", "data_fim", "premio", "indenizacao", "id_cobertura", "id_usuario", "id_cliente", "id_veiculo", "message", "Deletar", "Editar" };
                 policiesDataTable.RemoveColumns(columns);
 
-                foreach (DataGridViewRow row in policiesDataTable.Rows)
+
+                if (policiesDataTable.Rows.Count != 1)
                 {
-                    if (row.Cells["status"].Value.ToString() == "Ativa")
+                    foreach (DataGridViewRow row in policiesDataTable.Rows)
                     {
-                        row.Cells["status"].Style.ForeColor = TsbColor.success;
+                        if (row.Cells["status"].Value.ToString() == "Ativa")
+                        {
+                            row.Cells["status"].Style.ForeColor = TsbColor.success;
+                        }
+
+                        if (row.Cells["status"].Value.ToString() == "Em Análise")
+                        {
+                            row.Cells["status"].Value = "Aguardando análise";
+                            row.Cells["status"].Style.ForeColor = TsbColor.wating;
+                        }
+
+                        if (row.Cells["status"].Value.ToString() == "Aguardando análise")
+                        {
+                            row.Cells["status"].Style.ForeColor = TsbColor.wating;
+                        }
+
+                        if (row.Cells["status"].Value.ToString() == "Rejeitada")
+                        {
+                            row.Cells["status"].Style.ForeColor = TsbColor.error;
+                        }
                     }
-
-                    if (row.Cells["status"].Value.ToString() == "Em Análise")
-                    {
-                        row.Cells["status"].Value = "Aguardando análise";
-                        row.Cells["status"].Style.ForeColor = TsbColor.wating;
-                    }
-
-                    if (row.Cells["status"].Value.ToString() == "Aguardando análise")
-                    {
-                        row.Cells["status"].Style.ForeColor = TsbColor.wating;
-                    }
-
-                    if (row.Cells["status"].Value.ToString() == "Rejeitada")
-                    {
-                        row.Cells["status"].Style.ForeColor = TsbColor.error;
-                    }
-
-
                 }
+                
+                
 
             };
 

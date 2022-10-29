@@ -127,9 +127,6 @@
   <data name="Roboto_Italic" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\font\Roboto-Italic.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="directions_car_FILL0_wght400_GRAD0_opsz48 1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\src\img\icon\nav\directions_car_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Roboto_Thin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\font\Roboto-Thin.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -138,12 +135,6 @@
   </data>
   <data name="34. newsletter-2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\net6.0-windows\src\img\illustration\34. newsletter-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="support_agent_FILL0_wght400_GRAD0_opsz48 1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\src\img\icon\nav\support_agent_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="engineering_FILL0_wght400_GRAD0_opsz48 1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\src\img\icon\nav\engineering_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Roboto_Black" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\font\Roboto-Black.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -163,23 +154,11 @@
   <data name="Roboto_ThinItalic" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\font\Roboto-ThinItalic.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="task_FILL0_wght400_GRAD0_opsz48 1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\src\img\icon\nav\task_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Roboto_LightItalic" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\font\Roboto-LightItalic.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Roboto_Bold" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\font\Roboto-Bold.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="campaign_FILL0_wght400_GRAD0_opsz48 1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\src\img\icon\nav\campaign_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="health_and_safety_FILL0_wght400_GRAD0_opsz48 1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\src\img\icon\nav\health_and_safety_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="group_add_FILL0_wght400_GRAD0_opsz48 1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\src\img\icon\nav\group_add_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="media" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\img\icon\TsbFileInput\media.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -187,35 +166,17 @@
   <data name="arrow_back_ios_black_24dp1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\net6.0-windows\src\img\icon\titleBox\arrow_back_ios_black_24dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="campaign_FILL0_wght400_GRAD0_opsz48_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\campaign_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="covery" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\covery.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="customer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="customers" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\customer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="directions_car_FILL0_wght400_GRAD0_opsz48_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\directions_car_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="engineering_FILL0_wght400_GRAD0_opsz48_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\engineering_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="group_add_FILL0_wght400_GRAD0_opsz48_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\group_add_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="health_and_safety_FILL0_wght400_GRAD0_opsz48_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\health_and_safety_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="incident" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="incidents" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\incident.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="notification" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\net6.0-windows\src\img\icon\appbar\notification.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="orange" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\orange.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="outsourced" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\outsourced.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -225,12 +186,6 @@
   </data>
   <data name="search_black_24dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\search_black_24dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="support_agent_FILL0_wght400_GRAD0_opsz48_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\support_agent_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="task_FILL0_wght400_GRAD0_opsz48_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\task_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="tsb_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\net6.0-windows\src\img\logo\tsb-logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -255,5 +210,26 @@
   </data>
   <data name="enabled_right_arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\enabled-right-arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="covery_selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\health_and_safety_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="customer_selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\support_agent_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="incident_selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\campaign_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="outsourced_selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\engineering_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="policys_selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\task_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="users_selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\group_add_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="vehicles_selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\directions_car_FILL0_wght400_GRAD0_opsz48 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

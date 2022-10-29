@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Top_Seguros_Brasil_Desktop.src.Components;
@@ -35,32 +36,38 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             this.outsourcedDataTable.CellClick += async (sender, e) =>
             {
 
-                if (e.RowIndex < 0)
+                try
                 {
-                    return;
-                }
-
-                if (e.ColumnIndex == outsourcedDataTable.Columns["Editar"].Index && e.RowIndex >= 0)
-                {
-
-                    if (outsourcedDataTable.Columns["Editar"].Index == 1)
+                    if (e.RowIndex < 0)
                     {
-                        selectedOutsourced.Add(outsourcedDataTable.SelectedRows[0].Cells[3].Value.ToString());
-                        await SubmitPanelSetup(selectedOutsourced[0].ToString());
                         return;
                     }
-                    else
+
+                    if (e.ColumnIndex == outsourcedDataTable.Columns["Editar"].Index && e.RowIndex >= 0)
                     {
-                        for (int i = 0; i < outsourcedDataTable.Columns.Count; i++)
+
+                        if (outsourcedDataTable.Columns["Editar"].Index == 1)
                         {
-                            selectedOutsourced.Add(outsourcedDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                            selectedOutsourced.Add(outsourcedDataTable.SelectedRows[0].Cells[3].Value.ToString());
+                            await SubmitPanelSetup(selectedOutsourced[0].ToString());
+                            return;
                         }
-                        await SubmitPanelSetup(selectedOutsourced[0].ToString());
-                        return;
+                        else
+                        {
+                            for (int i = 0; i < outsourcedDataTable.Columns.Count; i++)
+                            {
+                                selectedOutsourced.Add(outsourcedDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                            }
+                            await SubmitPanelSetup(selectedOutsourced[0].ToString());
+                            return;
+                        }
+
                     }
-
                 }
-
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             };
 
             putButton.Dock = DockStyle.Top;

@@ -913,7 +913,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 Ocorrencia incident = new Ocorrencia
                 (
-                    data: dateField.Text,
+                    data: DateTime
+                        .ParseExact(dateField.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                        .ToString("yyyy-MM-dd"),
                     local: addressField.Text,
                     uf: uf,
                     municipio: countyField.HintText,
