@@ -134,7 +134,7 @@
     <value>..\src\font\Roboto-BlackItalic.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="34. newsletter-2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\illustration\34. newsletter-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\img\illustration\34. newsletter-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Roboto_Black" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\font\Roboto-Black.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -164,40 +164,40 @@
     <value>..\src\img\icon\TsbFileInput\media.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="arrow_back_ios_black_24dp1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\titleBox\arrow_back_ios_black_24dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\img\icon\titleBox\arrow_back_ios_black_24dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="covery" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\covery.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\img\icon\nav\covery.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="customers" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\customer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\img\icon\nav\customer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="incidents" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\incident.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\img\icon\nav\incident.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="notification" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\appbar\notification.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\img\icon\appbar\notification.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="outsourced" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\outsourced.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\img\icon\nav\outsourced.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="policys" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\policys.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\img\icon\nav\policys.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="search_black_24dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\search_black_24dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="tsb_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\logo\tsb-logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\img\logo\tsb-logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="userIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\appbar\userIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\img\icon\appbar\userIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="users" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\users.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\img\icon\nav\users.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="vehicles" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\net6.0-windows\src\img\icon\nav\vehicles.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\img\icon\nav\vehicles.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="disable_left_arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\disable-left-arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
