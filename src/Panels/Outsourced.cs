@@ -1,20 +1,4 @@
-﻿using MaterialSkin.Controls;
-using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Top_Seguros_Brasil_Desktop.src.Components;
-using Top_Seguros_Brasil_Desktop.src.Models;
-using Top_Seguros_Brasil_Desktop.src.Screens.BaseForm;
-using Top_Seguros_Brasil_Desktop.Utils;
-
-namespace Top_Seguros_Brasil_Desktop.src.Panels
+﻿namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Outsourced : BasePanel
     {
@@ -85,7 +69,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         protected async void GetOutsourced()
         {
 
-            await outsourcedDataTable.Get<Terceirizado>("https://tsb-api-policy-engine.herokuapp.com/terceirizado/");
+            await outsourcedDataTable.Get<PaginatedResponse<Terceirizado>>("https://tsb-api-policy-engine.herokuapp.com/terceirizado/");
 
             outsourcedDataTable.DataBindingComplete += (sender, e) =>
             {

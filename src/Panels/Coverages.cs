@@ -1,18 +1,4 @@
-﻿using MaterialSkin.Controls;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Top_Seguros_Brasil_Desktop.src.Components;
-using Top_Seguros_Brasil_Desktop.src.Models;
-using Top_Seguros_Brasil_Desktop.Utils;
-
-namespace Top_Seguros_Brasil_Desktop.src.Panels
+﻿namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Coverages : BasePanel
     {
@@ -81,7 +67,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         protected async void GetCoverages()
         {
 
-            await coveragesDataTable.Get<Cobertura>("https://tsb-api-policy-engine.herokuapp.com/cobertura/");
+            await coveragesDataTable.Get<PaginatedResponse<Cobertura>>("https://tsb-api-policy-engine.herokuapp.com/cobertura/");
 
             coveragesDataTable.DataBindingComplete += (sender, e) =>
             {
@@ -329,7 +315,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
             submitPanel.Controls.Add(rateField, 2, 2);
 
-            
+
 
             ButtonTsbPrimary submitButton = new ButtonTsbPrimary
             {

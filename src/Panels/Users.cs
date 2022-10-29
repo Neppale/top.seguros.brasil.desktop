@@ -333,7 +333,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         protected async void GetUsers()
         {
 
-            await usersDataTable.Get<Usuario>("https://tsb-api-policy-engine.herokuapp.com/usuario/");
+            await usersDataTable.Get<PaginatedResponse<Usuario>>("https://tsb-api-policy-engine.herokuapp.com/usuario/");
 
             usersDataTable.DataBindingComplete += (sender, e) =>
             {
@@ -372,4 +372,10 @@ public class UserInsertResponse
 {
     public Usuario? usuario { get; set; }
     public string? message { get; set; }
+}
+
+public class PaginatedResponse<type>
+{
+    public type[]? data { get; set; }
+    public int? totalPages { get; set; }
 }

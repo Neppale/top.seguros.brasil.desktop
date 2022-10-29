@@ -1,17 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing.Text;
-using System.Runtime.InteropServices;
-using System.Text;
-using Top_Seguros_Brasil_Desktop.Properties;
-using Top_Seguros_Brasil_Desktop.src.Panels;
-using Top_Seguros_Brasil_Desktop.Utils;
-
-namespace Top_Seguros_Brasil_Desktop.src.Components
+﻿namespace Top_Seguros_Brasil_Desktop.src.Components
 {
     public partial class TsbDataTable : TableLayoutPanel
     {
@@ -80,9 +67,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
         }
 
         public BindingSource bindingSource = new BindingSource();
-        
+
         EngineInterpreter engineInterpreter = new EngineInterpreter(BasePanel.token);
-        
+
         private readonly PrivateFontCollection privateFontCollection = new PrivateFontCollection();
         public new string Text
         {
@@ -208,14 +195,14 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
         }
 
-        public async Task Get<Type>(string address)
+        public async Task Get<type>(string address)
         {
             this.address = address;
-            var response = await engineInterpreter.Request<IEnumerable<Type>>($"{address}?pageNumber=1", "GET", null);
-            IEnumerable<Type> responseBody = response.Body;
+            var response = await engineInterpreter.Request<type>($"{address}?pageNumber=1", "GET", null);
 
+            IEnumerable<object> responseBody = response.Body.data;
 
-            if(responseBody.Count() != 0)
+            if (responseBody.Count() != 0)
             {
                 string[] properties = responseBody.First().GetType().GetProperties().Select(x => x.Name).ToArray();
 
@@ -240,13 +227,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             else
             {
                 dataTable.Columns.Add("Nenhum dado cadastrado.");
-                
+
                 bindingSource.DataSource = dataTable;
                 dataGridView.DataSource = bindingSource;
 
                 paginationRow.NextEnabled = false;
                 paginationRow.PreviousEnabled = false;
-                
+
                 SetupDataTable();
                 InitializeComponent();
                 dataGridView.EndEdit();
@@ -403,7 +390,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             return;
         }
-        
+
         public async Task ActionButtonsSetup()
         {
 
@@ -421,7 +408,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
                 return;
             }
         }
-        
+
         public async Task SearchData<Type>(string value)
         {
 
@@ -669,12 +656,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             dataGridView.Dock = DockStyle.Fill;
             dataGridView.Margin = new Padding(0, 0, 0, 0);
             dataGridView.ScrollBars = ScrollBars.None;
-            
+
         }
 
         [DllImport("gdi32.dll")]
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pvd, [In] ref uint pcFonts);
-        
+
         private FontFamily LoadFont(byte[] fontResource)
         {
             int num = fontResource.Length;

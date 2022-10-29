@@ -1,16 +1,4 @@
-﻿using MaterialSkin.Controls;
-using Newtonsoft.Json;
-using System.Collections;
-using System.ComponentModel;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Text;
-using Top_Seguros_Brasil_Desktop.src.Components;
-using Top_Seguros_Brasil_Desktop.src.font;
-using Top_Seguros_Brasil_Desktop.src.Models;
-using Top_Seguros_Brasil_Desktop.Utils;
-
-namespace Top_Seguros_Brasil_Desktop.src.Panels
+﻿namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Customers : BasePanel
     {
@@ -76,7 +64,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         protected async void GetCustomers()
         {
 
-            await customersDataTable.Get<Cliente>("https://tsb-api-policy-engine.herokuapp.com/cliente/");
+            await customersDataTable.Get<PaginatedResponse<Cliente>>("https://tsb-api-policy-engine.herokuapp.com/cliente/");
 
             customersDataTable.DataBindingComplete += (sender, e) =>
             {

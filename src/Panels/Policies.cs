@@ -1,21 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using Top_Seguros_Brasil_Desktop.src.Components;
-using Top_Seguros_Brasil_Desktop.src.Models;
-using Top_Seguros_Brasil_Desktop.Utils;
-using static System.Net.WebRequestMethods;
-using File = System.IO.File;
-
-namespace Top_Seguros_Brasil_Desktop.src.Panels
+﻿namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Policies : BasePanel
     {
@@ -76,7 +59,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         protected async void GetPolicies()
         {
 
-            await policiesDataTable.Get<Apolice>($"https://tsb-api-policy-engine.herokuapp.com/apolice/usuario/{userId}");
+            await policiesDataTable.Get<PaginatedResponse<Apolice>>($"https://tsb-api-policy-engine.herokuapp.com/apolice/usuario/{userId}");
 
 
             policiesDataTable.DataBindingComplete += (sender, e) =>
@@ -111,8 +94,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                         }
                     }
                 }
-                
-                
+
+
 
             };
 

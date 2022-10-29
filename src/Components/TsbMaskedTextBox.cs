@@ -223,7 +223,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             InitializeComponent();
         }
-        
+
         public TsbMaskedTextBox(IContainer container)
         {
             container.Add(this);

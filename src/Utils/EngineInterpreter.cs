@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace Top_Seguros_Brasil_Desktop.Utils
 {
@@ -50,16 +51,46 @@ namespace Top_Seguros_Brasil_Desktop.Utils
 
         private static async Task<EngineInterpreterResponse> Interpret<type>(HttpResponseMessage response)
         {
+            var rawBody = await response.Content.ReadAsStringAsync();
+            Regex regex = new Regex("\"totalPages\":[0-9]+");
+            Match match = regex.Match(rawBody);
+            int? totalPages = null;
+            if (match.Success)
+            {
+                regex = new Regex("[\\d+]");
+                match = regex.Match(match.Value);
+                totalPages = int.Parse(match.Value);
+            }
+
+            regex = new Regex("\"totalPages\":[0-9]+");
+            match = regex.Match(rawBody);
+
+            if (match.Success) rawBody = rawBody?.Replace(match.Value, "");
+
+            match = regex.Match(rawBody);
+            string data = match.Groups[1].Value;
+            if (match.Success) data = match.Groups[1].Value;
+            else data = null;
+
             try
             {
-                var rawBody = await response.Content.ReadAsStringAsync();
-                var convertedBody = JsonConvert.DeserializeObject<type>(rawBody);
-                var statusCode = (int)response.StatusCode;
-                return new EngineInterpreterResponse(statusCode, convertedBody);
+                if (data != null)
+                {
+                    var objectData = JsonConvert.DeserializeObject<IEnumerable<type>>(data);
+                    var statusCode = (int)response.StatusCode;
+                    return new EngineInterpreterResponse(statusCode, objectData, totalPages);
+                }
+                else
+                {
+                    var objectData = JsonConvert.DeserializeObject<type>(rawBody);
+                    var statusCode = (int)response.StatusCode;
+                    return new EngineInterpreterResponse(statusCode, objectData, totalPages);
+                }
             }
-            catch (Exception)
+            catch (SystemException)
             {
                 throw new EngineInterpreterException("Houve um erro ao realizar a desserialização do objeto.");
+
             }
         }
 
@@ -71,11 +102,13 @@ namespace Top_Seguros_Brasil_Desktop.Utils
 
         public int StatusCode { get; }
         public dynamic? Body { get; set; }
+        public int? TotalPages { get; set; }
 
-        public EngineInterpreterResponse(int statusCode, dynamic? body)
+        public EngineInterpreterResponse(int statusCode, dynamic? body, int? totalPages)
         {
             this.StatusCode = statusCode;
             this.Body = body;
+            this.TotalPages = totalPages;
         }
     }
 

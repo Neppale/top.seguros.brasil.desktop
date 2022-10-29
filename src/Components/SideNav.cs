@@ -109,8 +109,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
     {
 
         private string name { get; set; }
-        private bool isSelected{ get; set; }
-        
+        private bool isSelected { get; set; }
+
         public MenuItem(string name, Bitmap img)
         {
             TsbFont tsbFont = new TsbFont();
@@ -150,7 +150,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
             {
                 foreach (Control control in this.FindForm().Controls)
                 {
-                    
+
                     if (control is appBar || control is SideNav)
                     {
                         continue;
@@ -160,7 +160,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
                 }
 
                 if (this.FindForm().Controls.OfType<Users>().Count() == 0)
-                {                    
+                {
                     Users usersPage = new Users("Usuários", "Gerenciamento de Usuários");
                     FindForm().Controls.Add(usersPage);
                     usersPage.BringToFront();

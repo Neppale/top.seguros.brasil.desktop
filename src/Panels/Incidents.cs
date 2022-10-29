@@ -1,39 +1,4 @@
-﻿using MaterialSkin.Controls;
-using Newtonsoft.Json;
-using RestSharp;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.IO.IsolatedStorage;
-using System.Linq;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using Top_Seguros_Brasil_Desktop.src.Components;
-using Top_Seguros_Brasil_Desktop.src.font;
-using Top_Seguros_Brasil_Desktop.src.Models;
-using Top_Seguros_Brasil_Desktop.Utils;
-using Windows.Storage.Streams;
-using Windows.Storage;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.Web;
-using static System.Net.WebRequestMethods;
-using File = System.IO.File;
-using Windows.Storage.Pickers;
-using RestSharp.Authenticators;
-using Newtonsoft.Json.Linq;
-using System.Windows.Forms;
-using System.Windows.Markup;
-using Windows.Security.Authentication.Identity.Core;
-using System.Data;
-using System.Text.Json.Nodes;
-
-namespace Top_Seguros_Brasil_Desktop.src.Panels
+﻿namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Incidents : BasePanel
     {
@@ -1010,7 +975,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         protected async void GetIncidents()
         {
 
-            await incidentsDataTable.Get<Ocorrencia>("https://tsb-api-policy-engine.herokuapp.com/ocorrencia/");
+            await incidentsDataTable.Get<PaginatedResponse<Ocorrencia>>("https://tsb-api-policy-engine.herokuapp.com/ocorrencia/");
 
             incidentsDataTable.DataBindingComplete += (sender, e) =>
             {
