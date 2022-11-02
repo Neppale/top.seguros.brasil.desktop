@@ -163,12 +163,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             {
                 if (value)
                 {
-                    input.Click += (sender, e) =>
+                    input.GotFocus += (sender, e) =>
                     {
                         input.Text = "";
                         input.Select(0, 0);
                     };
-                }
+                } 
             }
         }
 
@@ -223,7 +223,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             InitializeComponent();
         }
-        
+
         public TsbMaskedTextBox(IContainer container)
         {
             container.Add(this);

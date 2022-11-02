@@ -26,10 +26,10 @@ namespace Top_Seguros_Brasil_Desktop
             this.FlatStyle = FlatStyle.Flat;
             this.FlatAppearance.BorderSize = 0;
 
-            //this.TextChanged += (sender, e) =>
-            //{
-            //    this.Text += this.Text.ToUpper();
-            //};
+            this.TextChanged += (sender, e) =>
+            {
+                this.Text = this.Text.ToUpper();
+            };
 
             this.MouseEnter += (sender, e) =>
             {
@@ -106,13 +106,12 @@ namespace Top_Seguros_Brasil_Desktop
             buttonText.ForeColor = TsbColor.secondaryDarkest;
             buttonText.Font = new Font(TsbFont.TsbFonts.Families[0], 10, FontStyle.Bold);
             buttonText.TextAlign = ContentAlignment.MiddleCenter;
-            //buttonText.Location = new Point(button.Width / 2 - buttonText.Width / 2, button.Height / 2 - buttonText.Height / 2);
 
             button.Controls.Add(buttonText);
 
 
 
-            buttonText.MouseHover += (sender, e) =>
+            buttonText.MouseEnter += (sender, e) =>
             {
                 this.BackColor = TsbColor.background;
                 button.BackColor = TsbColor.background;
@@ -211,7 +210,7 @@ namespace Top_Seguros_Brasil_Desktop
 
 
 
-            buttonText.MouseHover += (sender, e) =>
+            buttonText.MouseEnter += (sender, e) =>
             {
                 buttonText.ForeColor = TsbColor.neutralWhite;
             };

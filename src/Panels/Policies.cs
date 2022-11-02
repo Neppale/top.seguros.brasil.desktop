@@ -1,21 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using Top_Seguros_Brasil_Desktop.src.Components;
-using Top_Seguros_Brasil_Desktop.src.Models;
-using Top_Seguros_Brasil_Desktop.Utils;
-using static System.Net.WebRequestMethods;
-using File = System.IO.File;
-
-namespace Top_Seguros_Brasil_Desktop.src.Panels
+﻿namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Policies : BasePanel
     {
@@ -59,7 +42,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                         await SubmitPanelSetup<Apolice>(selectedPolicy[0].ToString());
                         return;
                     }
-
+                    
                 }
 
             };
@@ -76,7 +59,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         protected async void GetPolicies()
         {
 
-            await policiesDataTable.Get<Apolice>($"https://tsb-api-policy-engine.herokuapp.com/apolice/usuario/{userId}");
+            await policiesDataTable.Get<PaginatedResponse<dynamic>>($"https://tsb-api-policy-engine.herokuapp.com/apolice/usuario/{userId}", null, null);
 
 
             policiesDataTable.DataBindingComplete += (sender, e) =>
@@ -84,31 +67,35 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 string[] columns = { "data_inicio", "data_fim", "premio", "indenizacao", "id_cobertura", "id_usuario", "id_cliente", "id_veiculo", "message", "Deletar", "Editar" };
                 policiesDataTable.RemoveColumns(columns);
 
-                foreach (DataGridViewRow row in policiesDataTable.Rows)
+
+                if (policiesDataTable.Rows.Count != 1)
                 {
-                    if (row.Cells["status"].Value.ToString() == "Ativa")
+                    foreach (DataGridViewRow row in policiesDataTable.Rows)
                     {
-                        row.Cells["status"].Style.ForeColor = TsbColor.success;
+                        if (row.Cells["status"].Value.ToString() == "Ativa")
+                        {
+                            row.Cells["status"].Style.ForeColor = TsbColor.success;
+                        }
+
+                        if (row.Cells["status"].Value.ToString() == "Em Análise")
+                        {
+                            row.Cells["status"].Value = "Aguardando análise";
+                            row.Cells["status"].Style.ForeColor = TsbColor.wating;
+                        }
+
+                        if (row.Cells["status"].Value.ToString() == "Aguardando análise")
+                        {
+                            row.Cells["status"].Style.ForeColor = TsbColor.wating;
+                        }
+
+                        if (row.Cells["status"].Value.ToString() == "Rejeitada")
+                        {
+                            row.Cells["status"].Style.ForeColor = TsbColor.error;
+                        }
                     }
-
-                    if (row.Cells["status"].Value.ToString() == "Em Análise")
-                    {
-                        row.Cells["status"].Value = "Aguardando análise";
-                        row.Cells["status"].Style.ForeColor = TsbColor.wating;
-                    }
-
-                    if (row.Cells["status"].Value.ToString() == "Aguardando análise")
-                    {
-                        row.Cells["status"].Style.ForeColor = TsbColor.wating;
-                    }
-
-                    if (row.Cells["status"].Value.ToString() == "Rejeitada")
-                    {
-                        row.Cells["status"].Style.ForeColor = TsbColor.error;
-                    }
-
-
                 }
+
+
 
             };
 
@@ -330,9 +317,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             string address = $"https://tsb-api-policy-engine.herokuapp.com/apolice/{id}";
 
-            response = await engineInterpreter.Request<PolicyRequestResponse>(address, "GET", null);
+            response = await engineInterpreter.Request<EnrichedPolicy>(address, "GET", null);
 
-            PolicyRequestResponse requestResponse = response.Body;
+            EnrichedPolicy requestResponse = response.Body;
 
             SubmitPanel submitPanel = new SubmitPanel();
 
@@ -748,7 +735,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 Dock = DockStyle.Top
             };
             policyInfoPanelBottom.Controls.Add(priceField, 1, 0);
-
+            
             TsbDataBox descriptionField = new TsbDataBox
             {
                 Parent = submitPanel,
@@ -837,15 +824,32 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                     EngineInterpreter engineInterpreterAprove = new EngineInterpreter(token);
 
-                    var response = await engineInterpreterAprove.Request<EnrichedPolicy>($"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/ativa", "PUT", null);
+                    await policiesDataTable.Put<Apolice>(null, null, $"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/ativa");
 
-                    if (response.StatusCode == 200)
+                    ButtonTsbPrimary policyAproveBtn = new ButtonTsbPrimary
                     {
-                        MessageBox.Show("Apolice aprovada!");
-                        return;
-                    }
+                        Text = "DESATIVAR APÓLICE",
+                        Dock = DockStyle.Top,
+                        Margin = new Padding
+                        {
+                            Top = 0,
+                            Bottom = 24,
+                            Left = 32,
+                            Right = 32
+                        }
+                    };
+                    submitPanel.Controls.Add(policyAproveBtn, 2, 13);
+                    submitPanel.SetColumn(policyAproveBtn, 1);
+                    submitPanel.SetColumnSpan(policyAproveBtn, 2);
 
-                    MessageBox.Show("Erro ao aprovar apolice");
+                    policyAproveBtn.Click += async (sender, e) =>
+                    {
+
+
+                        await policiesDataTable.Put<Apolice>(null, null, $"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/inativa");
+
+
+                    };
 
                 };
 
@@ -907,10 +911,18 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                     EngineInterpreter engineInterpreterAprove = new EngineInterpreter(token);
 
-                    var response = await engineInterpreterAprove.Request<EnrichedPolicy>($"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/inativa", "PUT", null);
+                    //var response = await engineInterpreterAprove.Request<EnrichedPolicy>($"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/inativa", "PUT", null);
+                    await policiesDataTable.Put<Apolice>(null, null, $"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/inativa");
+                    
 
                     if (response.StatusCode == 200)
                     {
+
+                        this.Controls.Remove(policiesDataTable);
+
+                        await policiesDataTable.Get<PaginatedResponse<dynamic>>($"https://tsb-api-policy-engine.herokuapp.com/apolice/usuario/{userId}", 1, null);
+
+
                         MessageBox.Show("Apolice aprovada!");
                         return;
                     }
@@ -946,9 +958,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             var response = await engineInterpreter.Request<Apolice>("https://tsb-api-policy-engine.herokuapp.com/apolice/", "POST", data);
 
-
-            Controls.Remove(policiesDataTable);
-            GetPolicies();
         }
 
         public Policies(IContainer container)
@@ -961,20 +970,11 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
     public class PolicyRequestResponse
     {
-        public int id_apolice { get; set; }
-        public string? data_inicio { get; set; }
-        public string? data_fim { get; set; }
-        public double? premio { get; set; }
-        public double? indenizacao { get; set; }
-
+        
+        public string? message { get; set; }
+        public Apolice? policy { get; set; }
         public EnrichedPolicy? enrichedPolicy { get; set; }
 
-        public Cobertura? cobertura { get; set; }
-        public Usuario? usuario { get; set; }
-        public Cliente? cliente { get; set; }
-        public Veiculo? veiculo { get; set; }
-
-        public string? status { get; set; }
 
     }
 

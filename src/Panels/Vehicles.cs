@@ -1,20 +1,4 @@
-﻿using MaterialSkin.Controls;
-using RestSharp;
-using RestSharp.Authenticators;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Top_Seguros_Brasil_Desktop.src.Components;
-using Top_Seguros_Brasil_Desktop.src.font;
-using Top_Seguros_Brasil_Desktop.src.Models;
-using Top_Seguros_Brasil_Desktop.Utils;
-
-namespace Top_Seguros_Brasil_Desktop.src.Panels
+﻿namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Vehicles : BasePanel
     {
@@ -46,9 +30,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                     Right = 8
                 }
             };
-
-
-
+            
+            
 
             this.vehiclesDataTable.CellClick += async (sender, e) =>
             {
@@ -89,32 +72,19 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             GetVehicles();
 
-
+            
 
             InitializeComponent();
         }
-
+        
         protected async void GetVehicles()
         {
 
-            await vehiclesDataTable.Get<Veiculo>("https://tsb-api-policy-engine.herokuapp.com/veiculo/");
+            await vehiclesDataTable.Get<PaginatedResponse<dynamic>>("https://tsb-api-policy-engine.herokuapp.com/veiculo/", null, null);
 
             vehiclesDataTable.DataBindingComplete += (sender, e) =>
             {
-          //vehiclesDataTable.Columns["id_veiculo"].HeaderText = "ID";
-          //vehiclesDataTable.Columns["marca"].HeaderText = "Marca";
-          //vehiclesDataTable.Columns["modelo"].HeaderText = "Modelo";
-          //vehiclesDataTable.Columns["placa"].HeaderText = "Placa";
-          //vehiclesDataTable.Columns["dono"].HeaderText = "Dono";
-
-          //vehiclesDataTable.Columns["editar"].Visible = false;
-          //vehiclesDataTable.Columns["deletar"].Visible = false;
-          //vehiclesDataTable.Columns["ano"].Visible = false;
-          //vehiclesDataTable.Columns["renavam"].Visible = false;
-          //vehiclesDataTable.Columns["uso"].Visible = false;
-          //vehiclesDataTable.Columns["sinistrado"].Visible = false;
-          //vehiclesDataTable.Columns["id_cliente"].Visible = false;
-
+                
                 string[] columns = { "editar", "deletar", "ano", "renavam", "uso", "sinistrado", "id_cliente" };
 
                 vehiclesDataTable.RemoveColumns(columns);
@@ -204,32 +174,32 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                 }
                 submitPanel.Controls.Add(modelField, 1, 2);
 
-          // on click to model field, year field should be enabled
+                // on click to model field, year field should be enabled
                 modelField.Click += async (sender, e) =>
           {
-                  var yearsResponse = await engineInterpreter.Request<IEnumerable<Ano>>($"https://tsb-api-policy-engine.herokuapp.com/fipe/marcas/{brandField.Text}/modelos/{modelField.Text}/anos", "GET", null);
-                  IEnumerable<Ano> yearsBody = yearsResponse.Body;
+              var yearsResponse = await engineInterpreter.Request<IEnumerable<Ano>>($"https://tsb-api-policy-engine.herokuapp.com/fipe/marcas/{brandField.Text}/modelos/{modelField.Text}/anos", "GET", null);
+              IEnumerable<Ano> yearsBody = yearsResponse.Body;
 
-                  TsbComboBox yearField = new TsbComboBox
+              TsbComboBox yearField = new TsbComboBox
+              {
+                  LabelText = "Ano",
+                  HintText = $"{vehicleBody.ano}",
+                  Dock = DockStyle.Top,
+                  Margin = new Padding
                   {
-                      LabelText = "Ano",
-                      HintText = $"{vehicleBody.ano}",
-                      Dock = DockStyle.Top,
-                      Margin = new Padding
-                      {
-                          Top = 0,
-                          Bottom = 24,
-                          Left = 32,
-                          Right = 32
-                      }
-                  };
-
-                  foreach (Ano year in yearsBody)
-                  {
-                      yearField.Items.Add(year.nome);
+                      Top = 0,
+                      Bottom = 24,
+                      Left = 32,
+                      Right = 32
                   }
-                  submitPanel.Controls.Add(yearField, 1, 3);
               };
+
+              foreach (Ano year in yearsBody)
+              {
+                  yearField.Items.Add(year.nome);
+              }
+              submitPanel.Controls.Add(yearField, 1, 3);
+          };
             };
 
             TsbComboBox modelField = new TsbComboBox
@@ -453,9 +423,8 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         protected async Task PutVehicle(Veiculo vehicleData, string id)
         {
-            await vehiclesDataTable.Put<Veiculo>(vehicleData, id);
-            Controls.Remove(vehiclesDataTable);
-            GetVehicles();
+            await vehiclesDataTable.Put<Veiculo>(vehicleData, id, null);
+            
         }
 
         public Vehicles(IContainer container)

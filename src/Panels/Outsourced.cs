@@ -1,19 +1,4 @@
-﻿using MaterialSkin.Controls;
-using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Top_Seguros_Brasil_Desktop.src.Components;
-using Top_Seguros_Brasil_Desktop.src.Models;
-using Top_Seguros_Brasil_Desktop.src.Screens.BaseForm;
-using Top_Seguros_Brasil_Desktop.Utils;
-
-namespace Top_Seguros_Brasil_Desktop.src.Panels
+﻿namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Outsourced : BasePanel
     {
@@ -35,37 +20,43 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             this.outsourcedDataTable.CellClick += async (sender, e) =>
             {
 
-                if (e.RowIndex < 0)
+                try
                 {
-                    return;
-                }
-
-                if (e.ColumnIndex == outsourcedDataTable.Columns["Editar"].Index && e.RowIndex >= 0)
-                {
-
-                    if (outsourcedDataTable.Columns["Editar"].Index == 1)
+                    if (e.RowIndex < 0)
                     {
-                        selectedOutsourced.Add(outsourcedDataTable.SelectedRows[0].Cells[3].Value.ToString());
-                        await SubmitPanelSetup(selectedOutsourced[0].ToString());
                         return;
                     }
-                    else
+
+                    if (e.ColumnIndex == outsourcedDataTable.Columns["Editar"].Index && e.RowIndex >= 0)
                     {
-                        for (int i = 0; i < outsourcedDataTable.Columns.Count; i++)
+
+                        if (outsourcedDataTable.Columns["Editar"].Index == 1)
                         {
-                            selectedOutsourced.Add(outsourcedDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                            selectedOutsourced.Add(outsourcedDataTable.SelectedRows[0].Cells[3].Value.ToString());
+                            await SubmitPanelSetup(selectedOutsourced[0].ToString());
+                            return;
                         }
-                        await SubmitPanelSetup(selectedOutsourced[0].ToString());
-                        return;
+                        else
+                        {
+                            for (int i = 0; i < outsourcedDataTable.Columns.Count; i++)
+                            {
+                                selectedOutsourced.Add(outsourcedDataTable.SelectedRows[0].Cells[i].Value.ToString());
+                            }
+                            await SubmitPanelSetup(selectedOutsourced[0].ToString());
+                            return;
+                        }
+
                     }
-
                 }
-
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             };
 
             putButton.Dock = DockStyle.Top;
             putButton.Margin = new Padding(32);
-            putButton.Text = "ADICIONAR TERCEIRIZADO";
+            putButton.Text = "+ ADICIONAR TERCEIRIZADO";
             putButton.Click += PutButton_Click;
 
             SubTitle(subtitle);
@@ -78,22 +69,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         protected async void GetOutsourced()
         {
 
-            await outsourcedDataTable.Get<Terceirizado>("https://tsb-api-policy-engine.herokuapp.com/terceirizado/");
+            await outsourcedDataTable.Get<PaginatedResponse<dynamic>>("https://tsb-api-policy-engine.herokuapp.com/terceirizado/", null, null);
 
             outsourcedDataTable.DataBindingComplete += (sender, e) =>
             {
-                //outsourcedDataTable.Columns["id_terceirizado"].HeaderText = "ID";
-                //outsourcedDataTable.Columns["nome"].HeaderText = "Nome";
-                //outsourcedDataTable.Columns["funcao"].HeaderText = "Função";
-                //outsourcedDataTable.Columns["cnpj"].HeaderText = "CNPJ";
-                //outsourcedDataTable.Columns["valor"].HeaderText = "Valor";
-
-                //outsourcedDataTable.Columns["status"].Visible = false;
-                //outsourcedDataTable.Columns["Detalhes"].Visible = false;
-
-
                 string[] columns = { "status", "detalhes" };
-
+                
                 outsourcedDataTable.RemoveColumns(columns);
             };
 
@@ -423,9 +404,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         protected async Task PutOutsourced(Terceirizado terceirizadoData, string id)
         {
-            await outsourcedDataTable.Put<Terceirizado>(terceirizadoData, id);
-            Controls.Remove(outsourcedDataTable);
-            GetOutsourced();
+            await outsourcedDataTable.Put<Terceirizado>(terceirizadoData, id, null);
         }
 
         protected async Task PostOutsourced(Terceirizado outsourcedData, EventHandler? e)
@@ -439,9 +418,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             var response = await engineInterpreter.Request<Terceirizado>("https://tsb-api-policy-engine.herokuapp.com/terceirizado/", "POST", data);
 
-            Controls.Remove(outsourcedDataTable);
-
-            GetOutsourced();
         }
 
         private void PutButton_Click(object? sender, EventArgs? e)

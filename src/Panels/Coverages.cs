@@ -1,18 +1,4 @@
-﻿using MaterialSkin.Controls;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Top_Seguros_Brasil_Desktop.src.Components;
-using Top_Seguros_Brasil_Desktop.src.Models;
-using Top_Seguros_Brasil_Desktop.Utils;
-
-namespace Top_Seguros_Brasil_Desktop.src.Panels
+﻿namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Coverages : BasePanel
     {
@@ -63,6 +49,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             };
 
+
             putButton.Dock = DockStyle.Top;
             putButton.Margin = new Padding(32);
             putButton.Text = "Adicionar Usuário";
@@ -72,7 +59,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             SubTitle(subtitle);
             Title(pageTitle);
             InitializeComponent();
-
+            
             GetCoverages();
 
             InitializeComponent();
@@ -81,7 +68,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         protected async void GetCoverages()
         {
 
-            await coveragesDataTable.Get<Cobertura>("https://tsb-api-policy-engine.herokuapp.com/cobertura/");
+            await coveragesDataTable.Get<PaginatedResponse<dynamic>>("https://tsb-api-policy-engine.herokuapp.com/cobertura/", null, null);
 
             coveragesDataTable.DataBindingComplete += (sender, e) =>
             {
@@ -236,7 +223,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         {
             EngineInterpreterResponse response;
 
-
             string address = "https://tsb-api-policy-engine.herokuapp.com/cobertura/";
 
             response = await engineInterpreter.Request<Type>($"{address}{id}", "GET", null);
@@ -329,7 +315,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             };
             submitPanel.Controls.Add(rateField, 2, 2);
 
-            
+
 
             ButtonTsbPrimary submitButton = new ButtonTsbPrimary
             {
@@ -386,19 +372,12 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         protected async Task PostCoverage(Cobertura coverageData, EventHandler? e)
         {
-
             await coveragesDataTable.Post<Cobertura>(coverageData);
-
-            Controls.Remove(coveragesDataTable);
-
-            GetCoverages();
         }
 
         protected async Task PutCoverage(Cobertura coverageData, string id)
         {
-            await coveragesDataTable.Put<Cobertura>(coverageData, id);
-            Controls.Remove(coveragesDataTable);
-            GetCoverages();
+            await coveragesDataTable.Put<Cobertura>(coverageData, id, null);
         }
 
         public Coverages(IContainer container)

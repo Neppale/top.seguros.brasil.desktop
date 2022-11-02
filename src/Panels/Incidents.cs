@@ -1,39 +1,4 @@
-﻿using MaterialSkin.Controls;
-using Newtonsoft.Json;
-using RestSharp;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.IO.IsolatedStorage;
-using System.Linq;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using Top_Seguros_Brasil_Desktop.src.Components;
-using Top_Seguros_Brasil_Desktop.src.font;
-using Top_Seguros_Brasil_Desktop.src.Models;
-using Top_Seguros_Brasil_Desktop.Utils;
-using Windows.Storage.Streams;
-using Windows.Storage;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.Web;
-using static System.Net.WebRequestMethods;
-using File = System.IO.File;
-using Windows.Storage.Pickers;
-using RestSharp.Authenticators;
-using Newtonsoft.Json.Linq;
-using System.Windows.Forms;
-using System.Windows.Markup;
-using Windows.Security.Authentication.Identity.Core;
-using System.Data;
-using System.Text.Json.Nodes;
-
-namespace Top_Seguros_Brasil_Desktop.src.Panels
+﻿namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Incidents : BasePanel
     {
@@ -846,7 +811,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             {
                 LabelText = "Data da ocorrência",
                 Mask = "99/99/9999",
-                Text = incident.data.Split('-')[2] + incident.data.Split('-')[1] + incident.data.Split('-')[0],
+                Text = incident.data.Split(' ')[0],
                 ForeColor = TsbColor.neutralGray,
                 Dock = DockStyle.Top,
                 Margin = new Padding
@@ -913,7 +878,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
                 Ocorrencia incident = new Ocorrencia
                 (
-                    data: dateField.Text,
+                    data: DateTime
+                        .ParseExact(dateField.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                        .ToString("yyyy-MM-dd"),
                     local: addressField.Text,
                     uf: uf,
                     municipio: countyField.HintText,
@@ -967,7 +934,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         {
             try
             {
-                await incidentsDataTable.Put<IncidentInsertReponse>(incidentData, id);
+                await incidentsDataTable.Put<IncidentInsertReponse>(incidentData, id, null);
                 Controls.Remove(incidentsDataTable);
                 GetIncidents();
             }
@@ -1002,13 +969,13 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
             {
                 MessageBox.Show("Ocorreu um erro ao enviar o boletim de ocorrência! Tente novamente.");
             }
-
+            
         }
 
         protected async void GetIncidents()
         {
 
-            await incidentsDataTable.Get<Ocorrencia>("https://tsb-api-policy-engine.herokuapp.com/ocorrencia/");
+            await incidentsDataTable.Get<PaginatedResponse<dynamic>>("https://tsb-api-policy-engine.herokuapp.com/ocorrencia/", null, null);
 
             incidentsDataTable.DataBindingComplete += (sender, e) =>
             {
