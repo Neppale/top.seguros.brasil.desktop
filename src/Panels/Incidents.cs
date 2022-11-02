@@ -975,7 +975,7 @@
         protected async void GetIncidents()
         {
 
-            await incidentsDataTable.Get<PaginatedResponse<Ocorrencia>>("https://tsb-api-policy-engine.herokuapp.com/ocorrencia/", null);
+            await incidentsDataTable.Get<PaginatedResponse<dynamic>>("https://tsb-api-policy-engine.herokuapp.com/ocorrencia/", null, null);
 
             incidentsDataTable.DataBindingComplete += (sender, e) =>
             {

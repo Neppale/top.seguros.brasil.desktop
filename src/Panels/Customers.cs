@@ -49,9 +49,11 @@
 
             };
 
+            
+
             putButton.Dock = DockStyle.Top;
             putButton.Margin = new Padding(32);
-            putButton.Text = "Adicionar Cliente";
+            putButton.Text = "+ Adicionar Cliente";
             putButton.Click += PutButton_Click;
 
             SubTitle(subtitle);
@@ -64,7 +66,7 @@
         protected async void GetCustomers()
         {
 
-            await customersDataTable.Get<PaginatedResponse<Cliente>>("https://tsb-api-policy-engine.herokuapp.com/cliente/", null);
+            await customersDataTable.Get<PaginatedResponse<dynamic>>("https://tsb-api-policy-engine.herokuapp.com/cliente/", null, null);
 
             customersDataTable.DataBindingComplete += (sender, e) =>
             {
@@ -78,8 +80,6 @@
             Controls.Add(customersDataTable, 0, 5);
             SetColumnSpan(customersDataTable, 3);
             SetRowSpan(customersDataTable, 4);
-            this.Refresh();
-            customersDataTable.Refresh();
         }
 
         private void SubmitCustomerPanelSetup()
@@ -125,6 +125,7 @@
             {
                 LabelText = "Data de Nascimento",
                 Mask = "00/00/0000",
+                NewValue = true,
                 HintText = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" + dateTime.Year.ToString(),
                 ForeColor = TsbColor.neutralGray,
                 Dock = DockStyle.Top,
@@ -143,6 +144,7 @@
             {
                 LabelText = "CPF",
                 Mask = "000,000,000-00",
+                NewValue = true,
                 HintText = "000,000,000-00",
                 ForeColor = TsbColor.neutralGray,
                 Dock = DockStyle.Top,
@@ -180,6 +182,7 @@
                 LabelText = "CEP",
                 Mask = "00000-000",
                 HintText = "00000-000",
+                NewValue = true,
                 ForeColor = TsbColor.neutralGray,
                 Dock = DockStyle.Top,
                 Margin = new Padding
@@ -214,6 +217,7 @@
             {
                 LabelText = "Telefone 1",
                 Mask = "(00) 00000-0000",
+                NewValue = true,
                 HintText = "(00) 00000-0000",
                 ForeColor = TsbColor.neutralGray,
                 Dock = DockStyle.Top,
@@ -231,6 +235,7 @@
             {
                 LabelText = "Telefone 2",
                 Mask = "(00) 00000-0000",
+                NewValue = true,
                 HintText = "(00) 00000-0000",
                 ForeColor = TsbColor.neutralGray,
                 Dock = DockStyle.Top,
@@ -1654,7 +1659,7 @@
             TsbInput nameField = new TsbInput
             {
                 LabelText = "Nome",
-                HintText = responseBody.nome_completo,
+                Text = responseBody.nome_completo,
                 ForeColor = TsbColor.neutralGray,
                 Dock = DockStyle.Top,
                 Margin = new Padding
@@ -1793,6 +1798,7 @@
             };
             submitPanel.Controls.Add(tel2Field, 2, 4);
 
+
             ButtonTsbPrimary submitButton = new ButtonTsbPrimary
             {
                 Text = "EDITAR CLIENTE",
@@ -1806,6 +1812,11 @@
                 }
             };
             submitPanel.Controls.Add(submitButton, 2, 5);
+
+            if(tel2Field.Text == "(  )      -")
+            {
+                tel2Field.Text = "";
+            }
 
             submitButton.Click += async (sender, e) =>
             {

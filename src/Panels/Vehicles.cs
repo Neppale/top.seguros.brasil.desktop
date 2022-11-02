@@ -30,9 +30,8 @@
                     Right = 8
                 }
             };
-
-
-
+            
+            
 
             this.vehiclesDataTable.CellClick += async (sender, e) =>
             {
@@ -81,24 +80,11 @@
         protected async void GetVehicles()
         {
 
-            await vehiclesDataTable.Get<PaginatedResponse<Veiculo>>("https://tsb-api-policy-engine.herokuapp.com/veiculo/", null);
+            await vehiclesDataTable.Get<PaginatedResponse<dynamic>>("https://tsb-api-policy-engine.herokuapp.com/veiculo/", null, null);
 
             vehiclesDataTable.DataBindingComplete += (sender, e) =>
             {
-                //vehiclesDataTable.Columns["id_veiculo"].HeaderText = "ID";
-                //vehiclesDataTable.Columns["marca"].HeaderText = "Marca";
-                //vehiclesDataTable.Columns["modelo"].HeaderText = "Modelo";
-                //vehiclesDataTable.Columns["placa"].HeaderText = "Placa";
-                //vehiclesDataTable.Columns["dono"].HeaderText = "Dono";
-
-                //vehiclesDataTable.Columns["editar"].Visible = false;
-                //vehiclesDataTable.Columns["deletar"].Visible = false;
-                //vehiclesDataTable.Columns["ano"].Visible = false;
-                //vehiclesDataTable.Columns["renavam"].Visible = false;
-                //vehiclesDataTable.Columns["uso"].Visible = false;
-                //vehiclesDataTable.Columns["sinistrado"].Visible = false;
-                //vehiclesDataTable.Columns["id_cliente"].Visible = false;
-
+                
                 string[] columns = { "editar", "deletar", "ano", "renavam", "uso", "sinistrado", "id_cliente" };
 
                 vehiclesDataTable.RemoveColumns(columns);
@@ -438,8 +424,7 @@
         protected async Task PutVehicle(Veiculo vehicleData, string id)
         {
             await vehiclesDataTable.Put<Veiculo>(vehicleData, id);
-            Controls.Remove(vehiclesDataTable);
-            GetVehicles();
+            
         }
 
         public Vehicles(IContainer container)

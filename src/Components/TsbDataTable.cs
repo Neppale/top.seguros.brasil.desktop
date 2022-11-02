@@ -8,6 +8,7 @@
         public static ArrayList selectedRowValues = new ArrayList();
         public static string? selectedId { get; set; }
         public static bool tableCreated { get; set; }
+        public static Type current_type { get; set; }
 
         public int maxPages { get; set; }
 
@@ -108,6 +109,32 @@
             }
         }
 
+        public event EventHandler Next
+        {
+            add
+            {
+                paginationRow.ClickNext += value;
+            }
+            remove
+            {
+                paginationRow.ClickNext -= value;
+                
+            }
+        }
+
+        public event EventHandler Previous
+        {
+            add
+            {
+                paginationRow.ClickPrevious += value;
+            }
+            remove
+            {
+                paginationRow.ClickPrevious -= value;
+
+            }
+        }
+
         public DataGridViewRowCollection Rows
         {
             get
@@ -134,15 +161,29 @@
 
             searchBox.SearchClick += async (sender, e) =>
             {
-                await SearchData<JObject>(searchBox.Text);
+                await Get<PaginatedResponse<dynamic>>(this.address, null, searchBox.Text);
             };
 
             searchBox.KeyPress += async (sender, e) =>
             {
                 if (e.KeyChar == (char)13)
                 {
-                    await SearchData<JObject>(searchBox.Text);
+                    await Get<PaginatedResponse<dynamic>>(this.address, null, searchBox.Text);
                 }
+            };
+             
+            int page = 1;
+            
+            paginationRow.ClickNext += async (sender, e) =>
+            {
+                page += 1;
+                await Get<PaginatedResponse<dynamic>>(this.address, page, null);
+            };
+
+            this.paginationRow.ClickPrevious += async (sender, e) =>
+            {
+                page--;
+                await Get<PaginatedResponse<dynamic>>(this.address, page, null);
             };
 
             this.RowStyles.Add(new RowStyle(SizeType.Absolute, 16));
@@ -150,30 +191,8 @@
             this.RowStyles.Add(new RowStyle(SizeType.Absolute, 336));
             this.RowStyles.Add(new RowStyle(SizeType.Absolute, 56));
 
-            int currentPage = 1;
-            
-            //paginationRow.PageNumberText = "Página: 1";
+
             paginationRow.PreviousEnabled = false;
-
-            paginationRow.nextButton.Click += async (sender, e) =>
-            {
-                currentPage++;
-                await Get<PaginatedResponse<dynamic>>(address, currentPage);
-                //await ChangeToPage<JObject>(currentPage, "next", searchBox.Text);
-
-            };
-
-            paginationRow.previousButton.Click += async (sender, e) =>
-            {
-                currentPage--;
-
-                await ChangeToPage<PaginatedResponse<object>>(currentPage, "previous", searchBox.Text);
-                paginationRow.PageNumberText = "Página: " + currentPage.ToString();
-                if (currentPage < maxPages)
-                {
-                    paginationRow.NextEnabled = true;
-                }
-            };
 
 
             this.Controls.Add(paginationRow, 0, 3);
@@ -194,41 +213,44 @@
 
         }
 
-        public async Task Get<type>(string address, int? page)
+        public async Task Get<type>(string address, int? page, string? searchData)
         {
             dataTable.Clear();
-            dataTable.EndInit();
-            dataTable.Reset();
             this.address = address;
             paginationRow.NextEnabled = false;
-            if (page == null) { page = 1; };
             
-            var response = await engineInterpreter.Request<type>($"{address}?pageNumber={page}", "GET", null);
+            if (page == null) { page = 1; };
+            if (page > 1)     { paginationRow.PreviousEnabled = true; }
+            if (page == 1)    { paginationRow.PreviousEnabled = false; }
+            if (page <= 0)    { page = 1; };
+            
+            if (searchData == null) { address = address + "?pageNumber=" + page; }
+            if (searchData != null) { address = address + $"?search={searchData}&" + "?pageNumber=" + page; }
+
+
+            var response = await engineInterpreter.Request<type>(address, "GET", null);
+
 
             IEnumerable<object> responseBody = response.Body.data;
 
+
             if (responseBody.Count() != 0)
             {
-                string[] properties = responseBody.First().GetType().GetProperties().Select(x => x.Name).ToArray();
-
                 try
                 {
-                    foreach (var property in properties)
+                    foreach (var columnName in (JObject)responseBody.First())
                     {
-                        if (property != "Type" && property != "Item")
-                        {
-                            dataTable.Columns.Add(property);
-                        }
-                        
+                        if (!dataTable.Columns.Contains(columnName.Key))
+                            dataTable.Columns.Add(columnName.Key);
 
                     }
+
                     foreach (var item in responseBody)
                     {
                         DataRow row = dataTable.NewRow();
-                        foreach (var property in properties)
+                        foreach (var columnName in (JObject)item)
                         {
-                            if (property != "Type" && property != "Item")
-                                row[property] = item.GetType().GetProperty(property).GetValue(item);
+                            row[columnName.Key] = columnName.Value;
                         }
                         dataTable.Rows.Add(row);
                     }
@@ -244,6 +266,8 @@
                 {
                     paginationRow.NextEnabled = true;
                 }
+
+                
                 paginationRow.PageNumberText = $"Página: {page}/{response.TotalPages.ToString()}";
                 await LoadData(dataTable);
             }
@@ -278,6 +302,8 @@
                 if (response.StatusCode == 201) MessageBox.Show("Cadastrado com sucesso!");
                 else if (response.Body == null) MessageBox.Show("Erro ao cadastrar!");
                 else MessageBox.Show("Erro ao cadastrar! " + response.Body.message);
+
+                await Get<PaginatedResponse<dynamic>>(address, 1, null);
             }
             catch (Exception e)
             {
@@ -294,6 +320,8 @@
             if (response.StatusCode == 200) MessageBox.Show("Atualizado com sucesso!");
             else if (response.Body == null) MessageBox.Show("Erro ao atualizar!");
             else MessageBox.Show("Erro ao atualizar! " + response.Body.message);
+
+            await Get<PaginatedResponse<dynamic>>(address, 1, null);
         }
 
         public async Task Delete<Type>(string id)
@@ -311,17 +339,9 @@
             InitializeComponent();
         }
 
-        public async Task<Type?> GetSelected<Type>(string id)
-        {
-            this.address = address;
-            var response = await engineInterpreter.Request<IEnumerable<Type>>($"{address}{id}", "GET", null);
-            Type responseBody = response.Body;
-
-            return responseBody;
-        }
-
         public async Task LoadData(DataTable source)
         {
+            bindingSource.ResetBindings(false);
             bindingSource.DataSource = source;
             dataGridView.DataSource = bindingSource;
 
@@ -433,204 +453,6 @@
             }
         }
         
-        public async Task SearchData<Type>(string value)
-        {
-
-            DataTable dataTable = new DataTable();
-
-            var response = await engineInterpreter.Request<IEnumerable<JObject>>($"{address}?search={value}", "GET", null);
-            IEnumerable<Type> responseBody = response.Body;
-
-
-            if (responseBody.Count() != 0)
-            {
-                string[] properties = { "" };
-                string[] values = { "" };
-
-                IEnumerable<JObject> o = (IEnumerable<JObject>)responseBody;
-
-                foreach (JObject j in o)
-                {
-                    properties = j.Properties().Select(p => p.Name).ToArray();
-                }
-
-                try
-                {
-
-                    foreach (var property in properties) dataTable.Columns.Add(property);
-
-                    foreach (var item in o)
-                    {
-                        DataRow row = dataTable.NewRow();
-                        for (int i = 0; i < properties.Length; i++)
-                        {
-                            row[i] = item[properties[i]];
-                        }
-                        dataTable.Rows.Add(row);
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-
-                await LoadData(dataTable);
-
-                dataGridView.Refresh();
-            }
-            else
-            {
-                MessageBox.Show($"Nenhum resultado encontrado para {value}");
-            }
-
-        }
-
-        public async Task ToPage<type>(int page)
-        {
-            this.address = address;
-            var response = await engineInterpreter.Request<type>($"{address}?pageNumber={page}", "GET", null);
-
-            IEnumerable<object> responseBody = response.Body.data;
-
-            if (responseBody.Count() != 0)
-            {
-                string[] properties = responseBody.First().GetType().GetProperties().Select(x => x.Name).ToArray();
-
-                try
-                {
-                    foreach (var property in properties) dataTable.Columns.Add(property);
-                    foreach (var item in responseBody)
-                    {
-                        DataRow row = dataTable.NewRow();
-                        foreach (var property in properties) row[property] = item.GetType().GetProperty(property).GetValue(item);
-                        dataTable.Rows.Add(row);
-                    }
-
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-
-                }
-                await LoadData(dataTable);
-            }
-            else
-            {
-                dataTable.Columns.Add("Nenhum dado cadastrado.");
-
-                bindingSource.DataSource = dataTable;
-                dataGridView.DataSource = bindingSource;
-
-                paginationRow.NextEnabled = false;
-                paginationRow.PreviousEnabled = false;
-
-                SetupDataTable();
-                InitializeComponent();
-                dataGridView.EndEdit();
-                this.Refresh();
-            }
-        }
-
-        public async Task ChangeToPage<Type>(int page, string direction, string? search)
-        {
-            DataTable dataTable = new DataTable();
-
-            var response = await engineInterpreter.Request<IEnumerable<Type>>($"{address}?pageNumber={page}&search={search}", "GET", null);
-
-            IEnumerable<Type> responseBody = response.Body;
-
-
-            if (responseBody.Count() != 0)
-            {
-                string[] properties = { "" };
-                string[] values = { "" };
-
-                IEnumerable<JObject> objectsList = (IEnumerable<JObject>)responseBody;
-
-                foreach (JObject j in objectsList)
-                {
-                    properties = j.Properties().Select(p => p.Name).ToArray();
-                }
-
-                try
-                {
-
-                    foreach (var property in properties) dataTable.Columns.Add(property);
-
-                    foreach (var item in objectsList)
-                    {
-                        DataRow row = dataTable.NewRow();
-                        for (int i = 0; i < properties.Length; i++)
-                        {
-                            row[i] = item[properties[i]];
-                        }
-                        dataTable.Rows.Add(row);
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-
-                await LoadData(dataTable);
-
-                dataGridView.Refresh();
-
-
-
-
-
-                if (direction == "next")
-                {
-                    page++;
-                    var nextPageResponse = await engineInterpreter.Request<IEnumerable<Type>>($"{address}?pageNumber={page}", "GET", null);
-                    IEnumerable<Type> nextBody = nextPageResponse.Body;
-
-                    if (nextBody.Count() == 0)
-                    {
-                        paginationRow.PageNumberText = page.ToString();
-                        paginationRow.NextEnabled = false;
-                        maxPages = page;
-                        return;
-                    }
-
-                }
-
-                if (direction == "previous")
-                {
-                    page--;
-                    var previousPageResponse = await engineInterpreter.Request<IEnumerable<Type>>($"{address}?pageNumber={page}", "GET", null);
-                    IEnumerable<Type> previousBody = previousPageResponse.Body;
-
-
-                    if (page == 0)
-                    {
-                        paginationRow.PageNumberText = page.ToString();
-                        paginationRow.PreviousEnabled = false;
-                        paginationRow.NextEnabled = true;
-
-                        return;
-                    }
-
-
-                    if (previousBody.Count() == 0)
-                    {
-                        paginationRow.PageNumberText = page.ToString();
-                        paginationRow.PreviousEnabled = false;
-                        return;
-                    }
-                }
-
-            }
-            else
-            {
-                MessageBox.Show($"Nenhum resultado encontrado para esse registro");
-            }
-
-        }
-
         public void RemoveColumns(string[] columns)
         {
 
@@ -656,7 +478,7 @@
             dataGridView.EnableHeadersVisualStyles = false;
 
             dataGridView.DefaultCellStyle.ForeColor = TsbColor.neutralGray;
-            dataGridView.DefaultCellStyle.Font = new Font(LoadFont(Resources.Roboto_Regular), 10, FontStyle.Regular);
+            dataGridView.DefaultCellStyle.Font = new Font(LoadFont(Resources.Roboto_Medium), 10, FontStyle.Regular);
             dataGridView.DefaultCellStyle.SelectionBackColor = TsbColor.neutralGrayDarker;
             dataGridView.DefaultCellStyle.SelectionForeColor = TsbColor.neutral;
             dataGridView.DefaultCellStyle.Padding = new Padding(16, 0, 0, 0);
@@ -781,15 +603,5 @@
             }
         }
 
-        public void ReloadTable(string pageName, Control control)
-        {
-            if (pageName == "users")
-            {
-                Users usersPage = new Users();
-                control.FindForm().Controls.Add(usersPage);
-                usersPage.BringToFront();
-                return;
-            }
-        }
     }
 }

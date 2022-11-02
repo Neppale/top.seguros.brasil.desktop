@@ -44,12 +44,14 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
                     }
                     await SubmitPanelSetup(selectedUser);
                 }
-
+                
             };
+
+            
 
             putButton.Dock = DockStyle.Top;
             putButton.Margin = new Padding(32);
-            putButton.Text = "Adicionar Usuário";
+            putButton.Text = "+ ADICIONAR USUÁRIO";
             putButton.Click += PutButton_Click;
 
             SubTitle(subtitle);
@@ -139,8 +141,9 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             TsbInput passwordField = new TsbInput
             {
-                LabelText = "Senha",
-                HintText = "Senha do usuário",
+                LabelText = "Senha padrão",
+                Text = "Senha123-",
+                Enabled = false,
                 ForeColor = TsbColor.neutralGray,
                 Dock = DockStyle.Top,
                 Margin = new Padding
@@ -157,7 +160,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             ButtonTsbPrimary submitButton = new ButtonTsbPrimary
             {
-                Text = "Cadastrar Usuário",
+                Text = "Finalizar Cadastro do Usuário",
                 Dock = DockStyle.Top,
                 Margin = new Padding
                 {
@@ -333,7 +336,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
         protected async void GetUsers()
         {
 
-            await usersDataTable.Get<PaginatedResponse<Usuario>>("https://tsb-api-policy-engine.herokuapp.com/usuario/", null);
+            await usersDataTable.Get<PaginatedResponse<dynamic>>("https://tsb-api-policy-engine.herokuapp.com/usuario/", null, null);
 
             usersDataTable.DataBindingComplete += (sender, e) =>
             {
@@ -351,9 +354,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
             await usersDataTable.Post<UserInsertResponse>(userData);
 
-            Controls.Remove(usersDataTable);
-
-            GetUsers();
         }
 
         protected async Task PutUser(Usuario userData, string id)

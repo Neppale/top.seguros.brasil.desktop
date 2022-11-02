@@ -56,7 +56,7 @@
 
             putButton.Dock = DockStyle.Top;
             putButton.Margin = new Padding(32);
-            putButton.Text = "ADICIONAR TERCEIRIZADO";
+            putButton.Text = "+ ADICIONAR TERCEIRIZADO";
             putButton.Click += PutButton_Click;
 
             SubTitle(subtitle);
@@ -69,22 +69,12 @@
         protected async void GetOutsourced()
         {
 
-            await outsourcedDataTable.Get<PaginatedResponse<Terceirizado>>("https://tsb-api-policy-engine.herokuapp.com/terceirizado/", null);
+            await outsourcedDataTable.Get<PaginatedResponse<dynamic>>("https://tsb-api-policy-engine.herokuapp.com/terceirizado/", null, null);
 
             outsourcedDataTable.DataBindingComplete += (sender, e) =>
             {
-                //outsourcedDataTable.Columns["id_terceirizado"].HeaderText = "ID";
-                //outsourcedDataTable.Columns["nome"].HeaderText = "Nome";
-                //outsourcedDataTable.Columns["funcao"].HeaderText = "Função";
-                //outsourcedDataTable.Columns["cnpj"].HeaderText = "CNPJ";
-                //outsourcedDataTable.Columns["valor"].HeaderText = "Valor";
-
-                //outsourcedDataTable.Columns["status"].Visible = false;
-                //outsourcedDataTable.Columns["Detalhes"].Visible = false;
-
-
                 string[] columns = { "status", "detalhes" };
-
+                
                 outsourcedDataTable.RemoveColumns(columns);
             };
 
@@ -415,8 +405,6 @@
         protected async Task PutOutsourced(Terceirizado terceirizadoData, string id)
         {
             await outsourcedDataTable.Put<Terceirizado>(terceirizadoData, id);
-            Controls.Remove(outsourcedDataTable);
-            GetOutsourced();
         }
 
         protected async Task PostOutsourced(Terceirizado outsourcedData, EventHandler? e)
@@ -430,9 +418,6 @@
 
             var response = await engineInterpreter.Request<Terceirizado>("https://tsb-api-policy-engine.herokuapp.com/terceirizado/", "POST", data);
 
-            Controls.Remove(outsourcedDataTable);
-
-            GetOutsourced();
         }
 
         private void PutButton_Click(object? sender, EventArgs? e)

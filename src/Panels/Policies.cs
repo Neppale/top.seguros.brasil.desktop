@@ -59,7 +59,7 @@
         protected async void GetPolicies()
         {
 
-            await policiesDataTable.Get<PaginatedResponse<Apolice>>($"https://tsb-api-policy-engine.herokuapp.com/apolice/usuario/{userId}", null);
+            await policiesDataTable.Get<PaginatedResponse<dynamic>>($"https://tsb-api-policy-engine.herokuapp.com/apolice/usuario/{userId}", null, null);
 
 
             policiesDataTable.DataBindingComplete += (sender, e) =>
@@ -933,9 +933,6 @@
 
             var response = await engineInterpreter.Request<Apolice>("https://tsb-api-policy-engine.herokuapp.com/apolice/", "POST", data);
 
-
-            Controls.Remove(policiesDataTable);
-            GetPolicies();
         }
 
         public Policies(IContainer container)

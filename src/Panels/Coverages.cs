@@ -49,6 +49,7 @@
 
             };
 
+
             putButton.Dock = DockStyle.Top;
             putButton.Margin = new Padding(32);
             putButton.Text = "Adicionar Usuário";
@@ -67,7 +68,7 @@
         protected async void GetCoverages()
         {
 
-            await coveragesDataTable.Get<PaginatedResponse<Cobertura>>("https://tsb-api-policy-engine.herokuapp.com/cobertura/", null);
+            await coveragesDataTable.Get<PaginatedResponse<dynamic>>("https://tsb-api-policy-engine.herokuapp.com/cobertura/", null, null);
 
             coveragesDataTable.DataBindingComplete += (sender, e) =>
             {
@@ -222,7 +223,6 @@
         {
             EngineInterpreterResponse response;
 
-
             string address = "https://tsb-api-policy-engine.herokuapp.com/cobertura/";
 
             response = await engineInterpreter.Request<Type>($"{address}{id}", "GET", null);
@@ -372,19 +372,12 @@
 
         protected async Task PostCoverage(Cobertura coverageData, EventHandler? e)
         {
-
             await coveragesDataTable.Post<Cobertura>(coverageData);
-
-            Controls.Remove(coveragesDataTable);
-
-            GetCoverages();
         }
 
         protected async Task PutCoverage(Cobertura coverageData, string id)
         {
             await coveragesDataTable.Put<Cobertura>(coverageData, id);
-            Controls.Remove(coveragesDataTable);
-            GetCoverages();
         }
 
         public Coverages(IContainer container)
