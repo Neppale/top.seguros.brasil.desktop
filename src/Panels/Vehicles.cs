@@ -76,7 +76,7 @@
 
             InitializeComponent();
         }
-
+        
         protected async void GetVehicles()
         {
 
@@ -423,7 +423,7 @@
 
         protected async Task PutVehicle(Veiculo vehicleData, string id)
         {
-            await vehiclesDataTable.Put<Veiculo>(vehicleData, id);
+            await vehiclesDataTable.Put<Veiculo>(vehicleData, id, null);
             
         }
 

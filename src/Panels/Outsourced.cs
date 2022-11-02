@@ -404,7 +404,7 @@
 
         protected async Task PutOutsourced(Terceirizado terceirizadoData, string id)
         {
-            await outsourcedDataTable.Put<Terceirizado>(terceirizadoData, id);
+            await outsourcedDataTable.Put<Terceirizado>(terceirizadoData, id, null);
         }
 
         protected async Task PostOutsourced(Terceirizado outsourcedData, EventHandler? e)

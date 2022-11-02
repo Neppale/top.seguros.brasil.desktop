@@ -311,8 +311,16 @@
             }
         }
 
-        public async Task Put<Type>(object body, string id)
+        public async Task Put<Type>(object? body, string? id, string? address)
         {
+
+            if(body == null && id == null)
+            {
+                await engineInterpreter.Request<Type>($"{address}", "PUT", null);
+                await Get<PaginatedResponse<dynamic>>(this.address, 1, null);
+                return;
+            }
+
             var json = JsonConvert.SerializeObject(body);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await engineInterpreter.Request<Type>($"{this.address}{id}", "PUT", data);
@@ -321,7 +329,7 @@
             else if (response.Body == null) MessageBox.Show("Erro ao atualizar!");
             else MessageBox.Show("Erro ao atualizar! " + response.Body.message);
 
-            await Get<PaginatedResponse<dynamic>>(address, 1, null);
+            await Get<PaginatedResponse<dynamic>>(this.address, 1, null);
         }
 
         public async Task Delete<Type>(string id)

@@ -1,4 +1,6 @@
-﻿namespace Top_Seguros_Brasil_Desktop.src.Panels
+﻿using Top_Seguros_Brasil_Desktop.src.Models;
+
+namespace Top_Seguros_Brasil_Desktop.src.Panels
 {
     public partial class Customers : BasePanel
     {
@@ -251,7 +253,7 @@
 
             ButtonTsbSecondary submitButton = new ButtonTsbSecondary
             {
-                Text = "CADASTRAR CLIENTE SEM VEÍCULO",
+                Text = "+ CADASTRAR CLIENTE SEM VEÍCULO",
                 Dock = DockStyle.Top,
                 Margin = new Padding
                 {
@@ -261,7 +263,8 @@
                     Right = 32
                 }
             };
-            submitPanel.Controls.Add(submitButton, 2, 5);
+            submitPanel.Controls.Add(submitButton, 1, 5);
+            submitPanel.SetColumnSpan(submitButton, 2);
 
             submitButton.Click += async (sender, e) =>
             {
@@ -287,7 +290,7 @@
             divider.Height = 1;
             divider.BackColor = TsbColor.neutralWhite;
             divider.Dock = DockStyle.Top;
-            submitPanel.Controls.Add(divider, 0, 6);
+            submitPanel.Controls.Add(divider, 0, 7);
             submitPanel.SetColumnSpan(divider, 3);
 
             TitleBox titleboxContinue = new TitleBox
@@ -305,7 +308,7 @@
                 }
 
             };
-            submitPanel.Controls.Add(titleboxContinue, 0, 7);
+            submitPanel.Controls.Add(titleboxContinue, 0, 8);
 
             TsbFont tsbFont = new TsbFont();
 
@@ -325,11 +328,11 @@
                 }
             };
             submitPanel.SetColumnSpan(or, 2);
-            submitPanel.Controls.Add(or, 1, 7);
+            submitPanel.Controls.Add(or, 1, 8);
 
             ButtonTsbPrimary continueSubmit = new ButtonTsbPrimary
             {
-                Text = "CADASTRAR VEÍCULO",
+                Text = "CONTINUAR PARA O CADASTRO DE VEÍCULO",
                 Dock = DockStyle.Top,
                 Margin = new Padding
                 {
@@ -339,7 +342,7 @@
                     Right = 32
                 }
             };
-            submitPanel.Controls.Add(continueSubmit, 2, 8);
+            submitPanel.Controls.Add(continueSubmit, 2, 9);
 
             continueSubmit.Click += async (sender, e) =>
             {
@@ -364,6 +367,8 @@
 
                 CustomerInsertResponse responseBody = response.Body;
 
+                if (response.StatusCode != 201) { MessageBox.Show(responseBody.message); return; }
+
                 SubmitVehiclePanelSetup(responseBody.client.id_cliente.ToString());
 
                 submitPanel.Dispose();
@@ -384,7 +389,7 @@
                     Right = 32
                 }
             };
-            submitPanel.Controls.Add(cancelSubmit, 1, 8);
+            submitPanel.Controls.Add(cancelSubmit, 1, 9);
 
 
 
@@ -531,6 +536,7 @@
             {
                 LabelText = "Placa do veículo",
                 Mask = "AAA-0000",
+                NewValue = true,
                 HintText = "AAA0000",
                 Dock = DockStyle.Top,
                 Enabled = false,
@@ -615,7 +621,7 @@
 
             ButtonTsbSecondary submitButton = new ButtonTsbSecondary
             {
-                Text = "CADASTRAR VEÍCULO SEM APÓLICE",
+                Text = "+ CADASTRAR VEÍCULO SEM APÓLICE",
                 Dock = DockStyle.Top,
                 Margin = new Padding
                 {
@@ -659,7 +665,7 @@
             {
                 Parent = submitPanel,
                 GoBackable = false,
-                titleText = "Continuar Cadastrando",
+                titleText = "Cadastrar apólice",
                 subtitleText = "",
                 Margin = new Padding
                 {
@@ -680,27 +686,61 @@
 
             submitPanel.Controls.Add(titleboxContinue, 0, 7);
 
-            Label or = new Label
+            var coverages = await engineInterpreter.Request<PaginatedResponse<dynamic>>("https://tsb-api-policy-engine.herokuapp.com/cobertura/", "GET", null);
+
+            TsbComboBox coverageField = new TsbComboBox
             {
-                Text = "ou",
-                TextAlign = ContentAlignment.MiddleCenter,
-                ForeColor = TsbColor.neutralGray,
-                Font = new Font(TsbFont.TsbFonts.Families[0], 10, FontStyle.Bold),
+                LabelText = "Cobertura",
+                HintText = "Tipo de cobertura",
                 Dock = DockStyle.Top,
                 Margin = new Padding
                 {
-                    Top = 48,
-                    Bottom = 48,
+                    Top = 0,
+                    Bottom = 24,
                     Left = 32,
                     Right = 32
                 }
             };
-            submitPanel.SetColumnSpan(or, 2);
-            submitPanel.Controls.Add(or, 1, 7);
+            foreach (var coverage in coverages.Body.data)
+            {
+                coverageField.Items.Add(coverage.nome + " - " + coverage.valor + "/mês");
+            }
+            submitPanel.Controls.Add(coverageField, 1, 7);
+
+            TsbInput descriptionField = new TsbInput
+            {
+                LabelText = "Descrição da cobertura",
+                HintText = $"",
+                MaxLength = 11,
+                Dock = DockStyle.Top,
+                Enabled = false,
+                Margin = new Padding
+                {
+                    Top = 0,
+                    Bottom = 24,
+                    Left = 32,
+                    Right = 32
+                }
+            };
+
+
+
+            coverageField.SelectedValueChanged += async (sender, e) =>
+            {
+
+                string itemNameSplited = coverageField.SelectedItem.ToString().Split()[0];
+
+                var selectedCoverage = await engineInterpreter.Request<PaginatedResponse<dynamic>>($"https://tsb-api-policy-engine.herokuapp.com/cobertura/?search={itemNameSplited}", "GET", null);
+                selectedItemId = selectedCoverage.Body.data[0].id_cobertura;
+                descriptionField.Text = selectedCoverage.Body.data[0].descricao;
+
+            };
+            submitPanel.Controls.Add(descriptionField, 2, 7);
+
 
             ButtonTsbPrimary continueSubmit = new ButtonTsbPrimary
             {
-                Text = "CADASTRAR APÓLICE",
+                Text = "CADASTRAR VEÍCULO + APÓLICE",
                 Dock = DockStyle.Top,
                 Margin = new Padding
                 {
@@ -731,12 +771,21 @@
                 var vehicleData = new StringContent(vehicleJson, Encoding.UTF8, "application/json");
 
                 var vehicleResponse = await engineInterpreter.Request<VehicleInsertResponse>("https://tsb-api-policy-engine.herokuapp.com/veiculo/", "POST", vehicleData);
-
+                
                 VehicleInsertResponse responseBody = vehicleResponse.Body;
+                if(vehicleResponse.StatusCode != 201) { MessageBox.Show(responseBody.message); return; };
 
-                SubmitPolicyPanelSetup(responseBody.vehicle.id_cliente.ToString(), responseBody.vehicle.id_veiculo.ToString());
+                PolicyToGenerate policyToGenerate = new PolicyToGenerate { id_cliente = responseBody.vehicle.id_cliente, id_veiculo = responseBody.vehicle.id_veiculo, id_cobertura = selectedItemId };
+                
+                var json = JsonConvert.SerializeObject(policyToGenerate);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+                var generatePolicyResponse = await engineInterpreter.Request<PolicyRequestResponse>("https://tsb-api-policy-engine.herokuapp.com/apolice/gerar/", "POST", data);
 
-                submitPanel.Dispose();
+                json = JsonConvert.SerializeObject(generatePolicyResponse.Body.policy);
+                data = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var policyInsert = await engineInterpreter.Request<PolicyInsertResponse>("https://tsb-api-policy-engine.herokuapp.com/apolice/", "POST", data);
+
 
             };
 
@@ -773,6 +822,8 @@
 
         private async void SubmitPolicyPanelSetup(string idCliente, string idVeiculo)
         {
+
+            
             SubmitPanel submitPanel = new SubmitPanel();
             TitleBox titlebox = new TitleBox
             {
@@ -820,10 +871,7 @@
             submitPanel.Controls.Add(indemnField, 2, 1);
 
             var engineInterpreter = new EngineInterpreter(token);
-            var coverages = await engineInterpreter.Request<IEnumerable<Cobertura>>("https://tsb-api-policy-engine.herokuapp.com/cobertura/", "GET", null);
-
-            IEnumerable<Cobertura> coveragesList = coverages.Body;
-
+            var coverages = await engineInterpreter.Request<PaginatedResponse<dynamic>>("https://tsb-api-policy-engine.herokuapp.com/cobertura/", "GET", null);
 
             TsbComboBox coverageField = new TsbComboBox
             {
@@ -838,7 +886,7 @@
                     Right = 32
                 }
             };
-            foreach (Cobertura coverage in coveragesList)
+            foreach (var coverage in coverages.Body.data)
             {
                 coverageField.Items.Add(coverage.nome + " - " + coverage.valor + "/mês");
             }
@@ -869,11 +917,9 @@
 
                 string itemNameSplited = coverageField.SelectedItem.ToString().Split()[0];
 
-                var selectedCoverage = coveragesList.Where(brand => brand.nome == itemNameSplited);
-
-                selectedItemId = coveragesList.First().id_cobertura;
-
-                descriptionField.Text = selectedCoverage.First().descricao;
+                var selectedCoverage = await engineInterpreter.Request<PaginatedResponse<dynamic>>($"https://tsb-api-policy-engine.herokuapp.com/cobertura/?search={itemNameSplited}", "GET", null);
+                selectedItemId = selectedCoverage.Body.data[0].id_cobertura;
+                descriptionField.Text = selectedCoverage.Body.data[0].descricao;
 
             };
             submitPanel.Controls.Add(descriptionField, 1, 3);
@@ -1070,7 +1116,7 @@
                 Parent = submitPanel,
                 titleText = "Nome completo",
                 FontSize = 12,
-                subtitleText = requestResponse.cliente.nome_completo,
+                subtitleText = requestResponse.enrichedPolicy.cliente.nome_completo,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1081,7 +1127,7 @@
                 Parent = submitPanel,
                 titleText = "Data de nascimento",
                 FontSize = 12,
-                subtitleText = requestResponse.cliente.data_nascimento,
+                subtitleText = requestResponse.enrichedPolicy.cliente.data_nascimento,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1092,7 +1138,7 @@
                 Parent = submitPanel,
                 titleText = "CPF",
                 FontSize = 12,
-                subtitleText = requestResponse.cliente.cpf,
+                subtitleText = requestResponse.enrichedPolicy.cliente.cpf,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1103,7 +1149,7 @@
                 Parent = submitPanel,
                 titleText = "CNH",
                 FontSize = 12,
-                subtitleText = requestResponse.cliente.cnh,
+                subtitleText = requestResponse.enrichedPolicy.cliente.cnh,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
 
@@ -1130,7 +1176,7 @@
                 Parent = submitPanel,
                 titleText = "CEP",
                 FontSize = 12,
-                subtitleText = requestResponse.cliente.cep,
+                subtitleText = requestResponse.enrichedPolicy.cliente.cep,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
 
@@ -1142,7 +1188,7 @@
                 Parent = submitPanel,
                 titleText = "Telefone 1",
                 FontSize = 12,
-                subtitleText = requestResponse.cliente.telefone1,
+                subtitleText = requestResponse.enrichedPolicy.cliente.telefone1,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
 
@@ -1154,7 +1200,7 @@
                 Parent = submitPanel,
                 titleText = "Telefone 2",
                 FontSize = 12,
-                subtitleText = requestResponse.cliente.telefone2,
+                subtitleText = requestResponse.enrichedPolicy.cliente.telefone2,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
 
@@ -1166,7 +1212,7 @@
                 Parent = submitPanel,
                 titleText = "Email",
                 FontSize = 12,
-                subtitleText = requestResponse.cliente.email,
+                subtitleText = requestResponse.enrichedPolicy.cliente.email,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
 
@@ -1215,7 +1261,7 @@
                 Parent = submitPanel,
                 titleText = "Marca",
                 FontSize = 12,
-                subtitleText = requestResponse.veiculo.marca,
+                subtitleText = requestResponse.enrichedPolicy.veiculo.marca,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1226,7 +1272,7 @@
                 Parent = submitPanel,
                 titleText = "Modelo",
                 FontSize = 12,
-                subtitleText = requestResponse.veiculo.modelo,
+                subtitleText = requestResponse.enrichedPolicy.veiculo.modelo,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1237,7 +1283,7 @@
                 Parent = submitPanel,
                 titleText = "Ano",
                 FontSize = 12,
-                subtitleText = requestResponse.veiculo.ano,
+                subtitleText = requestResponse.enrichedPolicy.veiculo.ano,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1248,7 +1294,7 @@
                 Parent = submitPanel,
                 titleText = "Placa",
                 FontSize = 12,
-                subtitleText = requestResponse.veiculo.placa,
+                subtitleText = requestResponse.enrichedPolicy.veiculo.placa,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
 
@@ -1274,7 +1320,7 @@
                 Parent = submitPanel,
                 titleText = "Renavam",
                 FontSize = 12,
-                subtitleText = requestResponse.veiculo.renavam,
+                subtitleText = requestResponse.enrichedPolicy.veiculo.renavam,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1285,7 +1331,7 @@
                 Parent = submitPanel,
                 titleText = "Uso",
                 FontSize = 12,
-                subtitleText = requestResponse.veiculo.uso,
+                subtitleText = requestResponse.enrichedPolicy.veiculo.uso,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1296,7 +1342,7 @@
                 Parent = submitPanel,
                 titleText = "Sinistrado",
                 FontSize = 12,
-                subtitleText = requestResponse.veiculo.sinistrado.ToString() == "1" ? "Sim" : "Não",
+                subtitleText = requestResponse.enrichedPolicy.veiculo.sinistrado.ToString() == "1" ? "Sim" : "Não",
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1351,7 +1397,7 @@
                 Parent = submitPanel,
                 titleText = "Prêmio",
                 FontSize = 12,
-                subtitleText = "R$ " + requestResponse.premio.ToString(),
+                subtitleText = "R$ " + requestResponse.enrichedPolicy.premio.ToString(),
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1362,7 +1408,7 @@
                 Parent = submitPanel,
                 titleText = "Indenização",
                 FontSize = 12,
-                subtitleText = requestResponse.indenizacao.ToString(),
+                subtitleText = requestResponse.enrichedPolicy.indenizacao.ToString(),
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1373,18 +1419,18 @@
                 Parent = submitPanel,
                 titleText = "Data de início",
                 FontSize = 12,
-                subtitleText = requestResponse.data_inicio,
+                subtitleText = requestResponse.enrichedPolicy.data_inicio,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
             policyInfoPanel.Controls.Add(startDate, 2, 0);
-
+            
             TsbDataBox endDate = new TsbDataBox
             {
                 Parent = submitPanel,
                 titleText = "Data de fim",
                 FontSize = 12,
-                subtitleText = requestResponse.data_fim,
+                subtitleText = requestResponse.enrichedPolicy.data_fim,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1411,18 +1457,18 @@
                 Parent = submitPanel,
                 titleText = "Cobertura",
                 FontSize = 12,
-                subtitleText = requestResponse.cobertura.nome,
+                subtitleText = requestResponse.enrichedPolicy.cobertura.nome,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
             policyInfoPanelBottom.Controls.Add(coverageField, 0, 0);
-
+            
             TsbDataBox priceField = new TsbDataBox
             {
                 Parent = submitPanel,
                 titleText = "Valor cobertura",
                 FontSize = 12,
-                subtitleText = "R$ " + requestResponse.cobertura.valor.ToString() + "/mês",
+                subtitleText = "R$ " + requestResponse.enrichedPolicy.cobertura.valor.ToString() + "/mês",
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1433,7 +1479,7 @@
                 Parent = submitPanel,
                 titleText = "Descrição",
                 FontSize = 12,
-                subtitleText = requestResponse.cobertura.descricao,
+                subtitleText = requestResponse.enrichedPolicy.cobertura.descricao,
                 Margin = new Padding(24),
                 Dock = DockStyle.Top
             };
@@ -1469,15 +1515,15 @@
             submitPanel.Controls.Add(submitButton, 1, 12);
             submitPanel.SetColumnSpan(submitButton, 2);
 
-
+            
             submitButton.Click += async (sender, e) =>
             {
 
                 PolicyToGenerate policy = new PolicyToGenerate
                 {
-                    id_cliente = requestResponse.cliente.id_cliente,
-                    id_cobertura = requestResponse.cobertura.id_cobertura,
-                    id_veiculo = requestResponse.veiculo.id_veiculo,
+                    id_cliente = requestResponse.enrichedPolicy.cliente.id_cliente,
+                    id_cobertura = requestResponse.enrichedPolicy.cobertura.id_cobertura,
+                    id_veiculo = requestResponse.enrichedPolicy.veiculo.id_veiculo,
                 };
 
                 var json = JsonConvert.SerializeObject(policy);
@@ -1489,22 +1535,22 @@
                 EnrichedPolicy enriched = policyCreateResponse.Body;
 
                 MessageBox.Show(enriched.message);
-
+                
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                var uri = new Uri("https://tsb-api-policy-engine.herokuapp.com/apolice/documento/" + requestResponse.id_apolice);
+                var uri = new Uri("https://tsb-api-policy-engine.herokuapp.com/apolice/documento/" + requestResponse.enrichedPolicy.id_apolice);
 
                 await using var s = await client.GetStreamAsync(uri);
 
-                await using var file = File.Create($"{requestResponse.cliente.nome_completo}-apolice.pdf");
+                await using var file = File.Create($"{requestResponse.enrichedPolicy.cliente.nome_completo}-apolice.pdf");
                 await s.CopyToAsync(file);
 
 
             };
 
 
-            if (requestResponse.status == "Em Análise")
+            if (requestResponse.enrichedPolicy.status == "Em Análise")
             {
 
                 ButtonTsbPrimary policyAproveBtn = new ButtonTsbPrimary
@@ -1526,7 +1572,7 @@
 
                     EngineInterpreter engineInterpreterAprove = new EngineInterpreter(token);
 
-                    var response = await engineInterpreterAprove.Request<EnrichedPolicy>($"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/ativa", "PUT", null);
+                    var response = await engineInterpreterAprove.Request<EnrichedPolicy>($"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.enrichedPolicy.id_apolice}/ativa", "PUT", null);
 
                     if (response.StatusCode == 200)
                     {
@@ -1558,7 +1604,7 @@
 
                     EngineInterpreter engineInterpreterAprove = new EngineInterpreter(token);
 
-                    var response = await engineInterpreterAprove.Request<EnrichedPolicy>($"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/rejeitada", "PUT", null);
+                    var response = await engineInterpreterAprove.Request<EnrichedPolicy>($"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.enrichedPolicy.id_apolice}/rejeitada", "PUT", null);
 
                     if (response.StatusCode == 200)
                     {
@@ -1572,7 +1618,7 @@
 
             }
 
-            if (requestResponse.status == "Ativa")
+            if (requestResponse.enrichedPolicy.status == "Ativa")
             {
 
                 ButtonTsbPrimary policyAproveBtn = new ButtonTsbPrimary
@@ -1596,7 +1642,7 @@
 
                     EngineInterpreter engineInterpreterAprove = new EngineInterpreter(token);
 
-                    var response = await engineInterpreterAprove.Request<EnrichedPolicy>($"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/inativa", "PUT", null);
+                    var response = await engineInterpreterAprove.Request<EnrichedPolicy>($"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.enrichedPolicy.id_apolice}/inativa", "PUT", null);
 
                     if (response.StatusCode == 200)
                     {
@@ -1624,7 +1670,7 @@
 
             return;
         }
-
+        
         private async Task SubmitPanelSetup<Type>(string id)
         {
 
@@ -1863,7 +1909,7 @@
 
         protected async Task PutCustomer(Cliente customerData, string id)
         {
-            await customersDataTable.Put<Cliente>(customerData, id);
+            await customersDataTable.Put<Cliente>(customerData, id, null);
             Controls.Remove(customersDataTable);
             GetCustomers();
         }
@@ -1921,4 +1967,5 @@ public class PaginatedResponse<type>
 {
     public type[]? data { get; set; }
     public int? totalPages { get; set; }
+
 }

@@ -358,7 +358,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Panels
 
         protected async Task PutUser(Usuario userData, string id)
         {
-            await usersDataTable.Put<Usuario>(userData, id);
+            await usersDataTable.Put<Usuario>(userData, id, null);
         }
 
         public Users(IContainer container)

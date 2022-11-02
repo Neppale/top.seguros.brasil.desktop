@@ -317,9 +317,9 @@
 
             string address = $"https://tsb-api-policy-engine.herokuapp.com/apolice/{id}";
 
-            response = await engineInterpreter.Request<PolicyRequestResponse>(address, "GET", null);
+            response = await engineInterpreter.Request<EnrichedPolicy>(address, "GET", null);
 
-            PolicyRequestResponse requestResponse = response.Body;
+            EnrichedPolicy requestResponse = response.Body;
 
             SubmitPanel submitPanel = new SubmitPanel();
 
@@ -735,7 +735,7 @@
                 Dock = DockStyle.Top
             };
             policyInfoPanelBottom.Controls.Add(priceField, 1, 0);
-
+            
             TsbDataBox descriptionField = new TsbDataBox
             {
                 Parent = submitPanel,
@@ -824,15 +824,32 @@
 
                     EngineInterpreter engineInterpreterAprove = new EngineInterpreter(token);
 
-                    var response = await engineInterpreterAprove.Request<EnrichedPolicy>($"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/ativa", "PUT", null);
+                    await policiesDataTable.Put<Apolice>(null, null, $"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/ativa");
 
-                    if (response.StatusCode == 200)
+                    ButtonTsbPrimary policyAproveBtn = new ButtonTsbPrimary
                     {
-                        MessageBox.Show("Apolice aprovada!");
-                        return;
-                    }
+                        Text = "DESATIVAR APÓLICE",
+                        Dock = DockStyle.Top,
+                        Margin = new Padding
+                        {
+                            Top = 0,
+                            Bottom = 24,
+                            Left = 32,
+                            Right = 32
+                        }
+                    };
+                    submitPanel.Controls.Add(policyAproveBtn, 2, 13);
+                    submitPanel.SetColumn(policyAproveBtn, 1);
+                    submitPanel.SetColumnSpan(policyAproveBtn, 2);
 
-                    MessageBox.Show("Erro ao aprovar apolice");
+                    policyAproveBtn.Click += async (sender, e) =>
+                    {
+
+
+                        await policiesDataTable.Put<Apolice>(null, null, $"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/inativa");
+
+
+                    };
 
                 };
 
@@ -894,10 +911,18 @@
 
                     EngineInterpreter engineInterpreterAprove = new EngineInterpreter(token);
 
-                    var response = await engineInterpreterAprove.Request<EnrichedPolicy>($"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/inativa", "PUT", null);
+                    //var response = await engineInterpreterAprove.Request<EnrichedPolicy>($"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/inativa", "PUT", null);
+                    await policiesDataTable.Put<Apolice>(null, null, $"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/inativa");
+                    
 
                     if (response.StatusCode == 200)
                     {
+
+                        this.Controls.Remove(policiesDataTable);
+
+                        await policiesDataTable.Get<PaginatedResponse<dynamic>>($"https://tsb-api-policy-engine.herokuapp.com/apolice/usuario/{userId}", 1, null);
+
+
                         MessageBox.Show("Apolice aprovada!");
                         return;
                     }
@@ -945,20 +970,11 @@
 
     public class PolicyRequestResponse
     {
-        public int id_apolice { get; set; }
-        public string? data_inicio { get; set; }
-        public string? data_fim { get; set; }
-        public double? premio { get; set; }
-        public double? indenizacao { get; set; }
-
+        
+        public string? message { get; set; }
+        public Apolice? policy { get; set; }
         public EnrichedPolicy? enrichedPolicy { get; set; }
 
-        public Cobertura? cobertura { get; set; }
-        public Usuario? usuario { get; set; }
-        public Cliente? cliente { get; set; }
-        public Veiculo? veiculo { get; set; }
-
-        public string? status { get; set; }
 
     }
 

@@ -111,7 +111,7 @@ namespace Top_Seguros_Brasil_Desktop
 
 
 
-            buttonText.MouseHover += (sender, e) =>
+            buttonText.MouseEnter += (sender, e) =>
             {
                 this.BackColor = TsbColor.background;
                 button.BackColor = TsbColor.background;
@@ -210,7 +210,7 @@ namespace Top_Seguros_Brasil_Desktop
 
 
 
-            buttonText.MouseHover += (sender, e) =>
+            buttonText.MouseEnter += (sender, e) =>
             {
                 buttonText.ForeColor = TsbColor.neutralWhite;
             };

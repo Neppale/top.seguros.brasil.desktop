@@ -127,7 +127,6 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
             InputPanel.Controls.Add(Label);
             Controls.Add(InputPanel);
 
-
             InitializeComponent();
         }
 

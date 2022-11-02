@@ -811,7 +811,7 @@
             {
                 LabelText = "Data da ocorrência",
                 Mask = "99/99/9999",
-                Text = incident.data.Split('-')[2] + incident.data.Split('-')[1] + incident.data.Split('-')[0],
+                Text = incident.data.Split(' ')[0],
                 ForeColor = TsbColor.neutralGray,
                 Dock = DockStyle.Top,
                 Margin = new Padding
@@ -934,7 +934,7 @@
         {
             try
             {
-                await incidentsDataTable.Put<IncidentInsertReponse>(incidentData, id);
+                await incidentsDataTable.Put<IncidentInsertReponse>(incidentData, id, null);
                 Controls.Remove(incidentsDataTable);
                 GetIncidents();
             }

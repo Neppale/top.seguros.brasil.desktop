@@ -377,7 +377,7 @@
 
         protected async Task PutCoverage(Cobertura coverageData, string id)
         {
-            await coveragesDataTable.Put<Cobertura>(coverageData, id);
+            await coveragesDataTable.Put<Cobertura>(coverageData, id, null);
         }
 
         public Coverages(IContainer container)
