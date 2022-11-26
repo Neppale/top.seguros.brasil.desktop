@@ -802,7 +802,7 @@
             };
 
 
-            if (requestResponse.status == "Em Análise")
+            if (requestResponse.status == "Em Análise" || requestResponse.status == "Em Analise")
             {
 
                 ButtonTsbPrimary policyAproveBtn = new ButtonTsbPrimary
@@ -819,39 +819,7 @@
                 };
                 submitPanel.Controls.Add(policyAproveBtn, 2, 13);
 
-                policyAproveBtn.Click += async (sender, e) =>
-                {
-
-                    EngineInterpreter engineInterpreterAprove = new EngineInterpreter(token);
-
-                    await policiesDataTable.Put<Apolice>(null, null, $"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/ativa");
-
-                    ButtonTsbPrimary policyAproveBtn = new ButtonTsbPrimary
-                    {
-                        Text = "DESATIVAR APÓLICE",
-                        Dock = DockStyle.Top,
-                        Margin = new Padding
-                        {
-                            Top = 0,
-                            Bottom = 24,
-                            Left = 32,
-                            Right = 32
-                        }
-                    };
-                    submitPanel.Controls.Add(policyAproveBtn, 2, 13);
-                    submitPanel.SetColumn(policyAproveBtn, 1);
-                    submitPanel.SetColumnSpan(policyAproveBtn, 2);
-
-                    policyAproveBtn.Click += async (sender, e) =>
-                    {
-
-
-                        await policiesDataTable.Put<Apolice>(null, null, $"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/inativa");
-
-
-                    };
-
-                };
+                
 
                 ButtonTsbTertiary policylRejectBtn = new ButtonTsbTertiary
                 {
@@ -882,6 +850,44 @@
                     }
 
                     MessageBox.Show("Erro ao rejeitar apolice.");
+
+                };
+
+                policyAproveBtn.Click += async (sender, e) =>
+                {
+
+                    EngineInterpreter engineInterpreterAprove = new EngineInterpreter(token);
+
+                    await policiesDataTable.Put<Apolice>(null, null, $"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/ativa");
+
+                    ButtonTsbPrimary policyDesactBtn = new ButtonTsbPrimary
+                    {
+                        Text = "DESATIVAR APÓLICE",
+                        Dock = DockStyle.Top,
+                        Margin = new Padding
+                        {
+                            Top = 0,
+                            Bottom = 24,
+                            Left = 32,
+                            Right = 32
+                        }
+                    };
+                    submitPanel.Controls.Add(policyDesactBtn, 1, 13);
+                    submitPanel.SetColumn(policyAproveBtn, 1);
+                    submitPanel.SetColumnSpan(policyDesactBtn, 2);
+
+
+                    submitPanel.Controls.Remove(policylRejectBtn);
+                    submitPanel.Controls.Remove(policyAproveBtn);
+
+                    policyDesactBtn.Click += async (sender, e) =>
+                    {
+
+
+                        await policiesDataTable.Put<Apolice>(null, null, $"https://tsb-api-policy-engine.herokuapp.com/apolice/{requestResponse.id_apolice}/inativa");
+
+
+                    };
 
                 };
 
