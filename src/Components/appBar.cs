@@ -31,7 +31,7 @@ namespace Top_Seguros_Brasil_Desktop.src.Components
 
             if (currentUserName != null)
             {
-                userName.Text = nameAka[0] + " " + nameAka[1];
+                userName.Text = nameAka[0];
             }
             else
             {

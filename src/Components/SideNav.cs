@@ -1,4 +1,6 @@
-﻿namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
+﻿using Top_Seguros_Brasil_Desktop.src.Screens.Components;
+
+namespace Top_Seguros_Brasil_Desktop.src.Screens.Components
 {
     public partial class SideNav : Panel
     {
@@ -9,7 +11,7 @@
         {
             InitializeComponent();
 
-
+            PictureBox logoBox = new PictureBox();
 
             this.Width = 267;
             this.Height = 1024;
@@ -17,7 +19,6 @@
             try
             {
                 string imgPath = Directory.GetCurrentDirectory() + "\\src\\img\\logo\\tsb-logo.png";
-                PictureBox logoBox = new PictureBox();
                 logoBox.Image = new Bitmap(imgPath);
                 logoBox.SizeMode = PictureBoxSizeMode.Zoom;
                 logoBox.Location = new Point(0, 32);
@@ -27,7 +28,6 @@
             catch
             {
                 string imgPath = "..\\..\\..\\src\\img\\logo\\tsb-logo.png";
-                PictureBox logoBox = new PictureBox();
                 logoBox.Image = new Bitmap(imgPath);
                 logoBox.SizeMode = PictureBoxSizeMode.Zoom;
                 logoBox.Location = new Point(0, 32);
@@ -35,6 +35,30 @@
                 this.Controls.Add(logoBox);
             }
 
+            logoBox.Cursor = Cursors.Hand;
+            logoBox.Click += (sender, e) =>
+            {
+                foreach (Control control in this.FindForm().Controls)
+                {
+
+                    if (control is appBar || control is SideNav)
+                    {
+                        continue;
+                    }
+                    
+                    control.Dispose();
+                }
+
+                if (this.FindForm().Controls.OfType<Home>().Count() == 0)
+                {
+                    Home homePage = new Home($"Dashboard", "", BasePanel.userId) { Visible = true};
+                    FindForm().Controls.Add(homePage);
+                    homePage.BringToFront();
+                    return;
+
+                }
+                return;
+            };
 
             panel = new Panel();
             panel.Width = this.Width;
@@ -93,6 +117,29 @@
             InitializeComponent();
         }
 
+        private void SideNav_Load(object sender, EventArgs e)
+        {
+            foreach (Control control in this.FindForm().Controls)
+            {
+
+                if (control is appBar || control is SideNav)
+                {
+                    continue;
+                }
+
+                control.Dispose();
+            }
+
+            if (this.FindForm().Controls.OfType<Home>().Count() == 0)
+            {
+                Home homePage = new Home("Home", "Bem vindo", BasePanel.userId);
+                FindForm().Controls.Add(homePage);
+                homePage.BringToFront();
+                return;
+
+            }
+            return;
+        }
 
     }
 
