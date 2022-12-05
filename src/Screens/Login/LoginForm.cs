@@ -42,9 +42,9 @@ namespace Top_Seguros_Brasil_Desktop
         private async void buttonLogin_Click(object sender, EventArgs e)
         {
 
-            emailInput.Text = "jonathan.santos@topseguros.br";
-            passwordInput.Text = "Senha123-";
-
+            //emailInput.Text = "jonathan.santos@topseguros.br";
+            //passwordInput.Text = "Senha123-";
+            
             LoginAccess loginAccess = new LoginAccess(email: emailInput.Text, senha: passwordInput.Text);
             var json = JsonConvert.SerializeObject(loginAccess);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -53,9 +53,13 @@ namespace Top_Seguros_Brasil_Desktop
             var response = await engineInterpreter.Request<UserLoginResponse>("https://tsb-api-policy-engine.herokuapp.com/usuario/login", "POST", data);
             UserLoginResponse responseBody = response.Body;
 
-            if (response.StatusCode != 200) return;
+            if (response.StatusCode != 200)
+            {
+                MessageBox.Show(responseBody.message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            ManagementStage managementStage = new ManagementStage(responseBody.user.nome_completo, responseBody.user.tipo, responseBody.token);
+                ManagementStage managementStage = new ManagementStage(responseBody.user.nome_completo, responseBody.user.tipo, responseBody.token);
 
             BasePanel basePanel = new BasePanel(responseBody.user.nome_completo, responseBody.user.tipo, responseBody.user.id_usuario, responseBody.user.email);
             BasePanel.token = responseBody.token;
